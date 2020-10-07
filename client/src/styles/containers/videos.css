@@ -1,0 +1,68 @@
+.vlogCard {
+  background-color: white;
+  width: 17%;
+  height: 100%;
+  float: left;
+  margin-top: 13px;
+  margin-bottom: 20px;
+  margin-left: 25px;
+  margin-right: 11px;
+  border-radius: 10px;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+  -moz-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+  box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+}
+
+.cardText {
+  padding-top: 5px;
+  text-align: center;
+}
+
+div.cardText h4 {
+  margin-top: 5px;
+  margin: auto;
+  font-size: 1.2rem;
+}
+
+.cardText div {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  justify-content: center;
+  align-content: center;
+  color: rgb(54, 54, 54);
+}
+
+.cardInfo {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.active-activity {
+  margin: 0 40px;
+  font-weight: 500;
+  background-color: gray;
+  border-radius: 5px;
+  padding: 5px 0;
+  font-size: 1rem;
+  color: white;
+}
+.activities {
+  padding: 5px;
+}
+.activity {
+  font-size: 0.8rem;
+}
+
+.desc {
+  padding: 5px;
+}
+
+.loading {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

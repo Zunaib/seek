@@ -1,0 +1,18 @@
+@import "./components/logo.css";
+@import "./components/modal.css";
+@import "./components/navbar.css";
+@import "./components/button.css";
+@import "./components/snackbar.css";
+@import "./components/input.css";
+@import "./components/file.css";
+@import "./components/spinner.css";
+
+@import "./containers/login.css";
+@import "./containers/register.css";
+@import "./containers/videos.css";
+@import "./containers/landing.css";
+@import "./containers/home.css";
+
+.main-app {
+  margin-top: 80px;
+}

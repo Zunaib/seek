@@ -1,0 +1,39 @@
+.btn-wrapper {
+  text-align: center;
+}
+
+.ant-btn {
+  background-color: #5c5c5c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 40%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.ant-btn:focus {
+  background-color: #5c5c5c;
+
+  color: white;
+}
+.ant-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.main-btn {
+  background-color: #5c5c5c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 10px;
+}
+
+.main-btn-wrap {
+  margin: 0 auto;
+  text-align: center;
+}

@@ -1,0 +1,21 @@
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+
+# Local config files
+config/local*
+
+# Temporary files
+.vscode/launch.json
+.gitconfig
+
+#Dataset
+Dataset/
+logs/
+static/
