@@ -12,7 +12,7 @@ class NormalVideo extends Component {
   componentDidMount() {
     axios
       .get(
-        "http://localhost:5000/getUserVideos?email=" +
+        "http://localhost:5000/getusernorvideos?email=" +
           localStorage.getItem("useremail")
       )
       .then((response) => {
@@ -45,19 +45,18 @@ class NormalVideo extends Component {
               
                   <div className="vlogCard">
                     <ReactPlayer
-                      url={"http://localhost:5000/" + vid.filePath}
+                      url={"http://localhost:5000/" + "vid.norPath"}
                       {...videostyles}
                     />
                     <div className="cardText">
                       <h4>
-                        <b>{vid.videoName.split(".")[0]}</b>
+                        {/* <b>{vid.norName.split(".")[0]}</b> */}
                       </h4>
                       <div className="desc">
                         The suspicious activities detected are in order of most
                         to least occurences.
                       </div>
                     </div>
-                   
                   </div>
                 
             </div>

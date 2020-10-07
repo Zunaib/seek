@@ -90,9 +90,8 @@ export class Videoupload extends Component {
                 />
                 <Button
                   onClick={this.onFileUpload}
-                  disabled={this.state.selectedFile}
                 >
-                  {this.state.selectedFile ? "Uploaded" : "Upload"}
+                  Upload
                 </Button>
               </div>
               {this.fileData()}

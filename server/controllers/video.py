@@ -25,7 +25,7 @@ def getUserVideos():
     results = json.dumps(response)
     
     if len(response) == 0:
-        result = jsonify({"Error": "No Videos Found", "response":response})        
+        result = jsonify({"Error": "No Videos Found", "data":response})        
     else:
         result = json.dumps(response)
     return result

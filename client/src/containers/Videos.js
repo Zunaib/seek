@@ -5,7 +5,7 @@ import Spinner from "../components/Spinner";
 
 class Videos extends Component {
   state = {
-    video: null,
+    video: [],
     loading: true,
   };
 
@@ -42,7 +42,7 @@ class Videos extends Component {
             </div>
           ) : (
             <div className="row">
-              {this.state.video &&
+              {this.state.video.length > 0 ?
                 this.state.video.map((vid) => (
                   <div className="vlogCard">
                     <ReactPlayer
@@ -74,7 +74,11 @@ class Videos extends Component {
                       </div>
                     </div>
                   </div>
-                ))}
+                )):
+              <div >
+                <h2>No Videos Exist</h2>
+              </div>
+                }
             </div>
           )}
         </div>
