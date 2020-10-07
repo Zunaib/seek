@@ -12,23 +12,21 @@ CORS(app)
 
 staticvideoroutes = Blueprint('staticvideoroutes', __name__)
 
-@staticvideoroutes.route("/getusersttvideos", methods=['GET'])
+@staticvideoroutes.route("/getusersttvideo", methods=['GET'])
 def getusersttvideos():
     stt_videos = mongo.db.sttvideos
     email = request.args['email']
-    documents = stt_videos.find({"email": email})
-    response = []
-    files = {}
-    for document in documents:
-        document['_id'] = str(document['_id'])
-        response.append(document)
-    results = json.dumps(response)
+    sttvideoname = request.get_json()['sttvideoname']
+    document = stt_videos.find_one({"email": email,"sttName":sttvideoname})
     
-    if len(response) == 0:
-        result = jsonify({"Error": "No Static Videos Found", "response":response})        
+    if document:
+        document['_id'] = str(document['_id'])
+        result = json.dumps(document)
     else:
-        result = json.dumps(response)
+        result = jsonify({"Error": "No Static Video Found", "data":[]})        
     return result
+    
+
 
 
 @staticvideoroutes.route("/deletesttvideo", methods=['POST'])

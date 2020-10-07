@@ -12,22 +12,18 @@ CORS(app)
 
 suspiciousvideoroutes = Blueprint('suspiciousvideoroutes', __name__)
 
-@suspiciousvideoroutes.route("/getusersuspvideos", methods=['GET'])
+@suspiciousvideoroutes.route("/getusersuspvideo", methods=['GET'])
 def getusersuspvideos():
     susp_videos = mongo.db.suspvideos
     email = request.args['email']
-    documents = susp_videos.find({"email": email})
-    response = []
-    files = {}
-    for document in documents:
-        document['_id'] = str(document['_id'])
-        response.append(document)
-    results = json.dumps(response)
+    suspvideoname = request.get_json()['suspvideoname']
+    document = susp_videos.find_one({"email": email,"suspName":suspvideoname})
     
-    if len(response) == 0:
-        result = jsonify({"Error": "No Suspicious Videos Found", "response":response})        
+    if document:
+        document['_id'] = str(document['_id'])
+        result = json.dumps(document)
     else:
-        result = json.dumps(response)
+        result = jsonify({"Error": "No Suspicious Video Found", "data":[]})        
     return result
 
 
