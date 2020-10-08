@@ -1,6 +1,6 @@
 from flask import Flask,Blueprint, jsonify, request, json
 from flask_pymongo import PyMongo
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = "theseek"
@@ -8,11 +8,13 @@ app.config["MONGO_URI"] = 'mongodb://localhost:27017/theseek'
 app.config["JWT_SECRET_KEY"] = 'secret'
 
 mongo = PyMongo(app)
-CORS(app)
 
 suspiciousvideoroutes = Blueprint('suspiciousvideoroutes', __name__)
+CORS(suspiciousvideoroutes)
 
-@suspiciousvideoroutes.route("/getusersuspvideo", methods=['GET'])
+
+
+@suspiciousvideoroutes.route("/getusersuspvideos", methods=['POST'])
 def getusersuspvideos():
     susp_videos = mongo.db.suspvideos
     email = request.args['email']
@@ -23,7 +25,7 @@ def getusersuspvideos():
         document['_id'] = str(document['_id'])
         result = json.dumps(document)
     else:
-        result = jsonify({"Error": "No Suspicious Video Found", "data":[]})        
+        result = jsonify({"Error": "No Static Video Found", "data":[]})  
     return result
 
 

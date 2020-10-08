@@ -8,11 +8,12 @@ app.config["MONGO_URI"] = 'mongodb://localhost:27017/theseek'
 app.config["JWT_SECRET_KEY"] = 'secret'
 
 mongo = PyMongo(app)
-CORS(app)
+
 
 normalvideoroutes = Blueprint('normalvideoroutes', __name__)
+CORS(staticvideoroutes)
 
-@normalvideoroutes.route("/getusernorvideos", methods=['GET'])
+@normalvideoroutes.route("/getusernorvideos", methods=['POST'])
 def getusernorvideos():
     nor_videos = mongo.db.norvideos
     email = request.args['email']

@@ -11,8 +11,9 @@ mongo = PyMongo(app)
 CORS(app)
 
 staticvideoroutes = Blueprint('staticvideoroutes', __name__)
+CORS(staticvideoroutes)
 
-@staticvideoroutes.route("/getusersttvideo", methods=['GET'])
+@staticvideoroutes.route("/getusersttvideo", methods=['POST'])
 def getusersttvideos():
     stt_videos = mongo.db.sttvideos
     email = request.args['email']

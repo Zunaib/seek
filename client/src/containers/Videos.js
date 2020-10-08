@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
+import {Link} from 'react-router-dom';
 
 class Videos extends Component {
   state = {
@@ -71,6 +72,11 @@ class Videos extends Component {
                         <div className="activity">Burglary:{vid.burglary}</div>
                         <div className="activity">Fighting:{vid.fighting}</div>
                         <div className="activity">Firing:{vid.firing}</div>
+                      </div>
+                      <div className="activities">
+                        <Link to={"/videos/suspicious/"+vid.suspName}>
+                        <button>Susp</button>
+                        </Link>
                       </div>
                     </div>
                   </div>

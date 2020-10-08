@@ -49,7 +49,8 @@ def getSuspiciousActivity():
     #initialize Save Video
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
-    out_susp = cv2.VideoWriter('static/Processed/'+processed_filename+'-out_susp.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+    fourcc = cv2.VideoWriter_fourcc(*'X264')
+    out_susp = cv2.VideoWriter('static/Processed/'+processed_filename+'-out_susp.mp4',fourcc, 24, (frame_width,frame_height))
     # out_normal = cv2.VideoWriter(filename+'-out_normal .mp4',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
     # out_static = cv2.VideoWriter(filename+'-out_static.mp4',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
 
@@ -71,7 +72,7 @@ def getSuspiciousActivity():
                 print(list(model.predict([img.reshape(-1, 224, 224, 3)])),'corresponding action : ', cats_[actual])
                 
                 
-                #Write the frame into the file 'output.avi'
+                #Write the frame into the file 'output.mp4'
                 if(cats_[actual] == 'Abuse' or cats_[actual] == "Burglary" or cats_[actual] == "Fighting" or cats_[actual] == "Firing" or cats_[actual] == "Vandalism" ):
                     out_susp.write(frame)
                 # elif(cats_[actual] == "Normal"):
@@ -109,6 +110,9 @@ def getSuspiciousActivity():
             videoFiles = videos.insert_one({
                 "email": email,
                 "videoName": filename,
+                "suspName": processed_filename+'-out_susp.mp4',
+                "norName": processed_filename+'-out_normal.mp4',
+                "sttName": processed_filename+'-out_static.mp4',
                 "burglary": burgcount,
                 "fighting": figcount,
                 "firing": fircount,
@@ -120,24 +124,24 @@ def getSuspiciousActivity():
             suspvideoFiles = susp_videos.insert_one({
                 "email": email,
                 "videoName": filename,
-                "suspName": processed_filename+'-out_susp.avi',
-                "suspPath": 'static/Processed/'+processed_filename+'-out_susp.avi',
+                "suspName": processed_filename+'-out_susp.mp4',
+                "suspPath": 'static/Processed/'+processed_filename+'-out_susp.mp4',
                 "suspblocked":False,
                 "suspdeleted":False
             })
             norvideoFiles = nor_videos.insert_one({
                 "email": email,
                 "videoName": filename,
-                "norName": processed_filename+'-out_normal.avi',
-                "norPath": 'static/Processed/'+processed_filename+'-out_normal.avi',
+                "norName": processed_filename+'-out_normal.mp4',
+                "norPath": 'static/Processed/'+processed_filename+'-out_normal.mp4',
                 "norblocked":False,
                 "nordeleted":False
             })
             sttvideoFiles = stt_videos.insert_one({
                 "email": email,
                 "videoName": filename,
-                "sttName": processed_filename+'-out_static.avi',
-                "sttPath": 'static/Processed/'+processed_filename+'-out_static.avi',
+                "sttName": processed_filename+'-out_static.mp4',
+                "sttPath": 'static/Processed/'+processed_filename+'-out_static.mp4',
                 "sttblocked":False,
                 "sttdeleted":False
             })

@@ -22,6 +22,8 @@ from controllers import staticvideo
 
 
 app = Flask(__name__)
+
+
 app.register_blueprint(user.userroutes, url_prefix="/users")
 app.register_blueprint(contactus.contactusroutes)
 app.register_blueprint(video.videoroutes)
@@ -30,6 +32,7 @@ app.register_blueprint(admin.adminroutes)
 app.register_blueprint(normalvideo.normalvideoroutes)
 app.register_blueprint(suspiciousvideo.suspiciousvideoroutes)
 app.register_blueprint(staticvideo.staticvideoroutes)
+
 app.config["MONGO_DBNAME"] = "theseek"
 app.config["MONGO_URI"] = 'mongodb://localhost:27017/theseek'
 app.config["JWT_SECRET_KEY"] = 'secret'
@@ -38,7 +41,6 @@ app.config["JWT_SECRET_KEY"] = 'secret'
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
-
 
 CORS(app)
 
