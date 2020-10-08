@@ -11,9 +11,13 @@ class StaticVideo extends Component {
 
   componentDidMount() {
     axios
-      .get(
-        "http://localhost:5000/getsttvideos?email=" +
-          localStorage.getItem("useremail")
+      .post(
+        "http://localhost:5000/getusersttvideo?email=" +
+          localStorage.getItem("useremail"),
+          {
+            sttvideoname:window.location.href.split('/')[5]
+
+          }
       )
       .then((response) => {
         this.setState({ loading: false, video: response.data });
@@ -45,12 +49,12 @@ class StaticVideo extends Component {
               
                   <div className="vlogCard">
                     <ReactPlayer
-                      url={"http://localhost:5000/" + "vid.filePath"}
+                      url={"http://localhost:5000/" + this.state.video.sttPath}
                       {...videostyles}
                     />
                     <div className="cardText">
                       <h4>
-                        {/* <b>{vid.videoName.split(".")[0]}</b> */}
+                        <b>{this.state.video.sttName.split(".")[0]}</b>
                       </h4>
                       <div className="desc">
                         The suspicious activities detected are in order of most

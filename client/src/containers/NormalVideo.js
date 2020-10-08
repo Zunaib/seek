@@ -11,9 +11,11 @@ class NormalVideo extends Component {
 
   componentDidMount() {
     axios
-      .get(
+      .post(
         "http://localhost:5000/getusernorvideos?email=" +
-          localStorage.getItem("useremail")
+          localStorage.getItem("useremail"),{
+            norvideoname:window.location.href.split('/')[5]
+          }
       )
       .then((response) => {
         this.setState({ loading: false, video: response.data });
@@ -45,12 +47,12 @@ class NormalVideo extends Component {
               
                   <div className="vlogCard">
                     <ReactPlayer
-                      url={"http://localhost:5000/" + "vid.norPath"}
+                      url={"http://localhost:5000/" + this.state.video.norPath}
                       {...videostyles}
                     />
                     <div className="cardText">
                       <h4>
-                        {/* <b>{vid.norName.split(".")[0]}</b> */}
+                        <b>{this.state.video.norName.split(".")[0]}</b>
                       </h4>
                       <div className="desc">
                         The suspicious activities detected are in order of most

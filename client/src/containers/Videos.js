@@ -75,8 +75,17 @@ class Videos extends Component {
                       </div>
                       <div className="activities">
                         <Link to={"/videos/suspicious/"+vid.suspName}>
+                          
                         <button>Susp</button>
                         </Link>
+                        <Link to={"/videos/normal/"+vid.norName}>
+                          
+                          <button>Normal</button>
+                          </Link>
+                          <Link to={"/videos/static/"+vid.sttName}>
+                          
+                          <button>Static</button>
+                          </Link>
                       </div>
                     </div>
                   </div>
