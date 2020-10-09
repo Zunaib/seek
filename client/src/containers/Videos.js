@@ -29,7 +29,7 @@ class Videos extends Component {
   render() {
     const videostyles = {
       playing: false,
-      controls: true,
+      controls: true, 
       volume: 1,
       width: "100%",
       // height: "auto",

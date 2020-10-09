@@ -2,11 +2,16 @@ import React from "react"
 
 const videoList=(props)=>{
     return(
-    <div>
-        <div>{props.username}</div>
+    <div className="row">
+        <div>{props.email}</div>
         <div>{props.videotittle}</div>
-        <div>{props.blocked}</div>
-        <div>React player</div>
+        <div><ReactPlayer
+            url={props.reactplayer}
+            {...videostyles}
+        />
+        </div>
+
+    
         
     </div>
     )

@@ -5,10 +5,10 @@ import React from "react";
 const staticList=(props)=>{
     return(
         <div>
-            <div>{props.username}</div>
+            <div>{props.email}</div>
             <div>{props.videoTittle}</div>
-            <div>{props.blocked}</div>
-            <div>react player</div>
+            <div>{props.sttName}</div>
+           {/*  <div>react player</div> */}
         </div>
     )
 }
