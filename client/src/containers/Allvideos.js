@@ -1,6 +1,6 @@
 import { Components } from "antd/lib/date-picker/generatePicker";
 import React , {Component} from "react";
-import ReactPlayer from "react-player";
+
 import videoList from "../components/admin/dashboard/videoList"
 import spinner from "../components/Spinner";
 
@@ -29,13 +29,7 @@ class Allvideos extends Component{
     
   render() 
   {
-    const videostyles = {
-        playing: false,
-        controls: true, 
-        volume: 1,
-        width: "100%",
-        // height: "auto",
-      };
+   
     
       <div className="main-app">
           <div className="loading">
@@ -49,7 +43,7 @@ class Allvideos extends Component{
             <videoList
                 useremail={video.email}
                 videotittle={video.videoName}
-                reactplayer={ video.filePath}
+                reactplayer={video.filePath}
             /> 
                 
 

@@ -34,13 +34,6 @@ class Allusers extends Component{
     
     render() 
     {
-        const videostyles = {
-            playing: false,
-            controls: true, 
-            volume: 1,
-            width: "100%",
-            // height: "auto",
-          };
         
           <div className="main-app">
               <div className="loading">

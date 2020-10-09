@@ -49,6 +49,7 @@ class AllsuspiciousVideos extends Component{
                 email={susp.email}
                 videotittle={susp.videoName}
                 susName={susp.suspName}
+                reactplayer={video.filePath}
                />
                 )}
                 

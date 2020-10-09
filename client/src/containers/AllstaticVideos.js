@@ -29,6 +29,7 @@ class AllstaticVideos extends Component{
                     email={susp.email}
                     videotittle={susp.videoName}
                     sttName={susp.sttName}
+                    reactplayer={video.filePath}
                     
                      />
                 ))}

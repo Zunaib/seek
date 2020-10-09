@@ -29,6 +29,7 @@ class AllnormalVideos extends Component{
                 email={nor.email}
                 videotittle={nor.videoName}
                 norName={nor.norName}
+                reactplayer={video.filePath}
                 />
                 )}
             </div>
