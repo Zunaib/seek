@@ -6,12 +6,14 @@
 @import "./components/input.css";
 @import "./components/file.css";
 @import "./components/spinner.css";
+@import "./components/adminlists.css";
 
 @import "./containers/login.css";
 @import "./containers/register.css";
 @import "./containers/videos.css";
 @import "./containers/landing.css";
 @import "./containers/home.css";
+@import "./containers/videomanage.css";
 
 .main-app {
   margin-top: 80px;

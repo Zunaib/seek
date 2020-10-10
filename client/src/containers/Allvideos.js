@@ -1,13 +1,15 @@
 import { Components } from "antd/lib/date-picker/generatePicker";
 import React , {Component} from "react";
+import axios from "axios"
 
-import videoList from "../components/admin/dashboard/videoList"
-import spinner from "../components/Spinner";
+import VideoList from "../components/admin/dashboard/VideoList"
+import Spinner from "../components/Spinner";
+import {NavLink} from "react-router-dom"
 
 class Allvideos extends Component{
     state={
-        videos=[],
-        loading=true
+        videos:[],
+        loading:true
     }
 
     componentDidMount(){
@@ -29,46 +31,57 @@ class Allvideos extends Component{
     
   render() 
   {
-   
-    
-      <div className="main-app">
-          <div className="loading">
-          (
-            <div className="loading">
-              <Spinner />
-            </div>
-          ) : 
-         (<div className="row">
-          {this.state.videos && this.state.videos.map((video)=>(
-            <videoList
-                useremail={video.email}
-                videotittle={video.videoName}
-                reactplayer={video.filePath}
-            /> 
-                
-
-              
-          ))}
-         
-             </div> 
-             
-          )
+   return(
+      <div className="Main" >
+      {
+        this.state.loading ?
+        <Spinner/>
+        :
+        <div className="AdminList">
+          <NavLink to='/admin-dashboard'>
+              <div className="cross">
+                  <h4>Close</h4>
+                  <i className="fas fa-times"></i>
+              </div>
+          </NavLink>
+          <h1>All Videos</h1>
+          <div className="Videos">
+              <table className="Table">
+                  <thead className="Thead">
+                      <tr className="TheadTrow">
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh4 ThTrTh5"}>Video</th>
+                          <th className={" ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Email</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Name</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Path</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh8 Center"}>Blocked</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Deleted</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Action</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh8"}></th>
+                      </tr>
+                  </thead>
+                  <tbody className="Tbody">
+                      {
+                        this.state.videos.map((video, index) => (
+                <VideoList
+                    key={index}
+                    email={video.email}
+                    name={video.videoName}
+                    filePath={video.filePath}
+                    blocked={video.blocked}
+                    deleted={video.deleted}
+                />
+            ))
+                      }
+                  </tbody>
+              </table>
           </div>
-
-          
       </div>
+      }
      
-    
-        
-    };
-}
-   
-     
-    
-   
+  </div>
 
+          )
+    }
+  };
 
 export default Allvideos;
-
-
-   

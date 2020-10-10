@@ -78,20 +78,12 @@ class Videos extends Component {
                         <Link to={"/videos/suspicious/"+vid.suspName}>
                         <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Suspicious Part</Button>
                         </Link>
-                        <Link to={"/videos/suspicious/"+vid.suspName}>
+                        <Link to={"/videos/normal/"+vid.norName}>
                         <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Normal Part</Button>
                         </Link>
-                        <Link to={"/videos/suspicious/"+vid.suspName}>
+                        <Link to={"/videos/static/"+vid.sttName}>
                         <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Static Part</Button>
                         </Link>
-                        <Link to={"/videos/normal/"+vid.norName}>
-                          
-                          <button>Normal</button>
-                          </Link>
-                          <Link to={"/videos/static/"+vid.sttName}>
-                          
-                          <button>Static</button>
-                          </Link>
                       </div>
                     </div>
                   </div>

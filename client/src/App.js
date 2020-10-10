@@ -9,6 +9,7 @@ import Videos from "./containers/Videos";
 import SuspiciousVideo from "./containers/SuspiciousVideo";
 import NormalVideo  from "./containers/NormalVideo";
 import StaticVideo from "./containers/StaticVideo";
+import Allvideos from "./containers/Allvideos";
 import "antd/dist/antd.css";
 import "./styles/main.css";
 
@@ -45,13 +46,14 @@ class App extends Component {
     if (localStorage.getItem("loggedIn") === "true") {
       routes = (
         <Switch>
-  <section className="Header">
+          <section className="Header">
           <Route exact path="/main" component={Main} />
-          <Route exact path="/videos" component={Videos} />
           <Route exact path="/videos/suspicious/:videoname" component={SuspiciousVideo}/>
           <Route exact path="/videos/normal/:videoname" component={NormalVideo}/>
           <Route exact path="/videos/static/:videoname" component={StaticVideo}/>
-          <Redirect to="/main"/>
+          <Route exact path="/videos" component={Videos} />
+          <Route exact path="/allvideos" component={Allvideos} />
+          {/* <Redirect exact to="/main"/> */}
           </section>
         </Switch>
       );
