@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 
 
 normalvideoroutes = Blueprint('normalvideoroutes', __name__)
-CORS(staticvideoroutes)
+CORS(normalvideoroutes)
 
 @normalvideoroutes.route("/getusernorvideos", methods=['POST'])
 def getusernorvideos():

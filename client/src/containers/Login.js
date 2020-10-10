@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { login } from "../components/Userfunctions";
-import { Button } from "antd";
+import Button from '@material-ui/core/Button'
 import { withSnackbar } from "notistack";
 
 class Login extends Component {
@@ -75,7 +75,7 @@ class Login extends Component {
                   />
                 </div>
                 <div className="btn-wrapper">
-                  <Button onClick={this.onSubmit}>Log In</Button>
+                  <Button variant="contained" color="primary" size="medium"  onClick={this.onSubmit}>Log In</Button>
                 </div>
               </form>
             </div>

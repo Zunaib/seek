@@ -3,6 +3,7 @@ import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
 import {Link} from 'react-router-dom';
+import { Button } from "@material-ui/core";
 
 class Videos extends Component {
   state = {
@@ -75,7 +76,13 @@ class Videos extends Component {
                       </div>
                       <div className="activities">
                         <Link to={"/videos/suspicious/"+vid.suspName}>
-                        <button>Susp</button>
+                        <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Suspicious Part</Button>
+                        </Link>
+                        <Link to={"/videos/suspicious/"+vid.suspName}>
+                        <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Normal Part</Button>
+                        </Link>
+                        <Link to={"/videos/suspicious/"+vid.suspName}>
+                        <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Static Part</Button>
                         </Link>
                       </div>
                     </div>

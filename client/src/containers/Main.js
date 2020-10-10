@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Videoupload from "../components/modals/videoupload";
 import Cctvipaddress from "../components/modals/cctvipaddress";
-import { Button } from "antd";
+import  Button  from "@material-ui/core/Button";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
@@ -79,12 +79,7 @@ class Main extends Component {
                 and its original frame.
               </p>
               <p className="funcicon"></p>
-              <Button
-                className="main-btn"
-                onClick={() => this.setState({ videoModal: true })}
-              >
-                Upload Video
-              </Button>
+              <Button variant="contained" color="primary"  size="medium"  onClick={() => this.setState({ videoModal: true })}>Upload Video</Button>
             </div>
             <div className="act-tile">
               <p className="functitle">CCTV</p>

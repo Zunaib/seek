@@ -4,7 +4,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.603);
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +27,7 @@
   list-style-type: none;
 }
 .nav-links li a {
-  background-color: rgb(92, 92, 92);
+  background-color: #0F3460;
   color: white;
   display: block;
   margin: 0 10px;
@@ -35,7 +35,7 @@
   text-decoration: none;
 }
 .nav-links li a:hover {
-  background-color: rgb(27, 27, 27);
+  background-color: #164580;
   color: white;
 }
 .nav-links li:last-child {

@@ -1,5 +1,5 @@
 from flask import Flask,Blueprint, jsonify, request, json
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, pymongo
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -12,7 +12,37 @@ CORS(app)
 
 adminroutes = Blueprint('adminroutes', __name__)
 
+
+
 ## Admin API's
+@adminroutes.route("/dashboardstats", methods=['GET'])
+def dashboardstats():
+    users = mongo.db.users
+    videos = mongo.db.videos
+    susp_videos = mongo.db.suspvideos
+    nor_videos = mongo.db.norvideos
+    stt_videos = mongo.db.sttvideos
+    stt_videos = mongo.db.contact
+    
+    #users
+    simpleusers = users.count_documents({"blocked":False})
+    blockedUsers = users.count_documents({"blocked":True})
+    adminUsers = users.count_documents({"admin":True})
+    
+    #videos
+    simplevideos = videos.count_documents({"blocked":False})
+    blockedvideos = videos.count_documents({"blocked":True})
+    deletedvideos = videos.count_documents({"deleted":True})
+    
+    
+    
+    print(doc_count)
+    
+    
+
+
+
+
 @adminroutes.route("/getallusers", methods=['GET'])
 def getallusers():
     users = mongo.db.users
@@ -34,7 +64,10 @@ def getallusers():
 @adminroutes.route("/getallvideos", methods=['GET'])
 def getallvideos():
     videos = mongo.db.videos
-    documents = videos.find({}, {"_id":1, "email": 1, "videoName": 1, "burglary": 1, "fighting": 1, "firing": 1, "filePath": 1 })
+    documents = videos.find({}, {"_id":1, "email": 1, "videoName": 1, "burglary": 1, "fighting": 1, "firing": 1, "filePath": 1, "blocked":1,"deleted":1,
+                                "suspName": 1,
+                                "norName": 1,
+                                "sttName": 1, })
     response = []
     for document in documents:
         document['_id'] = str(document['_id'])

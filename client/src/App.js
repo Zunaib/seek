@@ -45,13 +45,14 @@ class App extends Component {
     if (localStorage.getItem("loggedIn") === "true") {
       routes = (
         <Switch>
+  <section className="Header">
           <Route exact path="/main" component={Main} />
           <Route exact path="/videos" component={Videos} />
           <Route exact path="/videos/suspicious/:videoname" component={SuspiciousVideo}/>
           <Route exact path="/videos/normal/:videoname" component={NormalVideo}/>
           <Route exact path="/videos/static/:videoname" component={StaticVideo}/>
-          
           <Redirect to="/main"/>
+          </section>
         </Switch>
       );
     }

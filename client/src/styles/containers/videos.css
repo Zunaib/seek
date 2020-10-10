@@ -1,6 +1,7 @@
 .vlogCard {
   background-color: white;
-  width: 17%;
+  width: 30%;
+  padding-bottom: 10px;
   height: 100%;
   float: left;
   margin-top: 13px;
@@ -42,7 +43,7 @@ div.cardText h4 {
 .active-activity {
   margin: 0 40px;
   font-weight: 500;
-  background-color: gray;
+  background-color: #0F3460;
   border-radius: 5px;
   padding: 5px 0;
   font-size: 1rem;

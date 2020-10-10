@@ -3,7 +3,7 @@
 }
 
 .ant-btn {
-  background-color: #5c5c5c;
+  background-color: #0F3460;
   color: white;
   border: none;
   border-radius: 5px;
@@ -14,18 +14,10 @@
   width: 50%;
 }
 
-.ant-btn:focus {
-  background-color: #5c5c5c;
 
-  color: white;
-}
-.ant-btn:hover {
-  background-color: black;
-  color: white;
-}
 
 .main-btn {
-  background-color: #5c5c5c;
+  background-color: #0F3460;
   color: white;
   border: none;
   border-radius: 5px;
