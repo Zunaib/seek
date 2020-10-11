@@ -15,6 +15,8 @@ import "antd/dist/antd.css";
 import "./styles/main.css";
 import Allusers from "./containers/Allusers";
 import AllsuspiciousVideos from "./containers/AllsuspiciousVideos"
+import AllstaticVideos from "./containers/AllstaticVideos"
+import AllnormalVideos from "./containers/AllnormalVideos"
 
 class App extends Component {
   constructor(props) {
@@ -63,6 +65,10 @@ class App extends Component {
           <Route exact path="/allvideos" component={Allvideos} />
           <Route exact path="/allusers" component={Allusers}/>
           <Route exact path="/allsuspvid" component={AllsuspiciousVideos}/>
+          <Route exact path="/allstaticvid" component={AllstaticVideos}/>
+          <Route exact path="/allnormalvid" component={AllnormalVideos}/>
+
+          
           {/* <Redirect exact to="/main"/> */}
           </section>
         </Switch>

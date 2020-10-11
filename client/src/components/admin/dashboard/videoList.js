@@ -10,7 +10,7 @@ const VideoList=(props)=>{
         width: "inherit",
         height: "inherit",
     };
-    let videoPath = 'http://localhost:5000/' + props.filePath;
+    let videoPath = 'http://localhost:5000/' + props.sttPath;
 
     return (
         <tr className={"TbTr"} > 

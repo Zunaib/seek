@@ -1,6 +1,12 @@
 
-import React from "react";
+import React ,{Component} from "react";
 import StaticList from "../components/admin/dashboard/StaticList"
+import axios from "axios"
+
+
+
+import Spinner from "../components/Spinner";
+import {NavLink} from "react-router-dom"
 
 
 class AllstaticVideos extends Component{
@@ -10,9 +16,11 @@ class AllstaticVideos extends Component{
     }
     componentDidMount() {
         axios
-        .get("http://localhost:5000//getallsttvideos")
+        .get(
+            "http://localhost:5000/getallsttvideos"
+            )
         .then((response)=>{
-            setState({loading:false , static_vid:response.data});
+            this.setState({loading:false , static_vid:response.response});
         })
         .catch((err) => {
             console.log(err);
@@ -20,6 +28,11 @@ class AllstaticVideos extends Component{
         });
 
     }
+    
+
+
+
+
     render() 
   {
       return(
@@ -42,21 +55,21 @@ class AllstaticVideos extends Component{
               <table className="Table">
                   <thead className="Thead">
                       <tr className="TheadTrow">
-                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh4 ThTrTh5"}>First Name</th>
-                          <th className={" ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Last Name</th>
-                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Email</th>
-                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Blocked</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh4 ThTrTh5"}>Email</th>
+                          <th className={" ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Video Name</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Static Name</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Static Path</th>
                         
                       </tr>
                   </thead>
                   <tbody className="Tbody">
-                  {this.state.static_vid && this.state.static_vid.map((static, index)=>(
+                  {this.state.static_vid && this.state.static_vid.map((stt, index)=>(
                     <StaticList
                     key={index}
-                    email={susp.email}
-                    videotittle={susp.videoName}
-                    sttName={susp.sttName}
-                    reactplayer={video.filePath}
+                    email={stt.email}
+                    videoName={stt.videoName}
+                    sttName={stt.sttName}
+                    sttPath={stt.sttPath}
                     
                      />
             ))
@@ -83,21 +96,3 @@ export default AllstaticVideos;
 
 
 
-{/* <div>
-            <div className="row">
-                {this.state.static_vid.map((static)=>(
-                    <staticList
-                    email={susp.email}
-                    videotittle={susp.videoName}
-                    sttName={susp.sttName}
-                    reactplayer={video.filePath}
-                    
-                     />
-                ))}
-                     
-     
-                 </div>
-             </div>
-     
-         }
-     } */}

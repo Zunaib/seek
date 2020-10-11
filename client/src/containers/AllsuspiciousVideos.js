@@ -16,7 +16,7 @@ class AllsuspiciousVideos extends Component
             "http://localhost:5000/getallsuspvideos"
             )
         .then((response)=>{
-            this.setState({loading:false , susp_vid:response.data});
+            this.setState({loading:false , susp_vid:response.response});
             console.log(response)
            
         })
@@ -46,7 +46,7 @@ class AllsuspiciousVideos extends Component
                     <i className="fas fa-times"></i>
                 </div>
             </NavLink>
-            <h1>All Videos</h1>
+            <h1>All Susp Videos</h1>
             <div className="VideosSus">
                 <table className="Table">
                     <thead className="Thead">
