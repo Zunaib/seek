@@ -1,6 +1,7 @@
 
 import React from "react";
-import staticList from "../components/admin/dashboard/StaticList";
+import StaticList from "../components/admin/dashboard/StaticList"
+
 
 class AllstaticVideos extends Component{
     state={
@@ -49,16 +50,15 @@ class AllstaticVideos extends Component{
                       </tr>
                   </thead>
                   <tbody className="Tbody">
-                  {this.state.users.map((user , index)=>(
-                    <UsersList
-                        key={index}
-                        first_name={user.first_name}
-                        last_name={user.last_name}
-                        email={user.email}
-                        blocked={user.blocked}
-                        
-                                    
-                    />
+                  {this.state.static_vid && this.state.static_vid.map((static, index)=>(
+                    <StaticList
+                    key={index}
+                    email={susp.email}
+                    videotittle={susp.videoName}
+                    sttName={susp.sttName}
+                    reactplayer={video.filePath}
+                    
+                     />
             ))
                     }
                   </tbody>

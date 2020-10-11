@@ -1,26 +1,14 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Avatar, Menu, MenuItem } from "@material-ui/core";
 
-const Navbar = () => {
-  
-  const logOut=(e)=> {
+class LandingNavbar extends Component {
+  logOut(e) {
     e.preventDefault();
     localStorage.removeItem("usertoken");
     localStorage.removeItem("loggedIn");
     this.props.history.push("/login");
   }
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  render() {
     const loginRegLink = (
       <>
         <li className="nav-item">
@@ -57,7 +45,7 @@ const Navbar = () => {
         <li className="nav-item">
           <a
             href="#logout"
-            onClick={logOut}
+            onClick={this.logOut.bind(this)}
             className="nav-link"
           >
             Logout
@@ -67,11 +55,11 @@ const Navbar = () => {
     );
 
     return (
-      <nav className="navbar navbar-expand-lg  ">
-        <a className="Logo" href="/main">
+      <nav className="landing-navbar navbar-expand-lg  ">
+        <a className="Logo" href="/">
           <img
             className="logo-icon"
-            src={require("../assets/locked.png")}
+            src={require("../assets/locked-white.png")}
             alt="Seek Logo"
           />
         </a>
@@ -79,19 +67,8 @@ const Navbar = () => {
         <ul className="nav-links">
           {localStorage.getItem("usertoken") ? userLink : loginRegLink}
         </ul>
-        <Avatar className="orange" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>N</Avatar>
-        <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
       </nav>
     );
+  }
 }
-export default withRouter(Navbar);
+export default withRouter(LandingNavbar);

@@ -1,5 +1,5 @@
 .Header {
-  background: url("../../assets/landing.jpg");
+  background: url("../../assets/landing-blue.jpg");
   background-size: 100%;
   background-repeat: no-repeat;
   max-height: 100%;
@@ -15,7 +15,7 @@
 }
 
 .Header div.back {
-  background-color:#732c7bc0;
+  background-color:#0000007a;
   border-radius: 5px;
   position: relative;
   width: 70%;
@@ -56,10 +56,9 @@
 }
 
 .Contact {
-  background-color:#0F3460;
+  background-color:#0068cf;
   display: block;
   color: #fff;
-  border: 1px solid white;
   font-weight: bold;
   width: 50%;
   margin: 0 auto;
@@ -73,7 +72,7 @@
 }
 
 .Contact:hover {
-  background-color:  #164580;
+  background-color:  #004d99;
   color: white;
 }
 
@@ -89,10 +88,10 @@
 .Misc h2 {
   font-size: 3rem;
   font-weight: 500;
-  color:#36547A;
+  color:#0068cf;
   text-transform: uppercase;
   line-height: 4.2rem;
-  border-right: 3px solid#36547A;
+  border-right: 5px solid#0068cf;
 }
 
 .Misc div {
@@ -133,15 +132,15 @@
   padding: 30px 0px 30px 90px;
   margin: 0px 0px 30px 0px;
   text-align: left;
-  color: #36547A;
+  color: #0068cf;
   filter: grayscale(0%);
-  border-bottom: 2px solid #0F3460;
+  border-bottom: 2px solid #0068cf;
 }
 .ServiceTitle {
   font-size: 3.1rem;
   padding: 0;
   margin: 0;
-  color: #0F3460;
+  color: #0068cf;
 }
 
 .Services p:last-of-type {
@@ -151,7 +150,7 @@
 }
 
 .Footer {
-  background-color:#0F3460;
+  background-color:#0068cf;
   color: #fff;
   padding: 20px;
   margin-top: 80px;

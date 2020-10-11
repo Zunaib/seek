@@ -56,24 +56,10 @@ class Videos extends Component {
                         <b>{vid.videoName.split(".")[0]}</b>
                       </h4>
                       <div className="desc">
-                        The suspicious activities detected are in order of most
-                        to least occurences.
+                        The specific parts of the video can be seen through below:
                       </div>
                     </div>
                     <div className="cardInfo">
-                      <div className="active-activity">
-                        Main Activity:
-                        {vid.burglary > vid.fighting && vid.firing
-                          ? " Burglary"
-                          : vid.fighting > vid.firing
-                          ? " Fighting"
-                          : " Firing"}
-                      </div>
-                      <div className="activities">
-                        <div className="activity">Burglary:{vid.burglary}</div>
-                        <div className="activity">Fighting:{vid.fighting}</div>
-                        <div className="activity">Firing:{vid.firing}</div>
-                      </div>
                       <div className="activities">
                         <Link to={"/videos/suspicious/"+vid.suspName}>
                         <Button variant="contained" color="primary" size="medium" style={{margin:"0px 4px 0px 4px"}}>Suspicious Part</Button>
