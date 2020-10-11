@@ -12,6 +12,8 @@ import StaticVideo from "./containers/StaticVideo";
 import Allvideos from "./containers/Allvideos";
 import "antd/dist/antd.css";
 import "./styles/main.css";
+import Allusers from "./containers/Allusers";
+import AllsuspiciousVideos from "./containers/AllsuspiciousVideos"
 
 class App extends Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class App extends Component {
             />
           )}
         />
-        <Route path="/login" component={Login} />
+        <Route exact path="/login" component={Login} />
 
         <Route path="/register" component={Register} />
         <Redirect to="/" />
@@ -53,6 +55,8 @@ class App extends Component {
           <Route exact path="/videos/static/:videoname" component={StaticVideo}/>
           <Route exact path="/videos" component={Videos} />
           <Route exact path="/allvideos" component={Allvideos} />
+          <Route exact path="/allusers" component={Allusers}/>
+          <Route exact path="/allsuspvid" component={AllsuspiciousVideos}/>
           {/* <Redirect exact to="/main"/> */}
           </section>
         </Switch>
@@ -63,6 +67,7 @@ class App extends Component {
       <div>
         <NavBar />
         {routes}
+        
       </div>
     );
   }

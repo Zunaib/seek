@@ -7,6 +7,7 @@
 @import "./components/file.css";
 @import "./components/spinner.css";
 @import "./components/adminlists.css";
+@import "./components/userlist.css";
 
 @import "./containers/login.css";
 @import "./containers/register.css";

@@ -1,12 +1,16 @@
-import react, { Component } from "react";
-import usersList from "../components/admin/dashboard/usersList";
-import userslist from "../components/admin/dashboard/usersList";
+import React, { Component } from "react";
+import UsersList from "../components/admin/dashboard/UsersList"
+import axios from "axios";
+import Spinner from "../components/Spinner";
+import {NavLink} from "react-router-dom"
 
 
-class Allusers extends Component{
+
+class Allusers extends Component
+{
     state={
-        users=[],
-        loading=true
+        users:[],
+        loading:true
     }
 
     componentDidMount(){
@@ -15,49 +19,92 @@ class Allusers extends Component{
             "http://localhost:5000/getallusers"
         )
         .then((response) => {
-            this.setState({ loading: false, videos: response.data });
+            this.setState({ loading: false, users: response.data });
             console.log(response);
           })
           .catch((err) => {
             console.log(err);
             return err;
           });
-
-
-    }
-    
-  
-   
-     
-    
-
-    
-    render() 
-    {
-        
-          <div className="main-app">
-              <div className="loading">
-              (
-                <div className="loading">
-                  <Spinner />
-                </div>
-              ) : 
-             ({
-            this.state.videos.map((user)=>(
-            <usersList
-            first_name={user.first_name}
-            last_name={user.last_name}
-            email={user.email}
-             /* videos={3} */
-            />
-            ))}
-
-            
-          </div> 
-        </div>
-    }
-
 }
+render() 
+  {
+      return(
+          <div>
+         
+      <div className="Main" >
+      {
+        this.state.loading ?
+        <Spinner/>
+        :
+        <div className="UserList">
+          <NavLink to='/admin-dashboard'>
+              <div className="cross">
+                  <h4>Close</h4>
+                  <i className="fas fa-times"></i>
+              </div>
+          </NavLink>
+          <h1>All Users</h1>
+          <div className="Users">
+              <table className="Table">
+                  <thead className="Thead">
+                      <tr className="TheadTrow">
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh4 ThTrTh5"}>First Name</th>
+                          <th className={" ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Last Name</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Email</th>
+                          <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Blocked</th>
+                        
+                      </tr>
+                  </thead>
+                  <tbody className="Tbody">
+                  {this.state.users.map((user , index)=>(
+                    <UsersList
+                        key={index}
+                        first_name={user.first_name}
+                        last_name={user.last_name}
+                        email={user.email}
+                        blocked={user.blocked}
+                        
+                                    
+                    />
+            ))
+                    }
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      }
+     
+  </div>
+</div>
+)
+}
+}
+
+   
+
+
 
 
 export default Allusers;
+
+
+
+
+
+
+
+
+
+       
+          
+
+
+
+
+
+
+
+
+
+
