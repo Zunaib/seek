@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "antd";
+import { Button } from "@material-ui/core";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
@@ -89,6 +89,7 @@ export class Videoupload extends Component {
                   onChange={this.onFileChange}
                 />
                 <Button
+                  style={{backgroundColor:"#0068cf", color:"white"}} variant="contained" size="medium"
                   onClick={this.onFileUpload}
                 >
                   Upload

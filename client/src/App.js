@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import NavBar from "./components/Navbar";
+import LandingNavBar from "./components/LandingNav";
 import Landing from "./containers/Landing";
 import Login from "./containers/Login";
 import Register from "./containers/Register";
@@ -25,6 +26,8 @@ class App extends Component {
   }
   render() {
     let routes = (
+      <>
+      <LandingNavBar/>
       <Switch>
         <Route
           exact
@@ -41,10 +44,13 @@ class App extends Component {
         <Route path="/register" component={Register} />
         <Redirect to="/" />
       </Switch>
+      </>
     );
 
     if (localStorage.getItem("loggedIn") === "true") {
       routes = (
+        <>
+        <NavBar />
         <Switch>
           <section className="Header">
           <Route exact path="/main" component={Main} />
@@ -56,12 +62,12 @@ class App extends Component {
           {/* <Redirect exact to="/main"/> */}
           </section>
         </Switch>
+        </>
       );
     }
 
     return (
       <div>
-        <NavBar />
         {routes}
       </div>
     );

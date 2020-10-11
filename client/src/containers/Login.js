@@ -47,13 +47,14 @@ class Login extends Component {
     }
   }
   render() {
+
     return (
       <div className="Header">
         <div className="login-form container">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <form noValidate>
-                <h1 className="h3 mb-3 font-weight-normal">Log In</h1>
+                <h1 className="h3 mb-3 font-weight-normal" style={{color:"White"}}>Log In</h1>
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
                   <input
@@ -75,7 +76,7 @@ class Login extends Component {
                   />
                 </div>
                 <div className="btn-wrapper">
-                  <Button variant="contained" color="primary" size="medium"  onClick={this.onSubmit}>Log In</Button>
+                  <Button variant="contained" style={{backgroundColor:"#0068cf", color:"white"}} size="medium"  onClick={this.onSubmit}>Log In</Button>
                 </div>
               </form>
             </div>
