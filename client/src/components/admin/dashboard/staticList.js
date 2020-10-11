@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 
 
 
-const staticList=(props)=>{
+const StaticList=(props)=>{
     const videostyles = {
         playing: false,
         controls: true, 
@@ -56,7 +56,7 @@ const staticList=(props)=>{
        
 
 
-export default staticList;
+export default StaticList;
 
 
 

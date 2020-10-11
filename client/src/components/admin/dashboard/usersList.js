@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const usersList=(props)=>{
+const UsersList=(props)=>{
   
     /* let videoPath = 'http://localhost:5000/' + props.filePath; */
     return(
@@ -46,4 +46,4 @@ const usersList=(props)=>{
 }
 
 
-export default usersList;
+export default UsersList;

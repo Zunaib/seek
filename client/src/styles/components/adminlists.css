@@ -11,6 +11,7 @@
     height: 100%;
     width: 85%;
     margin: 82px auto;
+    padding: 20px 10px;
     border-radius: 10px;
 -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
 -moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
@@ -51,29 +52,6 @@ box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
 }
 
 
-
-
-.AdminListImage{
-  text-align: center;
-  margin: 0 auto;
-width:50%;
-
-}
-
-.AdminListImage img{
-text-align: center;
-vertical-align: middle;
-height: 190px;
-width: 160px;
-margin: 25px 25px;
-object-position: top;
-object-fit: cover;
-border-radius: 10%;
--webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
--moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
-}
-
 .AdminList h1{
   margin: 20px 20px;
   float: right;
@@ -86,200 +64,45 @@ box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
   padding: 30px;
 }
 
+
+
+h1{
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+}
 table{
-  display: table;
-  border-collapse: separate;
-  border-spacing: 2px;
-  border-color: grey;
+  width:100%;
+  table-layout: fixed;
 }
 
-thead > tr {
-  height: auto;
+.tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  margin: 10px;
 }
-
-.Table{
-  width: 100%;
-  overflow: auto;
-  max-width: 100%;
-  margin-bottom: 0;
-  border-spacing: 0;
-  border-collapse: collapse;
-  background-color: transparent;
-
-  width: 100%;
-  display: table;
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-
-.Thead{
+th{
   color: #999;
-  font-size: 1.3rem;
-  display: table-header-group;
-}
-
-.TheadTrow {
-  height: 56px;
-  color: inherit;
-  height: 48px;
-  display: table-row;
-  outline: none;
-  vertical-align: middle;
-}
-
-.ThTrTh1{ /*733*/
-  display: table-cell;
-}
-
-.ThTrTh2{ /*716*/
-  color: #555;
-  font-size: 1.063rem;
-  font-weight: 300;
-  border-top-width: 0 !important;
-  border-bottom-width: 1px;
-}
-
-.ThTrTh3{ /*715*/
-  color: #3C4858;
-  padding: 12px 8px!important;
-  position: relative;
-  font-size: 0.875rem;
-  border-top: 1px solid #ddd;
-  font-weight: 300;
-  line-height: 1.5em;
-  border-bottom: none;
-  vertical-align: middle;
-}
-
-.ThTrTh4{ /*703*/
+  font-size: 1rem;
+  padding:5px 10px;
   text-align: center;
-}
-
-.ThTrTh5{ /*714*/
-  font-size: 0.75em !important;
-  text-transform: uppercase !important;
-}
-
-.ThTrTh6{ /*734*/
-  color: rgba(0, 0, 0, 0.54);
-  font-size: 0.75rem;
   font-weight: 500;
+  text-transform: uppercase;
 }
-
-.ThTrTh7{ /*694*/
-  max-width: 150px;
-}
-
-.ThTrTh8{ /*704*/
-  text-align: right;
-}
-
-.ThTrTh9{ /*735*/
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 0.8125rem;
-  font-weight: 400;
-}
-
-.ThTrTh10{ /*695*/
-  min-width: 200px;
-  font-size: 1.5em;
-  font-weight: 400;
-}
-
-.ThTrTh11{ /*696*/
-  color: #3C4858;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-}
-.ThTrTh12{ /*701*/
-  font-size: 16px !important;
-}
-.ThTrTh13{ /*698*/
-  min-width: 150px;
-  font-size: 1.125em !important;
-  text-align: right;
-  font-weight: 300;
-}
-.ThTrTh14{ /*700*/
-  line-height: 1 !important;
-}
-.ThTrTh15{ /*700*/
+td{
+  padding: 10px;
   text-align: center;
-}
-.ThTrTh16{ /*91*/
-  width: 100%;
-  display: inherit;
-  align-items: inherit;
-  justify-content: inherit;
-}
-
-.ThTrTh17{ /*702*/
-  margin: 0px;
-  padding: 5px;
-}
-.ThTrTh18{ /*221*/
-  color: #999;
-  box-shadow: none;
-  background-color: transparent;
-}
-.ThTrTh19{ /*221*/
-  color: #999;
-  box-shadow: none;
-  background-color: transparent;
-}
-.ThTrTh20{ /*728*/
-  color: inherit;
-  height: 48px;
-  display: table-row;
-  outline: none;
-  vertical-align: middle;
-}
-.ThTrTh21{ /*717*/
-  font-size: 1.0625rem;
-  text-align: right;
-  font-weight: 500;
-  padding-top: 20px;
-}
-.ThTrTh22{ /*718*/
-  font-size: 26px;
-  margin-top: 5px;
-  text-align: right;
+  vertical-align:middle;
   font-weight: 300;
+  font-size: 16px;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
 }
-.ThTrTh23{ /*718*/
-  text-align: right;
-}
-
-
-
-.ibutton i{
-  font-size: 2rem;
-  color: purple;
-}
-
-
-.Tbody{
-  display: table-row-group;
-}
-
-.TbTr{
-color: inherit;
-height: 48px;
-display: table-row;
-outline: none;
-border-radius: 10px;
-vertical-align: middle;
--webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
--moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
-}
-
-
-.Center{
-  text-align: center;
-}
-
-.contect-center{
-  margin: 0 auto;
+.data-t-row{
+  background-color: #ffffff;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+  -moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+  box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
 }

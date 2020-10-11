@@ -2,7 +2,7 @@ import React from "react";
 import ReactPlayer from "react-player";
 
 
-const normalList=(props)=>{
+const NormalList=(props)=>{
     const videostyles = {
         playing: false,
         controls: true, 
@@ -54,6 +54,6 @@ const normalList=(props)=>{
 
        
 
-export default normalList;
+export default NormalList;
 
 

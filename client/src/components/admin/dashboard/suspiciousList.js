@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 
 
 
-const suspiciousList=(props)=>{
+const SuspiciousList=(props)=>{
     const videostyles = {
         playing: false,
         controls: true, 
@@ -51,6 +51,6 @@ const suspiciousList=(props)=>{
 
 
 
-export default suspiciousList;
+export default SuspiciousList;
 
 
