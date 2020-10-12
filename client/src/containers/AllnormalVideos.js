@@ -1,6 +1,7 @@
 
 import React , {Component} from "react";
-import NormalList from "../components/admin/dashboard/NormalList";
+/* import NormalList from "../components/admin/dashboard/NormalList"; */
+/* import normalList from "../components/admin/dashboard/normalList" */
 import axios from "axios"
 
 
