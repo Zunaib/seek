@@ -1,16 +1,13 @@
-import React, { Component, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, {  useState } from "react";
+import { NavLink,Link, withRouter } from "react-router-dom";
 import { Avatar, Menu, MenuItem } from "@material-ui/core";
+import  PersonIcon from '@material-ui/icons/Person';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const Navbar = () => {
-  
-  const logOut=(e)=> {
-    e.preventDefault();
-    localStorage.removeItem("usertoken");
-    localStorage.removeItem("loggedIn");
-    this.props.history.push("/login");
-  }
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -53,16 +50,6 @@ const Navbar = () => {
             Main
           </Link>
         </li>
-
-        <li className="nav-item">
-          <a
-            href="#logout"
-            onClick={logOut}
-            className="nav-link"
-          >
-            Logout
-          </a>
-        </li>
       </>
     );
 
@@ -87,9 +74,26 @@ const Navbar = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <NavLink to="/profile">
+          <MenuItem onClick={handleClose}><PersonIcon style={{margin:"0px 5px"}}/>Profile</MenuItem>
+        </NavLink>
+
+        <NavLink to="/videos">
+        <MenuItem onClick={handleClose}><VideoLibraryIcon style={{margin:"0px 5px"}}/>My Videos</MenuItem>
+        </NavLink>
+        
+        <NavLink to="/cameras">
+        <MenuItem onClick={handleClose}><CameraAltIcon style={{margin:"0px 5px"}}/>My Cameras</MenuItem>
+        </NavLink>
+        
+        <NavLink to="/admin-access">
+        <MenuItem onClick={handleClose}><SupervisorAccountIcon style={{margin:"0px 5px"}}/>Admin Access</MenuItem>
+        </NavLink>
+        
+        <NavLink to="/logout">
+        <MenuItem onClick={handleClose}><ExitToAppIcon style={{margin:"0px 5px"}}/>Logout</MenuItem>
+        </NavLink>
+
       </Menu>
       </nav>
     );
