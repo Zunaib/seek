@@ -58,7 +58,7 @@ class AllnormalVideos extends Component{
                     </thead>
                     <tbody className="Tbody">
                     {this.state.nor_vid && this.state.nor_vid.map((nor, index)=>(
-                        <normalList
+                        <NormalList
                         email={nor.email}
                         videoName={nor.videoName}
                         norName={nor.norName}
@@ -85,18 +85,3 @@ export default AllnormalVideos;
 
 
 
-{/* <div>
-             <div className="row">
-                {this.state.nor_vid.map((nor)=>
-                <normalList
-                email={nor.email}
-                videotittle={nor.videoName}
-                norName={nor.norName}
-                reactplayer={video.filePath}
-                />
-                )}
-            </div>
-        </div>
-
-    }
-} */}

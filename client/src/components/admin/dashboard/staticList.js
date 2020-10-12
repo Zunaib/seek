@@ -36,19 +36,6 @@ const StaticList=(props)=>{
                 {props.sttName}
                 </span>
             </td>
-            {/* <td className={"ThTrTh12 ThTrTh9 ThTrTh3 ThTrTh13 Center"}>
-                <span>
-                {props.deleted ? "True" :"False"}
-                </span>
-            </td>
-            <td className={"ThTrTh12 ThTrTh9, ThTrTh3 ThTrTh13 ThTrTh14 Center"}>
-                {props.blocked ? "True" :"False"}
-            </td>
-            <td className={"ThTrTh1 ThTrTh3 ThTrTh9"}>
-                    <Button variant="contained" color="secondary">{props.blocked ? "Unblock" : "Block"}</Button>
-            </td>
-
- */}
         </tr>
     );
 }
@@ -57,17 +44,3 @@ const StaticList=(props)=>{
 
 
 export default StaticList;
-
-
-
-{/* <div>
-<div>{props.email}</div>
-<div>{props.videoTittle}</div>
-<div>{props.sttName}</div>
-<div><ReactPlayer
-url={props.reactplayer}
-{...videostyles}
-/>
-</div>
-</div>
-) */}

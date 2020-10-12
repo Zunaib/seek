@@ -17,6 +17,7 @@ import Allusers from "./containers/Allusers";
 import AllsuspiciousVideos from "./containers/AllsuspiciousVideos"
 import AllstaticVideos from "./containers/AllstaticVideos"
 import AllnormalVideos from "./containers/AllnormalVideos"
+import Logout from "./containers/Logout";
 
 class App extends Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class App extends Component {
           <Route exact path="/allsuspvid" component={AllsuspiciousVideos}/>
           <Route exact path="/allstaticvid" component={AllstaticVideos}/>
           <Route exact path="/allnormalvid" component={AllnormalVideos}/>
+          <Route exact path="/logout" component={Logout}/>
 
           
           {/* <Redirect exact to="/main"/> */}
