@@ -41,7 +41,11 @@ class Login extends Component {
             variant: "error",
           });
         } else {
+          if(localStorage.getItem("admin") === "true"){
+            this.props.history.push("/dashboard");
+          }else{
           this.props.history.push("/main");
+          }
         }
       });
     }

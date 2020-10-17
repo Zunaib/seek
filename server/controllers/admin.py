@@ -8,13 +8,37 @@ app.config["MONGO_URI"] = 'mongodb://localhost:27017/theseek'
 app.config["JWT_SECRET_KEY"] = 'secret'
 
 mongo = PyMongo(app)
-CORS(app)
+
 
 adminroutes = Blueprint('adminroutes', __name__)
+CORS(adminroutes)
 
 
 
 ## Admin API's
+@adminroutes.route("/requestadmin", methods=['POST'])
+def requestadmin():
+    admrequest = mongo.db.adminrequest
+    email = request.get_json()['email']
+    reason = request.get_json()['reason']
+    message = request.get_json()['message']
+    
+    response = admrequest.find_one({"email": email})
+
+    if response:
+        result = jsonify({"error": "Request against you already exists"})
+        return result
+    else:
+        req_id=admrequest.insert_one({
+            "email": email,
+            "reason": reason,
+            "message": message
+        })
+        return jsonify({"success":"Request Sent"})
+
+
+
+
 @adminroutes.route("/dashboardstats", methods=['GET'])
 def dashboardstats():
     users = mongo.db.users
@@ -22,7 +46,8 @@ def dashboardstats():
     susp_videos = mongo.db.suspvideos
     nor_videos = mongo.db.norvideos
     stt_videos = mongo.db.sttvideos
-    stt_videos = mongo.db.contact
+    contacts = mongo.db.contact
+    dashcounts=[]
     
     #users
     simpleusers = users.count_documents({"blocked":False})
@@ -34,23 +59,53 @@ def dashboardstats():
     blockedvideos = videos.count_documents({"blocked":True})
     deletedvideos = videos.count_documents({"deleted":True})
     
+    #susp videos
+    suspsimplevideos = susp_videos.count_documents({"blocked":False})
+    suspblockedvideos = susp_videos.count_documents({"blocked":True})
+    suspdeletedvideos = susp_videos.count_documents({"deleted":True})
     
+    #nor videos
+    norsimplevideos = nor_videos.count_documents({"blocked":False})
+    norblockedvideos = nor_videos.count_documents({"blocked":True})
+    nordeletedvideos = nor_videos.count_documents({"deleted":True})
     
-    print(doc_count)
+    #stt videos
+    sttsimplevideos = stt_videos.count_documents({"blocked":False})
+    sttblockedvideos = stt_videos.count_documents({"blocked":True})
+    sttdeletedvideos = stt_videos.count_documents({"deleted":True})
     
+    #conatact
+    allcontacts = contacts.count_documents({})
     
+    dashcounts=[
+        {"name":"Simple Users", "count":simpleusers},
+        {"name":"Blocked Users", "count":blockedUsers},
+        {"name":"Admin Users", "count":adminUsers},
+        {"name":"Simple Videos", "count":simplevideos},
+        {"name":"Blocked Videos", "count":blockedvideos},
+        {"name":"Deleted Videos", "count":deletedvideos},
+        {"name":"Suspicious Simple Videos", "count":suspsimplevideos},
+        {"name":"Suspicious Blocked Videos", "count":suspblockedvideos},
+        {"name":"Suspicious Deleted Videos", "count":suspdeletedvideos},
+        {"name":"Normal Simple Videos", "count":norsimplevideos},
+        {"name":"Normal Blocked Videos", "count":norblockedvideos},
+        {"name":"Normal Deleted Videos", "count":nordeletedvideos},
+        {"name":"Static Simple Videos", "count":sttsimplevideos},
+        {"name":"Static Blocked Videos", "count":sttblockedvideos},
+        {"name":"Static Deleted Videos", "count":sttdeletedvideos},
+        {"name":"Contact Queries", "count":allcontacts},
+    ]
 
-
+    return jsonify({"Stats": "Stats Fetched Successfully", "stats":dashcounts})        
 
 
 @adminroutes.route("/getallusers", methods=['GET'])
 def getallusers():
     users = mongo.db.users
-    documents = users.find({}, {"_id":1, "first_name": 1, "last_name": 1,"email":1,"blocked":1 })
+    documents = users.find({}, {"_id":1, "first_name": 1, "last_name": 1,"email":1,"blocked":1, "admin":1 })
     response = []
     for document in documents:
         document['_id'] = str(document['_id'])
-        print(document)
         response.append(document)
     results = json.dumps(response)
 
@@ -64,10 +119,7 @@ def getallusers():
 @adminroutes.route("/getallvideos", methods=['GET'])
 def getallvideos():
     videos = mongo.db.videos
-    documents = videos.find({}, {"_id":1, "email": 1, "videoName": 1, "burglary": 1, "fighting": 1, "firing": 1, "filePath": 1, "blocked":1,"deleted":1,
-                                "suspName": 1,
-                                "norName": 1,
-                                "sttName": 1, })
+    documents = videos.find({}, {"_id":1, "email": 1, "videoName": 1, "filePath": 1, "blocked":1,"deleted":1 , "suspName": 1,"norName": 1,"sttName": 1, })
     response = []
     for document in documents:
         document['_id'] = str(document['_id'])
@@ -83,7 +135,7 @@ def getallvideos():
 @adminroutes.route("/getallsuspvideos", methods=['GET'])
 def getallsuspvideos():
     susp_videos = mongo.db.suspvideos
-    documents = susp_videos.find({},{"_id":1, "email": 1, "videoName": 1, "suspName": 1, "suspPath": 1})
+    documents = susp_videos.find({},{"_id":1, "email": 1, "videoName": 1, "suspName": 1, "suspPath": 1, "suspblocked":1,"suspdeleted":1})
     response = []
     for document in documents:
         document['_id'] = str(document['_id'])
@@ -100,7 +152,7 @@ def getallsuspvideos():
 @adminroutes.route("/getallnorvideos", methods=['GET'])
 def getallnorvideos():
     nor_videos = mongo.db.norvideos
-    documents = nor_videos.find({},{"_id":1, "email": 1, "videoName": 1, "norName": 1, "norPath": 1})
+    documents = nor_videos.find({},{"_id":1, "email": 1, "videoName": 1, "norName": 1, "norPath": 1, "norblocked":1,"nordeleted":1})
     response = []
     for document in documents:
         document['_id'] = str(document['_id'])
@@ -117,7 +169,7 @@ def getallnorvideos():
 @adminroutes.route("/getallsttvideos", methods=['GET'])
 def getallsttvideos():
     stt_videos = mongo.db.sttvideos
-    documents = stt_videos.find({},{"_id":1, "email": 1, "videoName": 1, "sttName": 1, "sttPath": 1})
+    documents = stt_videos.find({},{"_id":1, "email": 1, "videoName": 1, "sttName": 1, "sttPath": 1, "sttblocked":1,"sttdeleted":1})
     response = []
     for document in documents:
         document['_id'] = str(document['_id'])
@@ -149,7 +201,7 @@ def blockuser():
             result = jsonify({"error": "Error Occured"})
             return result
     else:
-        result = jsonify({"error": "User Does Not Exist"})
+        result = jsonify({"data": "User Does Not Exist"})
         return result
         
 @adminroutes.route("/unblockuser", methods=['POST'])
@@ -169,7 +221,7 @@ def unblockuser():
             result = jsonify({"error": "Error Occured"})
             return result
     else:
-        result = jsonify({"error": "User Does Not Exist"})
+        result = jsonify({"data": "User Does Not Exist"})
         return result
     
     
@@ -191,7 +243,7 @@ def blockvideo():
             result = jsonify({"error": "Error Occured"})
             return result
     else:
-        result = jsonify({"error": "No Video Found"})
+        result = jsonify({"data": "No Video Found"})
         return result
         
     
@@ -203,10 +255,9 @@ def unblockvideo():
     user_exist = videos.find_one({"email": email, "videoName":vidName})
     result = ""
     
-    print(user_exist)
     if user_exist != None:
         response = videos.update_one({'email':email, "videoName":vidName}, {"$set":
-            {"blocked":True}
+            {"blocked":False}
         }, upsert=False)
         if response:
             result = jsonify({"success": "Video UnBlocked"})
@@ -215,7 +266,7 @@ def unblockvideo():
             result = jsonify({"error": "Error Occured"})
             return result
     else:
-        result = jsonify({"error": "No Video Found"})
+        result = jsonify({"data": "No Video Found"})
         return result
         
         
@@ -228,13 +279,12 @@ def blocksuspvideo():
     user_exist = susp_videos.find_one({"email": email, "suspName":suspvideoname})
     result = ""
     
-    print(user_exist)
     if user_exist != None:
         response = susp_videos.update_one({'email':email, "suspName":suspvideoname}, {"$set":
             {"suspblocked":True}
         }, upsert=False)
         if response:
-            result = jsonify({"success": "Video UnBlocked"})
+            result = jsonify({"success": "Video Blocked"})
             return result
         else:
             result = jsonify({"error": "Error Occured"})
@@ -253,7 +303,6 @@ def unblocksuspvideo():
     user_exist = susp_videos.find_one({"email": email, "suspName" :suspvideoname})
     result = ""
     
-    print(user_exist)
     if user_exist != None:
         response = susp_videos.update_one({'email':email, "suspName" :suspvideoname}, {"$set":
             {"suspblocked":False}
@@ -280,7 +329,7 @@ def blocknorvideo():
             {"norblocked":True}
         }, upsert=False)
         if response:
-            result = jsonify({"success": "Video UnBlocked"})
+            result = jsonify({"success": "Video Blocked"})
             return result
         else:
             result = jsonify({"error": "Error Occured"})
@@ -326,7 +375,7 @@ def blocksttvideo():
             {"sttblocked":True}
         }, upsert=False)
         if response:
-            result = jsonify({"success": "Video UnBlocked"})
+            result = jsonify({"success": "Video Blocked"})
             return result
         else:
             result = jsonify({"error": "Error Occured"})

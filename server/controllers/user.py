@@ -15,14 +15,13 @@ app.config["JWT_SECRET_KEY"] = 'secret'
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
-CORS(app)
 
 userroutes = Blueprint('userroutes', __name__)
+CORS(userroutes)
 
 @userroutes.route("/register", methods=['POST'])
 def register():
     users = mongo.db.users
-
     first_name = request.get_json()['first_name']
     last_name = request.get_json()['last_name']
     email = request.get_json()['email']
@@ -74,7 +73,7 @@ def login():
                 "last_name": response["last_name"],
                 "email": response["email"]
             })
-            result = jsonify({"token": access_token, "email": email})
+            result = jsonify({"token": access_token, "email": email, "blocked":blocked,"admin":admin})
         else:
             result = jsonify({"error": "Invalid username and password"})
     else:

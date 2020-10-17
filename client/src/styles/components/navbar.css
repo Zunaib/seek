@@ -67,9 +67,6 @@
   box-sizing: border-box;
   z-index: 90;
   padding: 0 100px;
-  /* -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.504);
-  -moz-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.504);
-  box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.504); */
 }
 
 .landing-navbar .nav-links {
@@ -83,7 +80,7 @@
   list-style-type: none;
 }
 .landing-navbar .nav-links li a {
-  background-color: #0068cf;
+  background-color: transparent;
   color: white;
   display: block;
   margin: 0 10px;
@@ -91,8 +88,7 @@
   text-decoration: none;
 }
 .landing-navbar .nav-links li a:hover {
-  background-color: #004d99;
-  color: white;
+  color: rgb(153, 153, 153);
 }
 .landing-navbar .nav-links li:last-child {
   margin-right: auto;

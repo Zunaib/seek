@@ -26,12 +26,12 @@ const VideoList = (props) => {
       <td>
         <span>{props.filePath}</span>
       </td>
+      <td>{props.blocked ? "True" : "False"}</td>
       <td>
         <span>{props.deleted ? "True" : "False"}</span>
       </td>
-      <td>{props.blocked ? "True" : "False"}</td>
       <td>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" onClick={() => props.btnClicked(props.blocked ? "unblock" : "block")}>
           {props.blocked ? "Unblock" : "Block"}
         </Button>
       </td>

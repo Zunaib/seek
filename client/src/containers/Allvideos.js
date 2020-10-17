@@ -1,45 +1,82 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import VideoList from "../components/admin/dashboard/VideoList";
-
+import VideoList from "../components/admin/VideoList";
+import { withSnackbar } from "notistack";
 import Spinner from "../components/Spinner";
-import { NavLink } from "react-router-dom";
+import { PageHeader, Divider } from "antd"
 
-class Allvideos extends Component {
-  state = {
-    videos: [],
-    loading: true,
-  };
+const Allvideos = (props) => {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(false);
 
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getallvideos")
       .then((response) => {
-        this.setState({ loading: false, videos: response.data });
-        console.log(response);
+        console.log(response)
+        setLoading(false);
+        setVideos(response.data.filter(res => res.email !== localStorage.getItem("useremail")));
       })
       .catch((err) => {
         console.log(err);
         return err;
       });
-  }
+  }, [reload]);
 
-  render() {
-    return (
-      <div className="Main">
-        {this.state.loading ? (
-          <Spinner />
-        ) : (
+  const actionBtn = (type, email, vidName) => {
+    if (type === "block") {
+      axios
+        .post("http://localhost:5000/blockvideo", {
+          videoName: vidName,
+          email: email,
+        })
+        .then((res) => {
+          if (res.data.success === "Video Blocked") {
+            props.enqueueSnackbar("Video Blocked", {
+              variant: "success",
+            });
+            setReload(!reload);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (type === "unblock") {
+      axios
+        .post("http://localhost:5000/unblockvideo", {
+          videoName: vidName,
+          email: email,
+        })
+        .then((res) => {
+          if (res.data.success === "Video UnBlocked") {
+            props.enqueueSnackbar("Video UnBlocked", {
+              variant: "success",
+            });
+            setReload(!reload);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  return (
+    <div className="Main">
+      <PageHeader
+        className="site-page-header"
+        title="All Videos"
+        subTitle="All Videos Information and Actions"
+      />
+      <Divider>Videos</Divider>
+      {loading ? (
+        <Spinner />
+      ) : (
+        videos.length >=1 ?
           <div className="AdminList">
-            <NavLink to="/admin-dashboard">
-              <div className="cross">
-                <h4>Close</h4>
-                <i className="fas fa-times"></i>
-              </div>
-            </NavLink>
-            <h1>All Videos</h1>
             <div className="tbl-header">
-              <table cellpadding="0" cellspacing="0" border="0">
+              <table cellPadding="0" cellSpacing="0" border="0">
                 <thead className="">
                   <tr>
                     <th>Video</th>
@@ -54,26 +91,29 @@ class Allvideos extends Component {
               </table>
             </div>
             <div>
-              <table cellpadding="0" cellspacing="0" border="0">
+              <table cellPadding="0" cellSpacing="0" border="0">
                 <tbody className="tbl-content">
-                  {this.state.videos.map((video, index) => (
-                    <VideoList
-                      key={index}
-                      email={video.email}
-                      name={video.videoName}
-                      filePath={video.filePath}
-                      blocked={video.blocked}
-                      deleted={video.deleted}
-                    />
-                  ))}
+                  {videos.map((video, index) =>
+                      <VideoList
+                        key={index}
+                        btnClicked={(type) =>
+                          actionBtn(type, video.email, video.videoName)
+                        }
+                        email={video.email}
+                        name={video.videoName}
+                        filePath={video.filePath}
+                        blocked={video.blocked}
+                        deleted={video.deleted}
+                      />
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
+          : <h3>No Videos Found</h3>
         )}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default Allvideos;
+export default withSnackbar(Allvideos);
