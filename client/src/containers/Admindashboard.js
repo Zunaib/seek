@@ -35,9 +35,7 @@ const Admindasboard = () => {
                 {
                     loading ? <Spinner /> :
                         stats.map(stat => (
-
                             <Col span={6}>
-
                                 <Card style={{ margin: "5px", border: "1px solid #001529" }} >
                                     <Statistic
                                         title={stat.name}

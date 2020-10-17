@@ -7,7 +7,8 @@ import {
   UserOutlined,
   HomeOutlined,
   DownOutlined,
-  ContainerOutlined
+  ContainerOutlined,
+  UsergroupAddOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Dropdown } from "antd";
@@ -126,6 +127,15 @@ const AdminLayout = ({ children }) => {
           >
             <Link to="/allcontacts" onClick={() => setselectedKey("8")}>
               All Contact Queries
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="9"
+            icon={<UsergroupAddOutlined />}
+            onClick={() => setselectedKey("9")}
+          >
+            <Link to="/allrequests" onClick={() => setselectedKey("9")}>
+              All Requests
             </Link>
           </Menu.Item>
         </Menu>

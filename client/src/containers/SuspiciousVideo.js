@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
-import {NavLink} from "react-router-dom";
+import {PageHeader, Divider} from "antd";
 
 class SuspiciousVideo extends Component {
   state = {
@@ -36,27 +36,21 @@ class SuspiciousVideo extends Component {
       height: "inherit",
     };
     return (
-        <div className="main">
-        <div className=" container-fluid page">
+        <div className="Main">
         {this.state.loading ? <Spinner/> :
-        <div className="Video">   
-          <NavLink to="/main">
-            <div className="cross">
-              <h4>Close</h4>
-              <i className="fas fa-times"></i>
-            </div>
-          </NavLink>
-          <div className="Video_Top">
-            <div className="VideoImage">
+        <>
+              <PageHeader
+        className="site-page-header"
+        title="Suspicious Video"
+        subTitle={`This is suspicious part of ` + this.state.video.suspName.split(".")[0] }
+      />
+      <Divider>Suspicious Part</Divider>
+            <div className="prvideo">
               <ReactPlayer url={"http://localhost:5000/" + this.state.video.suspPath} {...videostyles} />
               <h2>{this.state.video.suspName.split(".")[0]}</h2>
-              <h4>  The suspicious activities detected are in order of most
-                        to least occurences.</h4>
             </div>
-          </div>
-        </div>
+            </>
         }
-        </div>
         </div>
     );
   }

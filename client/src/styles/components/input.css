@@ -8,7 +8,6 @@ label {
 input {
   outline: none;
   border: 1px solid #ccc;
-  border-radius: 5px;
   background-color: white;
   font: inherit;
   padding: 6px 10px;

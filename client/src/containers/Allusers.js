@@ -17,7 +17,7 @@ const Allusers = (props) => {
     .get("http://localhost:5000/getallusers")
     .then((response) => {
       setLoading(false);
-      setUsers(response.data.filter(res => res.email !== localStorage.getItem("useremail")));
+      setUsers(response.data.filter(res => res.email !== localStorage.getItem("useremail") && res.admin !== true));
 
     })
     .catch((err) => {

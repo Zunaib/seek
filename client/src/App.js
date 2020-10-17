@@ -16,6 +16,7 @@ import AllsuspiciousVideos from "./containers/AllsuspiciousVideos"
 import AllstaticVideos from "./containers/AllstaticVideos"
 import AllnormalVideos from "./containers/AllnormalVideos"
 import Allcontacts from "./containers/Allcontacts"
+import Allrequests from "./containers/Allrequests"
 import Logout from "./containers/Logout";
 import AdminRequest from "./containers/AdminRequest";
 import AdminLayout from "./components/common/Layout";
@@ -71,6 +72,7 @@ class App extends Component {
                 <Route exact path="/allstaticvid" component={AllstaticVideos} />
                 <Route exact path="/allnormalvid" component={AllnormalVideos} />
                 <Route exact path="/allcontacts" component={Allcontacts} />
+                <Route exact path="/allrequests" component={Allrequests} />
                 <Route exact path="/logout" component={Logout} />
                 <Redirect to="/dashboard" />
               </AdminLayout>
