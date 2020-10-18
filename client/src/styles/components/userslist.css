@@ -1,0 +1,117 @@
+.userMain{
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .UserList{
+      background-color: white;
+      position: relative;
+      height: 100%;
+      width: 85%;
+      margin: 82px auto;
+      padding: 20px 10px;
+      border-radius: 10px;
+  -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+  -moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+  box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+  }
+  
+  
+  .UserList div.usercross{
+    background-color: #0068cf;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    margin-right: 20px;
+    float: right;
+    width: 10%;
+    -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+    -moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+    box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+  }
+  .UserList div.usercross:hover{
+    background-color: #1F2580;
+    
+  }
+  .UserList div.usercross h4{
+    padding: 5px;
+    color: white;
+    display: inline;
+    font-size: 1rem;
+  }
+  .UserList div.usercross i{
+    margin: 0 auto;
+    padding: 5px;
+    color: white;
+    display: inline;
+    font-size: 1rem;
+  }
+  
+  
+  .UserList h1{
+    margin: 20px 20px;
+    float: right;
+    width: 70%;
+    text-align: center;
+  }
+  
+  /* .Videos{
+    width: 96%;
+    display: flex;
+    padding: 30px;
+  }
+   */
+  
+  
+  h1{
+   
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-align: center;
+  }
+  table{
+  
+    width:100%;
+    table-layout: fixed;
+  }
+  
+  .usertbl-content{
+
+    height:300px;
+    overflow-x:auto;
+    margin-top: 0px;
+    margin: 10px;
+  }
+  th{
+   
+    color: #999;
+    font-size: 1rem;
+    position: relative;
+    
+    padding:6px 10px;
+    text-align: center;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  td{
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    vertical-align:middle;
+    font-weight: 300;
+    font-size: 16px;
+    border-bottom: solid 1px rgba(255,255,255,0.1);
+  }
+  .userdata-t-row{
+   
+    background-color: #ffffff;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+    -moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+    box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+  }

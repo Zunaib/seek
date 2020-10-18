@@ -30,7 +30,6 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="main-app">
         <div className="homepage">
           {this.state.videoModal ? (
             <Videoupload onClose={() => this.setState({ videoModal: false })} />
@@ -100,7 +99,6 @@ class Main extends Component {
             </div>
           </section>
         </div>
-      </div>
     );
   }
 }
