@@ -73,7 +73,7 @@ def getSuspiciousActivity():
                 
                 
                 #Write the frame into the file 'output.mp4'
-                if(cats_[actual] == 'Abuse' or cats_[actual] == "Burglary" or cats_[actual] == "Fighting" or cats_[actual] == "Firing" or cats_[actual] == "Vandalism" ):
+                if(cats_[actual] == 'Stabbing' or cats_[actual] == "Burglary" or cats_[actual] == "Fighting" or cats_[actual] == "Firing" or cats_[actual] == "Vandalism" or cats_[actual] == "Explosion" ):
                     out_susp.write(frame)
                 # elif(cats_[actual] == "Normal"):
                 #     out_normal.write(frame)

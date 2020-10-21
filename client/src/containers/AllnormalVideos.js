@@ -97,9 +97,14 @@ const AllnormalVideos = (props) => {
                                         video.email !== localStorage.getItem("useremail") ? (
                                             <NormalList
                                                 key={index}
+
+
                                                 btnClicked={(type) =>
                                                     actionBtn(type, video.email, video.videoName)
                                                 }
+
+
+                                                
                                                 email={video.email}
                                                 name={video.videoName}
                                                 suspname={video.norName}
