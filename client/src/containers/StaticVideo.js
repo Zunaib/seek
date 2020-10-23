@@ -38,16 +38,13 @@ class StaticVideo extends Component {
       // height: "auto",
     };
     return (
-      <div className="main-app">
-        <div className=" container-fluid page">
+      <div className="Main">
           {this.state.loading ? (
             <div className="loading">
               <Spinner />
             </div>
           ) : (
-            <div className="row">
-              
-                  <div className="vlogCard">
+                  <div>
                     <ReactPlayer
                       url={"http://localhost:5000/" + this.state.video.sttPath}
                       {...videostyles}
@@ -62,11 +59,8 @@ class StaticVideo extends Component {
                       </div>
                     </div>
                   </div>
-                
-            </div>
           )}
         </div>
-      </div>
     );
   }
 }

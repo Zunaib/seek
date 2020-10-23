@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@material-ui/core";
 import ReactPlayer from "react-player";
 
 
@@ -12,35 +13,39 @@ const StaticList=(props)=>{
         height: "inherit",
     };
     let videoPath = 'http://localhost:5000/' + props.sttPath;
-    return(
-    <tr className={"TbTr"} > 
-            <td className={"ThTrTh1 ThTrTh3 ThTrTh9"}>
-                <div className={"AdminListImage Center"} >
-                <ReactPlayer
-                className="contect-center"
-            url={videoPath}
-            {...videostyles}
-        />
+    return (
+        <tr className="data-t-row">
+            <td>
+                <div>
+                    <ReactPlayer url={videoPath} {...videostyles} />
                 </div>
             </td>
-            <td className={"ThTrTh1 ThTrTh3 ThTrTh9 ThTrTh10 Center"} >
-            {props.email}
+            <td>{props.email}</td>
+            <td>
+                <span>{props.videoName}</span>
             </td>
-            <td className={"ThTrTh12 ThTrTh9 ThTrTh3 ThTrTh13 Center"}>
-                <span>
-                {props.videoName}
-                </span>
+            <td>
+                <span>{props.sttName}</span>
             </td>
-            <td className={"ThTrTh12 ThTrTh9 ThTrTh3 ThTrTh13 Center"}>
-                <span>
-                {props.sttName}
-                </span>
+            <td>
+                <span>{props.sttPath}</span>
+            </td>
+            <td>{props.sttblocked ? "True" : "False"}</td>
+            <td>
+                <span>{props.sttdeleted ? "True" : "False"}</span>
+            </td>
+            <td>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => props.btnClicked(props.sttblocked ? "unblock" : "block")}
+                >
+                    {props.sttblocked ? "Unblock" : "Block"}
+                </Button>
             </td>
         </tr>
     );
-}
-
-       
-
+};
+ 
 
 export default StaticList;

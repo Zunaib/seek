@@ -42,6 +42,9 @@ def register():
             "password": password,
             "blocked": False,
             "admin":False,
+            "phone_number":"",
+            "address":"",
+            "gender":"",
             "created": created
         })
         new_user = users.find_one({'_id': user_id})
@@ -80,3 +83,56 @@ def login():
         result = jsonify({"error": "No account found"})
     return result
 
+
+
+@userroutes.route("/updateusersettings", methods=['POST'])
+def updateusersettings():
+    users = mongo.db.users
+    first_name = request.get_json()['first_name']
+    last_name = request.get_json()['last_name']
+    email=request.get_json()["email"]
+    phone_number = request.get_json()['phone_number']
+    address=request.get_json()["address"]
+    gender=request.get_json()["gender"]
+    password = bcrypt.generate_password_hash(
+        request.get_json()["password"].encode().decode('utf-8'))
+    created = datetime.utcnow()
+    user_exists=users.find_one({"email":email})
+    if user_exists:
+         response = users.update({'email':email}, {"$set":
+            {"first_name":first_name, "last_name":last_name,
+         "phone_number": phone_number,"address": address, "gender":gender,
+         "password": password}
+        })
+         if response:
+            result = jsonify({"success": "user updated"})
+            return result
+         else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+    else:
+        result = jsonify({"error": "No user Found"})
+        return result
+
+
+@userroutes.route("/fetchusersettngs", methods=['GET'])
+def fetchusersettngs():
+    users = mongo.db.users
+   
+    email=request.get_json()["email"]
+   
+    user_exists=users.find_one({"email":email})
+    if user_exists:
+         response = users.find_one({'email':email})
+         if response:
+             
+            result = jsonify({"success": "user found"})
+            print(response)
+            return result
+         else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+    else:
+        result = jsonify({"error": "No user Found"})
+        return result
+    

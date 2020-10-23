@@ -1,4 +1,7 @@
 import React from "react";
+import { Button } from "@material-ui/core";
+
+
 import ReactPlayer from "react-player";
 
 
@@ -11,46 +14,41 @@ const SuspiciousList=(props)=>{
         width: "inherit",
         height: "inherit",
     };
-    let videoPath = 'http://localhost:5000/' + props.filePath;
-    return(
-        <tr className={"TbTr"}>
-             <td className={"ThTrTh1 ThTrTh3 ThTrTh9"}>
-                <div className={"AdminListImage Center"} >
-                <ReactPlayer
-                className="contect-center"
-            url={videoPath}
-            {...videostyles}
-        />
+    let videoPath = 'http://localhost:5000/' + props.suspPath;
+
+    return (
+        <tr className="data-t-row">
+            <td>
+                <div>
+                    <ReactPlayer url={videoPath} {...videostyles} />
                 </div>
             </td>
-            <tr className={"TbTr"} >
-         <td className={"ThTrTh1 ThTrTh3 ThTrTh9 ThTrTh10 Center"} >
-         {props.email}
+            <td>{props.email}</td>
+            <td>
+                <span>{props.videoName}</span>
             </td>
-            <td className={"ThTrTh12 ThTrTh9 ThTrTh3 ThTrTh13 Center"}>
-                <span>
-                {props.videoName}
-                </span>
+            <td>
+                <span>{props.suspName}</span>
             </td>
-            <td className={"ThTrTh12 ThTrTh9 ThTrTh3 ThTrTh13 Center"}>
-                <span>
-                {props.suspName}
-                </span>
+            <td>
+                <span>{props.suspPath}</span>
             </td>
-
+            <td>{props.suspblocked ? "True" : "False"}</td>
+            <td>
+                <span>{props.suspdeleted ? "True" : "False"}</span>
+            </td>
+            <td>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => props.btnClicked(props.suspblocked ? "unblock" : "block")}
+                >
+                    {props.suspblocked ? "Unblock" : "Block"}
+                </Button>
+            </td>
         </tr>
-        </tr>
-           
-            
-
-       
-       
-    
-    )
-}
-
-
+    );
+};
 
 export default SuspiciousList;
-
-
+   

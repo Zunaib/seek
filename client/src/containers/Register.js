@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { register } from "../components/Userfunctions";
-import  Button  from "@material-ui/core/Button";
+import  {Button}  from "antd";
 import { withSnackbar } from "notistack";
 
 class Register extends Component {
@@ -107,8 +107,7 @@ class Register extends Component {
                 </div>
 
                 <div className="btn-wrapper">
-                  <Button variant="contained" style={{backgroundColor:"#0068cf", color:"white"}} size="medium"  onClick={this.onSubmit}>Register</Button>
-
+                  <Button type="primary" size="medium"  onClick={this.onSubmit}>Register</Button>
                 </div>
               </form>
             </div>

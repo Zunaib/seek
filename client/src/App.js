@@ -16,10 +16,12 @@ import AllsuspiciousVideos from "./containers/AllsuspiciousVideos"
 import AllstaticVideos from "./containers/AllstaticVideos"
 import AllnormalVideos from "./containers/AllnormalVideos"
 import Allcontacts from "./containers/Allcontacts"
+import Allrequests from "./containers/Allrequests"
 import Logout from "./containers/Logout";
 import AdminRequest from "./containers/AdminRequest";
 import AdminLayout from "./components/common/Layout";
 import WebLayout from "./components/common/WebLayout";
+import Settings from "./containers/Settings";
 
 
 class App extends Component {
@@ -71,6 +73,8 @@ class App extends Component {
                 <Route exact path="/allstaticvid" component={AllstaticVideos} />
                 <Route exact path="/allnormalvid" component={AllnormalVideos} />
                 <Route exact path="/allcontacts" component={Allcontacts} />
+                <Route exact path="/allrequests" component={Allrequests} />
+                <Route exact path="/settings" component={Settings} />
                 <Route exact path="/logout" component={Logout} />
                 <Redirect to="/dashboard" />
               </AdminLayout>
@@ -87,6 +91,7 @@ class App extends Component {
                 <Route exact path="/videos/normal/:videoname" component={NormalVideo} />
                 <Route exact path="/videos/static/:videoname" component={StaticVideo} />
                 <Route exact path="/videos" component={Videos} />
+                <Route exact path="/settings" component={Settings} />
                 <Route exact path="/request-admin-access" component={AdminRequest} />
                 <Route exact path="/logout" component={Logout} />
                 <Redirect to="/main" />

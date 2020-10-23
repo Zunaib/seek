@@ -1,80 +1,139 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import SuspiciousList from "../components/admin/SuspiciousList"
 import axios from "axios";
 import Spinner from "../components/Spinner";
-import { Divider, PageHeader } from "antd"
+import { Divider, PageHeader } from "antd";
 
 
-class AllsuspiciousVideos extends Component {
-    state = {
-        susp_vid: null,
-        loading: true
-    };
-    componentDidMount() {
+
+const AllsuspiciousVideos=(props)=>
+{
+    const[videos,setVideos]=useState([]);
+    const[loading,setLoading]=useState(true);
+    const[reload,setReload]=useState(false)
+
+
+    useEffect(()=>
+    {
         axios
-            .get(
-                "http://localhost:5000/getallsuspvideos"
-            )
-            .then((response) => {
-                this.setState({ loading: false, susp_vid: response.response });
-                console.log(response)
+        .get(
+            "http://localhost:5000/getallsuspvideos"
+        )
+        .then((response) => {
+            setLoading(false);
+            setVideos(response.response.filter(res => res.email !== localStorage.getItem("useremail")));
+           
 
-            })
-            .catch((err) => {
-                console.log(err);
-                return err;
-            });
-
-    }
-
+        })
+        .catch((err) => {
+            console.log(err);
+            return err;
+        });
+    }, [reload])
 
 
-    render() {
-        return (
+    const actionBtn = (type, email, vidName) => {
+        if (type === "block") {
+            axios
+                .post("http://localhost:5000/blocksuspvideo", {
+                    suspvideoname: vidName,
+                    email: email,
+                })
+                .then((res) => {
+                    if (res.data.success === "Video Blocked") {
+                        props.enqueueSnackbar("Video Blocked", {
+                            variant: "success",
+                        });
+                        setReload(!reload);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else if (type === "unblock") {
+            axios
+                .post("http://localhost:5000/unblocksuspvideo", {
+                    suspvideoname: vidName,
+                    email: email,
+                })
+                .then((res) => {
+                    if (res.data.success === "Video UnBlocked") {
+                        props.enqueueSnackbar("Video UnBlocked", {
+                            variant: "success",
+                        });
+                        setReload(!reload);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
 
-            <div className="Main" >
-                <PageHeader
-                    className="site-page-header"
-                    title="All Suspicious Videos"
-                    subTitle="All Suspicious Videos Information and Actions"
-                />
-                <Divider>Suspicious Videos</Divider>
-                {
-                    this.state.loading ?
-                        <Spinner />
-                        :
-                        <div>
-                            <table className="Table">
-                                <thead className="Thead">
-                                    <tr className="TheadTrow">
-                                        <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh4 ThTrTh5"}>Email</th>
-                                        <th className={" ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5"}>Video Name</th>
-                                        <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Suspicious Name</th>
-                                        <th className={"ThTrTh1 ThTrTh6 ThTrTh2 ThTrTh3 ThTrTh5 ThTrTh7"}>Path</th>
+
+
+
+
+return (
+        <div className="Main">
+            <PageHeader
+                className="site-page-header"
+                title="All Suspicious Videos"
+                subTitle="All  Suspicious Videos Information and Actions"
+            />
+            <Divider>Normal Videos</Divider>
+            {loading ? (
+                <Spinner />
+            ) : (
+                    videos.length>=1 ?
+                    <div className="AdminList">
+                        <div className="tbl-header">
+                            <table cellPadding="0" cellSpacing="0" border="0">
+                                <thead className="">
+                                    <tr>
+                                        <th>Video</th>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Suspicious Name</th>
+                                        <th>Path</th>
+                                        <th>Blocked</th>
+                                        <th>Deleted</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className="Tbody">
-                                    {this.state.susp_vid && this.state.susp_vid.map((susp, index) => (
-                                        <SuspiciousList
-                                            key={index}
-                                            email={susp.email}
-                                            videoName={susp.videoName}
-                                            suspName={susp.suspName}
-                                            filePath={susp.filePath}
-                                        />
-                                    ))
-                                    }
+                            </table>
+                        </div>
+                        <div>
+                            <table cellPadding="0" cellSpacing="0" border="0">
+                                <tbody className="tbl-content">
+                                    {videos.map((video, index) =>
+                                        video.email !== localStorage.getItem("useremail") ? (
+                                            <SuspiciousList
+                                                key={index}
+                                                btnClicked={(type) =>
+                                                    actionBtn(type, video.email, video.videoName)
+                                                }
+                                                email={video.email}
+                                                videoName={video.videoName}
+                                                suspName={video.suspName}
+                                                suspPath={video.suspPath}
+                                                suspblocked={video.suspblocked}
+                                                suspdeleted={video.suspdeleted}
+                                            />
+                                        ) : null
+                                    )}
                                 </tbody>
                             </table>
                         </div>
-                }
-
-            </div>
-        )
-    }
+                    </div>
+                    :<h3>No Videos Found</h3>
+                )}
+        </div>
+    );
 }
+ 
 
-export default AllsuspiciousVideos;
+export default AllsuspiciousVideos; 
 
 
 

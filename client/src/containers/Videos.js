@@ -3,8 +3,7 @@ import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
 import { Link } from 'react-router-dom';
-import { Button } from "@material-ui/core";
-import { PageHeader, Divider } from "antd";
+import { PageHeader, Divider, Button } from "antd";
 
 class Videos extends Component {
   state = {
@@ -20,7 +19,6 @@ class Videos extends Component {
       )
       .then((response) => {
         this.setState({ loading: false, video: response.data });
-        console.log(response);
       })
       .catch((err) => {
         console.log(err);
@@ -53,15 +51,16 @@ class Videos extends Component {
             this.state.video.length >=1 ?
               <div className="row">
                 {this.state.video.length > 0 ?
-                  this.state.video.map((vid) => (
-                    <div className="vlogCard">
+                  this.state.video.map((vid,index) => (
+                    <div className="vlogCard" key={index}>
                       <ReactPlayer
-                        url={"http://localhost:5000/" + vid.filePath}
+                        url={ vid.blocked ? "http://localhost:5000/" : "http://localhost:5000/" + vid.filePath}
                         {...videostyles}
                       />
                       <div className="cardText">
                         <h4>
                           <b>{vid.videoName.split(".")[0]}</b>
+                          <b>{vid.blocked && "(Blocked By Admin)"}</b>
                         </h4>
                         <div className="desc">
                           The specific parts of the video can be seen through below:
@@ -70,13 +69,13 @@ class Videos extends Component {
                       <div className="cardInfo">
                         <div className="activities">
                           <Link to={"/videos/suspicious/" + vid.suspName}>
-                            <Button variant="contained" color="primary" size="medium" style={{ margin: "0px 4px 0px 4px" }}>Suspicious Part</Button>
+                            <Button type="primary"  size="small" style={{ margin: "0px 4px 0px 4px" }}>Suspicious Part</Button>
                           </Link>
                           <Link to={"/videos/normal/" + vid.norName}>
-                            <Button variant="contained" color="primary" size="medium" style={{ margin: "0px 4px 0px 4px" }}>Normal Part</Button>
+                            <Button type="primary"  size="small" style={{ margin: "0px 4px 0px 4px" }}>Normal Part</Button>
                           </Link>
                           <Link to={"/videos/static/" + vid.sttName}>
-                            <Button variant="contained" color="primary" size="medium" style={{ margin: "0px 4px 0px 4px" }}>Static Part</Button>
+                            <Button type="primary"  size="small" style={{ margin: "0px 4px 0px 4px" }}>Static Part</Button>
                           </Link>
                         </div>
                       </div>

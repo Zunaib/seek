@@ -34,7 +34,11 @@ const WebLayout = ({ children }) => {
       localStorage.getItem("admin") === "true" &&
       <Menu.Item onClick={()=>shiftprofile()}>Shift To Admin</Menu.Item>
     }
-      <Menu.Item>Settings</Menu.Item>
+      <Menu.Item> 
+        <Link to="/settings">
+          Settings
+        </Link>
+        </Menu.Item>
       <Menu.Item>
         <Link to="/logout">
           Logout

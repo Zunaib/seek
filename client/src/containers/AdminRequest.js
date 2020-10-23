@@ -92,10 +92,17 @@ const AdminRequest = (props) => {
               />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={localStorage.getItem("admin") === "true"}>
                 Request
               </Button>
             </Form.Item>
+            {
+              localStorage.getItem("admin") === "true" &&
+              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+              <h2>You're Already An Admin</h2>
+            </Form.Item>
+            }
+            
             </Col>
             </Row>
           </Form>

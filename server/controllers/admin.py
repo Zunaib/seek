@@ -16,6 +16,23 @@ CORS(adminroutes)
 
 
 ## Admin API's
+@adminroutes.route("/fetchrequests", methods=['GET'])
+def fetchrequests():
+    admrequest = mongo.db.adminrequest
+    documents = admrequest.find({}, {"_id":1, "email": 1, "reason": 1,"message":1})
+    response = []
+    for document in documents:
+        document['_id'] = str(document['_id'])
+        response.append(document)
+    results = json.dumps(response)
+
+    if len(response) == 0:
+        result = jsonify({"Error": "No Requests Found", "response":response})        
+    else:
+        result = json.dumps(response)
+    return result
+
+
 @adminroutes.route("/requestadmin", methods=['POST'])
 def requestadmin():
     admrequest = mongo.db.adminrequest
@@ -35,6 +52,31 @@ def requestadmin():
             "message": message
         })
         return jsonify({"success":"Request Sent"})
+    
+
+@adminroutes.route("/grantadminaccess", methods=['POST'])
+def grantadminaccess():
+    users = mongo.db.users
+    admrequest = mongo.db.adminrequest
+    email = request.get_json()['email']
+    user_exist = users.find_one({"email": email})
+    
+    result = ""
+    if user_exist:
+        response = users.update_one({'email':email}, {"$set":
+            {"admin":True}
+        }, upsert=False)
+        admrequest.delete_one({'email':email})
+        if response:
+            result = jsonify({"success": "Access Granted"})
+            return result
+        else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+    else:
+        result = jsonify({"data": "User Does Not Exist"})
+        return result
+        
 
 
 

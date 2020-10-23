@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Videoupload from "../components/modals/videoupload";
 import Cctvipaddress from "../components/modals/cctvipaddress";
-import  Button  from "@material-ui/core/Button";
+import  {Button}  from "antd";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
@@ -65,7 +65,7 @@ class Main extends Component {
                 to perform a series of computations for detection.
               </p>
               <p className="funcicon"></p>
-              <Button style={{backgroundColor:"#0068cf", color:"white"}} variant="contained" size="medium" onClick={() => this.onWebCam()}>
+              <Button type="primary" size="medium" onClick={() => this.onWebCam()}>
                 Open Webcam
               </Button>
             </div>
@@ -78,7 +78,7 @@ class Main extends Component {
                 and its original frame.
               </p>
               <p className="funcicon"></p>
-              <Button style={{backgroundColor:"#0068cf", color:"white"}} variant="contained" size="medium"  onClick={() => this.setState({ videoModal: true })}>Upload Video</Button>
+              <Button type="primary" size="medium"  onClick={() => this.setState({ videoModal: true })}>Upload Video</Button>
             </div>
             <div className="act-tile">
               <p className="functitle">CCTV</p>
@@ -91,7 +91,7 @@ class Main extends Component {
 
               <p className="funcicon"></p>
               <Button
-                style={{backgroundColor:"#0068cf", color:"white"}} variant="contained" size="medium"
+                type="primary" size="medium"
                 onClick={() => this.setState({ cctvModal: true })}
               >
                 Add CCTV CAM
