@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
+import requests
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = "theseek"
@@ -120,6 +121,7 @@ def fetchusersettngs():
     users = mongo.db.users
    
     email=request.get_json()["email"]
+  
    
     user_exists=users.find_one({"email":email})
     if user_exists:
