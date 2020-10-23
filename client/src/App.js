@@ -12,17 +12,16 @@ import StaticVideo from "./containers/StaticVideo";
 import Allvideos from "./containers/Allvideos";
 import Admindashboard from "./containers/Admindashboard";
 import Allusers from "./containers/Allusers";
-import AllsuspiciousVideos from "./containers/AllsuspiciousVideos"
-import AllstaticVideos from "./containers/AllstaticVideos"
-import AllnormalVideos from "./containers/AllnormalVideos"
-import Allcontacts from "./containers/Allcontacts"
-import Allrequests from "./containers/Allrequests"
+import AllsuspiciousVideos from "./containers/AllsuspiciousVideos";
+import AllstaticVideos from "./containers/AllstaticVideos";
+import AllnormalVideos from "./containers/AllnormalVideos";
+import Allcontacts from "./containers/Allcontacts";
+import Allrequests from "./containers/Allrequests";
 import Logout from "./containers/Logout";
 import AdminRequest from "./containers/AdminRequest";
 import AdminLayout from "./components/common/Layout";
 import WebLayout from "./components/common/WebLayout";
 import Settings from "./containers/Settings";
-
 
 class App extends Component {
   constructor(props) {
@@ -35,33 +34,34 @@ class App extends Component {
     window.scrollTo(0, this.contactUsRef.current.offsetTop);
   }
 
-
   render() {
     let routes = (
       <>
         <LandingNavBar />
-      <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <Landing
-              contactUsRefProp={this.contactUsRef}
-              scrollToContactUs={this.scrollTocontactUs}
-            />
-          )}
-        />
-        <Route exact path="/login" component={Login} />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Landing
+                contactUsRefProp={this.contactUsRef}
+                scrollToContactUs={this.scrollTocontactUs}
+              />
+            )}
+          />
+          <Route exact path="/login" component={Login} />
 
-        <Route path="/register" component={Register} />
-        <Redirect to="/" />
-      </Switch>
+          <Route path="/register" component={Register} />
+          <Redirect to="/" />
+        </Switch>
       </>
     );
 
     if (localStorage.getItem("loggedIn") === "true") {
-
-      if (localStorage.getItem("admin") === "true" && localStorage.getItem("profile") === "admin") {
+      if (
+        localStorage.getItem("admin") === "true" &&
+        localStorage.getItem("profile") === "admin"
+      ) {
         routes = (
           <>
             <Switch>
@@ -69,14 +69,18 @@ class App extends Component {
                 <Route exact path="/dashboard" component={Admindashboard} />
                 <Route exact path="/allvideos" component={Allvideos} />
                 <Route exact path="/allusers" component={Allusers} />
-                <Route exact path="/allsuspvid" component={AllsuspiciousVideos} />
+                <Route
+                  exact
+                  path="/allsuspvid"
+                  component={AllsuspiciousVideos}
+                />
                 <Route exact path="/allstaticvid" component={AllstaticVideos} />
                 <Route exact path="/allnormalvid" component={AllnormalVideos} />
                 <Route exact path="/allcontacts" component={Allcontacts} />
                 <Route exact path="/allrequests" component={Allrequests} />
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/logout" component={Logout} />
-                <Redirect to="/dashboard" />
+                {/* <Redirect to="/dashboard" /> */}
               </AdminLayout>
             </Switch>
           </>
@@ -87,14 +91,30 @@ class App extends Component {
             <Switch>
               <WebLayout>
                 <Route exact path="/main" component={Main} />
-                <Route exact path="/videos/suspicious/:videoname" component={SuspiciousVideo} />
-                <Route exact path="/videos/normal/:videoname" component={NormalVideo} />
-                <Route exact path="/videos/static/:videoname" component={StaticVideo} />
+                <Route
+                  exact
+                  path="/videos/suspicious/:videoname"
+                  component={SuspiciousVideo}
+                />
+                <Route
+                  exact
+                  path="/videos/normal/:videoname"
+                  component={NormalVideo}
+                />
+                <Route
+                  exact
+                  path="/videos/static/:videoname"
+                  component={StaticVideo}
+                />
                 <Route exact path="/videos" component={Videos} />
                 <Route exact path="/settings" component={Settings} />
-                <Route exact path="/request-admin-access" component={AdminRequest} />
+                <Route
+                  exact
+                  path="/request-admin-access"
+                  component={AdminRequest}
+                />
                 <Route exact path="/logout" component={Logout} />
-                <Redirect to="/main" />
+                {/* <Redirect to="/main" /> */}
               </WebLayout>
             </Switch>
           </>
@@ -102,12 +122,7 @@ class App extends Component {
       }
     }
 
-    return (
-      <div>
-        {routes}
-
-      </div>
-    );
+    return <div>{routes}</div>;
   }
 }
 
