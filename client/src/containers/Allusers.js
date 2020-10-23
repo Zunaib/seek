@@ -81,9 +81,9 @@ const Allusers = (props) => {
               <table cellPadding="0" cellSpacing="0" border="0">
                 <thead className="">
                   <tr>
+                    <th>Email</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Email</th>
                     <th>Blocked</th>
                     <th>Admin</th>
                     <th>Action</th>
