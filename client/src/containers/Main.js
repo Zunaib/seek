@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Videoupload from "../components/modals/videoupload";
 import Cctvipaddress from "../components/modals/cctvipaddress";
-import { Button } from "antd";
+import  {Button}  from "antd";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
@@ -30,7 +30,6 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="main-app">
         <div className="homepage">
           {this.state.videoModal ? (
             <Videoupload onClose={() => this.setState({ videoModal: false })} />
@@ -66,7 +65,7 @@ class Main extends Component {
                 to perform a series of computations for detection.
               </p>
               <p className="funcicon"></p>
-              <Button className="main-btn" onClick={() => this.onWebCam()}>
+              <Button type="primary" size="medium" onClick={() => this.onWebCam()}>
                 Open Webcam
               </Button>
             </div>
@@ -79,12 +78,7 @@ class Main extends Component {
                 and its original frame.
               </p>
               <p className="funcicon"></p>
-              <Button
-                className="main-btn"
-                onClick={() => this.setState({ videoModal: true })}
-              >
-                Upload Video
-              </Button>
+              <Button type="primary" size="medium"  onClick={() => this.setState({ videoModal: true })}>Upload Video</Button>
             </div>
             <div className="act-tile">
               <p className="functitle">CCTV</p>
@@ -97,19 +91,14 @@ class Main extends Component {
 
               <p className="funcicon"></p>
               <Button
-                className="main-btn"
+                type="primary" size="medium"
                 onClick={() => this.setState({ cctvModal: true })}
               >
                 Add CCTV CAM
               </Button>
             </div>
           </section>
-          {/* <div className="main-btn-wrap">
-        
-        
-          </div> */}
         </div>
-      </div>
     );
   }
 }

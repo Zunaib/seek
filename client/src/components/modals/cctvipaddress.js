@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "antd";
+import { Button } from "@material-ui/core";
 
 export class Cctvipaddress extends Component {
   constructor() {
@@ -34,7 +34,7 @@ export class Cctvipaddress extends Component {
               />
             </div>
             <div className="btn-wrapper">
-              <Button onClick={this.onSubmit}>Add Camera</Button>
+              <Button  style={{backgroundColor:"#0068cf", color:"white"}} variant="contained" size="medium" onClick={this.onSubmit}>Add Camera</Button>
             </div>
           </div>
         </div>

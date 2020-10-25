@@ -4,7 +4,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.603);
+  background-color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +27,7 @@
   list-style-type: none;
 }
 .nav-links li a {
-  background-color: rgb(92, 92, 92);
+  background-color: #2932b3;
   color: white;
   display: block;
   margin: 0 10px;
@@ -35,9 +35,61 @@
   text-decoration: none;
 }
 .nav-links li a:hover {
-  background-color: rgb(27, 27, 27);
+  background-color: #1f2580;
   color: white;
 }
 .nav-links li:last-child {
+  margin-right: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.landing-navbar {
+  height: 56px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0000007a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 90;
+  padding: 0 100px;
+}
+
+.landing-navbar .nav-links {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: 30%;
+}
+.landing-navbar .nav-links li {
+  display: inline-block;
+  list-style-type: none;
+}
+.landing-navbar .nav-links li a {
+  background-color: transparent;
+  color: white;
+  display: block;
+  margin: 0 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.landing-navbar .nav-links li a:hover {
+  color: rgb(153, 153, 153);
+}
+.landing-navbar .nav-links li:last-child {
   margin-right: auto;
 }

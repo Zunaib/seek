@@ -1,16 +1,9 @@
-.main-app {
+/* .main-app {
   height: calc(100vh - 100px);
-}
+} */
 .homepage {
   margin: 0 auto;
-  margin: 0 30px;
-  padding: 20px 100px;
-  height: calc(100vh - 100px);
-
   border-radius: 5px;
-  -webkit-box-shadow: 0px 10px 54px -11px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 10px 54px -11px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 10px 54px -11px rgba(0, 0, 0, 0.75);
 }
 
 .seek-description {
@@ -22,7 +15,7 @@
 }
 
 .seek-description p {
-  width: 70%;
+  width: 80%;
 }
 
 .title {

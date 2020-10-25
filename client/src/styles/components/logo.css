@@ -1,6 +1,5 @@
-.Logo {
+.logo img{
   background-color: transparent;
-  width: 100%;
   height: 40px;
   box-sizing: border-box;
   overflow: hidden;
@@ -11,3 +10,12 @@
   float: left;
   height: 100%;
 }
+
+.Logo{
+  background-color: transparent;
+  height: 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+}
+

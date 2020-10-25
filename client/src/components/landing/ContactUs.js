@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "antd";
+import { Button } from "@material-ui/core";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
@@ -76,7 +76,7 @@ class ContactUs extends Component {
               onChange={this.onChange}
             />
           </div>
-          <Button variant="default" onClick={this.onSubmit}>
+          <Button variant="contained" size="medium" style={{backgroundColor:"#0068cf", color:"white"}} onClick={this.onSubmit}>
             Send
           </Button>
         </form>

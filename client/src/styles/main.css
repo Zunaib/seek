@@ -6,13 +6,46 @@
 @import "./components/input.css";
 @import "./components/file.css";
 @import "./components/spinner.css";
+@import "./components/adminlists.css";
+@import "./components/layout.css";
 
 @import "./containers/login.css";
 @import "./containers/register.css";
 @import "./containers/videos.css";
 @import "./containers/landing.css";
 @import "./containers/home.css";
+@import "./containers/videomanage.css";
+@import "./containers/profile.css";
 
-.main-app {
-  margin-top: 80px;
+
+::-webkit-scrollbar {
+  width: 0.75em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+html, body { 
+  margin: 0;
+  padding: 0;
+  font-family: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  scroll-behavior: smooth;
+  color: black;
+ }
+
+ li{
+   margin: 5px;
+  list-style-type: none
+ }
+
+.app {
+  height: 100%;
+  height: 83vh;
 }

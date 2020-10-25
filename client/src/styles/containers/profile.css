@@ -1,0 +1,111 @@
+.topimage {
+  background-size: 100%;
+  background-repeat: no-repeat;
+    height: 50px;
+    position: relative;
+    top: 0;
+    left: 0;
+  z-index: -2
+}
+
+.profile{
+    background-color: white;
+    position: relative;
+    height: 100%;
+    width: 90%;
+    margin: 30px auto;
+    margin-top: -60px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1;
+    overflow: auto;
+-webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.704);
+-moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.704);
+
+text-align:center;
+}
+
+.imagebutton{
+  display:inline-block;
+ position: relative;
+ width:30%;
+ margin-top: -167px;
+ z-index: 2;
+}
+
+.profileinfo{
+  margin: 80px 20px;
+border-radius: 10px;
+color: white;
+z-index: 40;
+}
+
+.profileinfo h1{
+  color: rgb(29, 29, 29);
+}
+
+.connect i{
+margin: 20px;
+}
+
+.desc{
+  margin: 20px auto;
+  width: 40%;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  color: rgb(87, 87, 87);
+}
+
+
+.profilework{     
+width: 100%;
+}
+
+.videostats{
+  margin: 0 auto;
+  width: 70%;
+}
+
+.workbuttons{
+display: flex;                  /* establish flex container */
+flex-direction: row;            /* default value; can be omitted */
+flex-wrap: nowrap;              /* default value; can be omitted */
+justify-content: center;
+
+}
+
+
+.workbutton{
+width: auto;
+float: left;
+cursor: pointer;
+}
+
+
+
+
+.workbutton i{
+padding: 45px 40px;
+border-radius: 5px;
+margin: 20px;
+font-size: 1.5em;
+cursor: pointer;
+}
+
+
+.workbutton i:hover{
+background-color: #195c9b;    
+  padding: 45px 40px;
+  border-radius: 5px;
+  margin: 20px;
+  font-size: 1.5em;
+  color: white;
+  cursor: pointer;
+-webkit-box-shadow: 0px 10px 24px -11px rgba(0, 0, 0, 0.504);
+-moz-box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.504);
+box-shadow: 0px 10px 24px -11px rgba(0,0,0,0.504);
+}
+

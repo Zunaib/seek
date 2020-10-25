@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { register } from "../components/Userfunctions";
-import { Button } from "antd";
+import  {Button}  from "antd";
 import { withSnackbar } from "notistack";
 
 class Register extends Component {
@@ -61,7 +61,7 @@ class Register extends Component {
           <div className="row">
             <div className="col-md-4 mx-auto">
               <form noValidate>
-                <h1 className="h3 mb-3 font-weight-normal">Register</h1>
+                <h1 className="h3 mb-3 font-weight-normal" style={{color:"White"}}>Register</h1>
                 <div className="form-group">
                   <label htmlFor="first_name">First Name</label>
                   <input
@@ -107,7 +107,7 @@ class Register extends Component {
                 </div>
 
                 <div className="btn-wrapper">
-                  <Button onClick={this.onSubmit}>Register</Button>
+                  <Button type="primary" size="medium"  onClick={this.onSubmit}>Register</Button>
                 </div>
               </form>
             </div>

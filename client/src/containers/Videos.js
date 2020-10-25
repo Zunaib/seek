@@ -1,86 +1,159 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
+import { Link } from "react-router-dom";
+import { withSnackbar } from "notistack";
+import { PageHeader, Divider, Button, Popconfirm } from "antd";
 
-class Videos extends Component {
-  state = {
-    video: null,
-    loading: true,
-  };
+const Videos = (props) => {
+  const [video, setVideo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(false);
 
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get(
         "http://localhost:5000/getuservideos?email=" +
           localStorage.getItem("useremail")
       )
       .then((response) => {
-        this.setState({ loading: false, video: response.data });
-        console.log(response);
+        if (response.data.length >= 1) {
+          setLoading(false);
+          setVideo(response.data.filter((res) => res.deleted !== true));
+        } else {
+          setLoading(false);
+          setVideo(response.data);
+        }
       })
       .catch((err) => {
         console.log(err);
         return err;
       });
-  }
+  }, [reload]);
 
-  render() {
-    const videostyles = {
-      playing: false,
-      controls: true,
-      volume: 1,
-      width: "100%",
-      // height: "auto",
-    };
-    return (
-      <div className="main-app">
-        <div className=" container-fluid page">
-          {this.state.loading ? (
-            <div className="loading">
-              <Spinner />
-            </div>
-          ) : (
-            <div className="row">
-              {this.state.video &&
-                this.state.video.map((vid) => (
-                  <div className="vlogCard">
-                    <ReactPlayer
-                      url={"http://localhost:5000/" + vid.filePath}
-                      {...videostyles}
-                    />
-                    <div className="cardText">
-                      <h4>
-                        <b>{vid.videoName.split(".")[0]}</b>
-                      </h4>
-                      <div className="desc">
-                        The suspicious activities detected are in order of most
-                        to least occurences.
-                      </div>
-                    </div>
-                    <div className="cardInfo">
-                      <div className="active-activity">
-                        Main Activity:
-                        {vid.burglary > vid.fighting && vid.firing
-                          ? " Burglary"
-                          : vid.fighting > vid.firing
-                          ? " Fighting"
-                          : " Firing"}
-                      </div>
-                      <div className="activities">
-                        <div className="activity">Burglary:{vid.burglary}</div>
-                        <div className="activity">Fighting:{vid.fighting}</div>
-                        <div className="activity">Firing:{vid.firing}</div>
-                      </div>
+  const videostyles = {
+    playing: false,
+    controls: true,
+    width: "100%",
+  };
+
+  const handleDelete = (vidName) => {
+    axios
+      .post("http://localhost:5000/deletevideo", {
+        email: localStorage.getItem("useremail"),
+        videoName: vidName,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          props.enqueueSnackbar("Video Deleted", {
+            variant: "success",
+          });
+          setReload(!reload);
+        } else {
+          props.enqueueSnackbar("Video Not Found", {
+            variant: "error",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  };
+
+  return (
+    <div className="Main">
+      <PageHeader
+        className="site-page-header"
+        title="My Videos"
+        subTitle="My Videos Information and Actions"
+      />
+      <Divider>My Videos</Divider>
+      <div className=" container-fluid page">
+        {loading ? (
+          <div className="loading">
+            <Spinner />
+          </div>
+        ) : video.length >= 1 ? (
+          <div className="row">
+            {video.length > 0 ? (
+              video.map((vid, index) => (
+                <div className="vlogCard" key={index}>
+                  <ReactPlayer
+                    url={
+                      vid.blocked
+                        ? "http://localhost:5000/"
+                        : "http://localhost:5000/" + vid.filePath
+                    }
+                    {...videostyles}
+                  />
+                  <div className="cardText">
+                    <h4>
+                      <b>{vid.videoName.split(".")[0]}</b>
+                      <b>{vid.blocked && "(Blocked By Admin)"}</b>
+                    </h4>
+                  </div>
+                  <div className="cardInfo">
+                    <div className="activities">
+                      <Link to={"/videos/suspicious/" + vid.suspName}>
+                        <Button
+                          type="primary"
+                          size="small"
+                          style={{ margin: "0px 4px 0px 4px" }}
+                        >
+                          Suspicious Part
+                        </Button>
+                      </Link>
+                      <Link to={"/videos/normal/" + vid.norName}>
+                        <Button
+                          type="primary"
+                          size="small"
+                          style={{ margin: "0px 4px 0px 4px" }}
+                        >
+                          Normal Part
+                        </Button>
+                      </Link>
+                      <Link to={"/videos/static/" + vid.sttName}>
+                        <Button
+                          type="primary"
+                          size="small"
+                          style={{ margin: "0px 4px 0px 4px" }}
+                        >
+                          Static Part
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                ))}
-            </div>
-          )}
-        </div>
+                  <div>
+                    <Popconfirm
+                      title="Sure to delete?"
+                      onConfirm={() => handleDelete(vid.videoName)}
+                    >
+                      <Button
+                        type="primary"
+                        danger={true}
+                        size="small"
+                        style={{ margin: "0px 4px 0px 4px" }}
+                      >
+                        Delete Video
+                      </Button>
+                    </Popconfirm>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div>
+                <h2>No Videos Exist</h2>
+              </div>
+            )}
+          </div>
+        ) : (
+          <h3>No Videos Found</h3>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default Videos;
+export default withSnackbar(Videos);

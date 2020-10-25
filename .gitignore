@@ -1,3 +1,11 @@
+# Byte-compiled / optimized / DLL files
+server/__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
@@ -16,6 +24,7 @@ config/local*
 .gitconfig
 
 #Dataset
+server/Dataset_v1.npy
 Dataset/
 logs/
 static/
