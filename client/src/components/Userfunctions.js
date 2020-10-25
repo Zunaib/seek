@@ -24,17 +24,20 @@ export const login = (user) => {
     })
     .then((response) => {
       if (response.data.token) {
-        localStorage.setItem("usertoken", response.data.token);
-        localStorage.setItem("useremail", response.data.email);
-        localStorage.setItem("admin", response.data.admin);
-        localStorage.setItem("loggedIn", true);
-        if(response.data.admin === true){
-        localStorage.setItem("profile", "admin");
-        }else{
-        localStorage.setItem("profile", "normal");
-
+        if (response.data.blocked) {
+          return response.data.blocked;
+        } else {
+          localStorage.setItem("usertoken", response.data.token);
+          localStorage.setItem("useremail", response.data.email);
+          localStorage.setItem("admin", response.data.admin);
+          localStorage.setItem("loggedIn", true);
+          if (response.data.admin === true) {
+            localStorage.setItem("profile", "admin");
+          } else {
+            localStorage.setItem("profile", "normal");
+          }
+          return response.data.token;
         }
-        return response.data.token;
       }
       return response.data.error;
     })

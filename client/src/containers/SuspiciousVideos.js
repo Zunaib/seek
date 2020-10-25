@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { withSnackbar } from "notistack";
 import { PageHeader, Divider, Button, Popconfirm } from "antd";
 
-const Videos = (props) => {
+const SuspiciousVideos = (props) => {
   const [video, setVideo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
@@ -14,13 +14,13 @@ const Videos = (props) => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:5000/getuservideos?email=" +
+        "http://localhost:5000/getusersuspvideos?email=" +
           localStorage.getItem("useremail")
       )
       .then((response) => {
         if (response.data.length >= 1) {
           setLoading(false);
-          setVideo(response.data.filter((res) => res.deleted !== true));
+          setVideo(response.data.filter((res) => res.suspdeleted !== true));
         } else {
           setLoading(false);
           setVideo(response.data);
@@ -32,7 +32,7 @@ const Videos = (props) => {
       });
   }, [reload]);
 
-  const videostyles = {
+  const suspiciousvideostyles = {
     playing: false,
     controls: true,
     width: "100%",
@@ -40,18 +40,18 @@ const Videos = (props) => {
 
   const handleDelete = (vidName) => {
     axios
-      .post("http://localhost:5000/deletevideo", {
+      .post("http://localhost:5000/deletesuspvideo", {
         email: localStorage.getItem("useremail"),
-        videoName: vidName,
+        suspvideoname: vidName,
       })
       .then((response) => {
         if (response.data.success) {
-          props.enqueueSnackbar("Video Deleted", {
+          props.enqueueSnackbar("Suspicious Video Deleted", {
             variant: "success",
           });
           setReload(!reload);
         } else {
-          props.enqueueSnackbar("Video Not Found", {
+          props.enqueueSnackbar("Suspicious Video Not Found", {
             variant: "error",
           });
         }
@@ -66,10 +66,10 @@ const Videos = (props) => {
     <div className="Main">
       <PageHeader
         className="site-page-header"
-        title="My Videos"
-        subTitle="My Videos Information and Actions"
+        title="My SuspiciousVideos"
+        subTitle="My Suspicious Videos Information and Actions"
       />
-      <Divider>My Videos</Divider>
+      <Divider>My Suspicious Videos</Divider>
       <div className=" container-fluid page">
         {loading ? (
           <div className="loading">
@@ -82,16 +82,16 @@ const Videos = (props) => {
                 <div className="vlogCard" key={index}>
                   <ReactPlayer
                     url={
-                      vid.blocked
+                      vid.suspblocked
                         ? "http://localhost:5000/"
-                        : "http://localhost:5000/" + vid.filePath
+                        : "http://localhost:5000/" + vid.suspPath
                     }
-                    {...videostyles}
+                    {...suspiciousvideostyles}
                   />
                   <div className="cardText">
                     <h4>
-                      <b>{vid.videoName.split(".")[0]}</b>
-                      <b>{vid.blocked && "(Blocked By Admin)"}</b>
+                      <b>{vid.suspName.split(".")[0]}</b>
+                      <b>{vid.suspblocked && "(Blocked By Admin)"}</b>
                     </h4>
                   </div>
                   <div className="cardInfo">
@@ -102,49 +102,29 @@ const Videos = (props) => {
                           size="small"
                           style={{ margin: "0px 4px 0px 4px" }}
                         >
-                          Suspicious Part
+                          Expand
                         </Button>
                       </Link>
-                      <Link to={"/videos/normal/" + vid.norName}>
-                        <Button
-                          type="primary"
-                          size="small"
-                          style={{ margin: "0px 4px 0px 4px" }}
-                        >
-                          Normal Part
-                        </Button>
-                      </Link>
-                      <Link to={"/videos/static/" + vid.sttName}>
-                        <Button
-                          type="primary"
-                          size="small"
-                          style={{ margin: "0px 4px 0px 4px" }}
-                        >
-                          Static Part
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                  <div>
-                    <Popconfirm
-                      title="Sure to delete?"
-                      onConfirm={() => handleDelete(vid.videoName)}
-                    >
-                      <Button
-                        type="primary"
-                        danger={true}
-                        size="small"
-                        style={{ margin: "0px 4px 0px 4px" }}
+                      <Popconfirm
+                        title="Sure to delete?"
+                        onConfirm={() => handleDelete(vid.suspName)}
                       >
-                        Delete Video
-                      </Button>
-                    </Popconfirm>
+                        <Button
+                          type="primary"
+                          danger={true}
+                          size="small"
+                          style={{ margin: "0px 4px 0px 4px" }}
+                        >
+                          Delete Video
+                        </Button>
+                      </Popconfirm>
+                    </div>
                   </div>
                 </div>
               ))
             ) : (
               <div>
-                <h2>No Videos Exist</h2>
+                <h2>No Suspicious Videos Exist</h2>
               </div>
             )}
           </div>
@@ -156,4 +136,4 @@ const Videos = (props) => {
   );
 };
 
-export default withSnackbar(Videos);
+export default withSnackbar(SuspiciousVideos);

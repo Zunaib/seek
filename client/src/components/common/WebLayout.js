@@ -6,11 +6,10 @@ import {
   VideoCameraOutlined,
   UserOutlined,
   HomeOutlined,
-  DownOutlined,
+  UsergroupAddOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Dropdown } from "antd";
 
 const { Header, Sider, Content } = Layout;
 
@@ -19,33 +18,15 @@ const WebLayout = ({ children }) => {
   const [selectedKey, setselectedKey] = useState("0");
 
   const shiftprofile = () => {
-    if(localStorage.getItem("profile") === "admin"){
-      localStorage.setItem("profile","normal")
-      window.location.reload()
-    }else if(localStorage.getItem("profile") === "normal"){
-      localStorage.setItem("profile","admin")
-      window.location.reload()
+    setselectedKey("2");
+    if (localStorage.getItem("profile") === "admin") {
+      localStorage.setItem("profile", "normal");
+      window.location.reload();
+    } else if (localStorage.getItem("profile") === "normal") {
+      localStorage.setItem("profile", "admin");
+      window.location.reload();
     }
-  }
-
-  const menu = (
-    <Menu>
-    {
-      localStorage.getItem("admin") === "true" &&
-      <Menu.Item onClick={()=>shiftprofile()}>Shift To Admin</Menu.Item>
-    }
-      <Menu.Item> 
-        <Link to="/settings">
-          Settings
-        </Link>
-        </Menu.Item>
-      <Menu.Item>
-        <Link to="/logout">
-          Logout
-        </Link>
-      </Menu.Item>
-    </Menu>
-  );
+  };
 
   const toggle = () => {
     setcollapsed(!collapsed);
@@ -63,37 +44,92 @@ const WebLayout = ({ children }) => {
             icon={<UserOutlined />}
             onClick={() => setselectedKey("1")}
           >
-            <Dropdown overlay={menu} trigger={['click']}>
-              <a href="#profile">
-              Profile <DownOutlined />
-              </a>
-            </Dropdown>
+            <Link to="/profile" onClick={() => setselectedKey("1")}>
+              Profile
+            </Link>
           </Menu.Item>
+          {localStorage.getItem("admin") === "true" && (
+            <Menu.Item
+              key="2"
+              icon={<HomeOutlined />}
+              onClick={() => shiftprofile()}
+            >
+              Shift To Admin
+            </Menu.Item>
+          )}
           <Menu.Item
-            key="2"
+            key="3"
             icon={<HomeOutlined />}
-            onClick={() => setselectedKey("2")}
+            onClick={() => setselectedKey("3")}
           >
-            <Link to="/main" onClick={() => setselectedKey("2")}>
+            <Link to="/main" onClick={() => setselectedKey("3")}>
               Main
             </Link>
           </Menu.Item>
           <Menu.Item
-            key="3"
+            key="4"
             icon={<VideoCameraOutlined />}
-            onClick={() => setselectedKey("3")}
+            onClick={() => setselectedKey("4")}
           >
-            <Link to="/videos" onClick={() => setselectedKey("3")}>
+            <Link to="/videos" onClick={() => setselectedKey("4")}>
               My Videos
             </Link>
           </Menu.Item>
           <Menu.Item
-            key="4"
-            icon={<UserAddOutlined />}
-            onClick={() => setselectedKey("4")}
+            key="5"
+            icon={<VideoCameraOutlined />}
+            onClick={() => setselectedKey("5")}
           >
-            <Link to="/request-admin-access" onClick={() => setselectedKey("4")}>
+            <Link to="/suspiciousvideos" onClick={() => setselectedKey("5")}>
+              My Suspicious Videos
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="6"
+            icon={<VideoCameraOutlined />}
+            onClick={() => setselectedKey("6")}
+          >
+            <Link to="/staticvideos" onClick={() => setselectedKey("6")}>
+              My Static Videos
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            icon={<VideoCameraOutlined />}
+            onClick={() => setselectedKey("7")}
+          >
+            <Link to="/normalvideos" onClick={() => setselectedKey("7")}>
+              My Normal Videos
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="8"
+            icon={<UserAddOutlined />}
+            onClick={() => setselectedKey("8")}
+          >
+            <Link
+              to="/request-admin-access"
+              onClick={() => setselectedKey("8")}
+            >
               Admin Access
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="9"
+            icon={<UsergroupAddOutlined />}
+            onClick={() => setselectedKey("9")}
+          >
+            <Link to="/settings" onClick={() => setselectedKey("9")}>
+              Settings
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="10"
+            icon={<UsergroupAddOutlined />}
+            onClick={() => setselectedKey("10")}
+          >
+            <Link to="/logout" onClick={() => setselectedKey("10")}>
+              Logout
             </Link>
           </Menu.Item>
         </Menu>

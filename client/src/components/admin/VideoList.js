@@ -31,7 +31,12 @@ const VideoList = (props) => {
         <span>{props.deleted ? "True" : "False"}</span>
       </td>
       <td>
-        <Button variant="contained" color="secondary" onClick={() => props.btnClicked(props.blocked ? "unblock" : "block")}>
+        <Button
+          disabled={props.email === localStorage.getItem("useremail")}
+          variant="contained"
+          color="secondary"
+          onClick={() => props.btnClicked(props.blocked ? "unblock" : "block")}
+        >
           {props.blocked ? "Unblock" : "Block"}
         </Button>
       </td>

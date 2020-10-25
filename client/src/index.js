@@ -11,7 +11,7 @@ const app = (
   <BrowserRouter>
     <SnackbarProvider
       preventDuplicate={true}
-      autoHideDuration={2000}
+      autoHideDuration={3000}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",

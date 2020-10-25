@@ -37,7 +37,7 @@ def register():
         result = jsonify({"error": "Email already exists"})
         return result
     else:
-        user_id = users.insert_one({
+        user_id = users.insert({
             "first_name": first_name,
             "last_name": last_name,
             "email": email,
@@ -90,37 +90,48 @@ def login():
 @userroutes.route("/updateusersettings", methods=['POST'])
 def updateusersettings():
     users = mongo.db.users
+    email = request.get_json()['email']
     first_name = request.get_json()['first_name']
     last_name = request.get_json()['last_name']
-    email = request.get_json()["email"]
     phone_number = request.get_json()['phone_number']
     address = request.get_json()["address"]
     gender = request.get_json()["gender"]
-    password = bcrypt.generate_password_hash(
-        request.get_json()["password"].encode().decode('utf-8'))
-    created = datetime.utcnow()
+
     user_exists = users.find_one({"email": email})
     if user_exists:
         response = users.update({'email': email}, {"$set":
                                                    {"first_name": first_name, "last_name": last_name,
-                                                    "phone_number": phone_number, "address": address, "gender": gender,
-                                                    "password": password}
+                                                    "phone_number": phone_number, "address": address, "gender": gender}
                                                    })
         if response:
-            result = jsonify({"success": "user updated"})
+            result = jsonify({"success": "User Updated"})
             return result
         else:
             result = jsonify({"error": "Error Occured"})
             return result
     else:
-        result = jsonify({"error": "No user Found"})
+        result = jsonify({"error": "No User Found"})
         return result
 
 
 @userroutes.route("/fetchusersettngs", methods=['POST'])
 def fetchusersettngs():
     users = mongo.db.users
+    videos = mongo.db.videos
+    susp_videos = mongo.db.suspvideos
+    nor_videos = mongo.db.norvideos
+    stt_videos = mongo.db.sttvideos
     email = request.get_json()['email']
+    simplevideos = videos.count_documents({"email": email})
+    suspsimplevideos = susp_videos.count_documents({"email": email})
+    norsimplevideos = nor_videos.count_documents({"email": email})
+    sttsimplevideos = stt_videos.count_documents({"email": email})
+    counts = {
+        "simplevideos": simplevideos,
+        "suspvideos": suspsimplevideos,
+        "norvideos": norsimplevideos,
+        "sttvideos": sttsimplevideos
+    }
 
     documents = users.find({"email": email}, {
         "first_name": 1,
@@ -141,5 +152,6 @@ def fetchusersettngs():
     if len(response) == 0:
         result = jsonify({"Error": "No User Found", "response": []})
     else:
+        response.append(counts)
         result = json.dumps(response)
     return result

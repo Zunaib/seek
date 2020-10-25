@@ -3,7 +3,7 @@ import axios from "axios";
 import VideoList from "../components/admin/VideoList";
 import { withSnackbar } from "notistack";
 import Spinner from "../components/Spinner";
-import { PageHeader, Divider } from "antd"
+import { PageHeader, Divider } from "antd";
 
 const Allvideos = (props) => {
   const [videos, setVideos] = useState([]);
@@ -14,9 +14,9 @@ const Allvideos = (props) => {
     axios
       .get("http://localhost:5000/getallvideos")
       .then((response) => {
-        console.log(response)
+        console.log(response);
         setLoading(false);
-        setVideos(response.data.filter(res => res.email !== localStorage.getItem("useremail")));
+        setVideos(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -72,46 +72,46 @@ const Allvideos = (props) => {
       <Divider>Videos</Divider>
       {loading ? (
         <Spinner />
-      ) : (
-        videos.length >=1 ?
-          <div className="AdminList">
-            <div className="tbl-header">
-              <table cellPadding="0" cellSpacing="0" border="0">
-                <thead className="">
-                  <tr>
-                    <th>Video</th>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Path</th>
-                    <th>Blocked</th>
-                    <th>Deleted</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-            <div>
-              <table cellPadding="0" cellSpacing="0" border="0">
-                <tbody className="tbl-content">
-                  {videos.map((video, index) =>
-                      <VideoList
-                        key={index}
-                        btnClicked={(type) =>
-                          actionBtn(type, video.email, video.videoName)
-                        }
-                        email={video.email}
-                        name={video.videoName}
-                        filePath={video.filePath}
-                        blocked={video.blocked}
-                        deleted={video.deleted}
-                      />
-                  )}
-                </tbody>
-              </table>
-            </div>
+      ) : videos.length >= 1 ? (
+        <div className="AdminList">
+          <div className="tbl-header">
+            <table cellPadding="0" cellSpacing="0" border="0">
+              <thead className="">
+                <tr>
+                  <th>Video</th>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Path</th>
+                  <th>Blocked</th>
+                  <th>Deleted</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+            </table>
           </div>
-          : <h3>No Videos Found</h3>
-        )}
+          <div>
+            <table cellPadding="0" cellSpacing="0" border="0">
+              <tbody className="tbl-content">
+                {videos.map((video, index) => (
+                  <VideoList
+                    key={index}
+                    btnClicked={(type) =>
+                      actionBtn(type, video.email, video.videoName)
+                    }
+                    email={video.email}
+                    name={video.videoName}
+                    filePath={video.filePath}
+                    blocked={video.blocked}
+                    deleted={video.deleted}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <h3>No Videos Found</h3>
+      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button } from "antd";
+import { PageHeader, Divider, Button, Input, Row, Col, Form } from "antd";
 import { withSnackbar } from "notistack";
+import Spinner from "../components/Spinner";
 import axios from "axios";
 
 const Settings = (props) => {
@@ -21,7 +22,6 @@ const Settings = (props) => {
         email: localStorage.getItem("useremail"),
       })
       .then((response) => {
-        console.log(response);
         setLoading(false);
         setChange({
           first_name: response.data[0].first_name,
@@ -29,7 +29,6 @@ const Settings = (props) => {
           address: response.data[0].address,
           phone_number: response.data[0].phone_number,
           gender: response.data[0].gender,
-          password: response.data[0].password,
         });
       })
       .catch((err) => {
@@ -39,9 +38,10 @@ const Settings = (props) => {
   }, [reload]);
 
   const updateSettings = () => {
+    console.log(change);
     axios
-      .post("http://localhost:5000/updateusersettings", {
-        email: localStorage.getItem("email"),
+      .post("http://localhost:5000/users/updateusersettings", {
+        email: localStorage.getItem("useremail"),
         first_name: change.first_name,
         last_name: change.last_name,
         address: change.address,
@@ -51,7 +51,7 @@ const Settings = (props) => {
       })
       .then((response) => {
         if (response.data.success) {
-          props.enqueueSnackbar("User updated", {
+          props.enqueueSnackbar("User Updated", {
             variant: "success",
           });
           setReload(!reload);
@@ -64,62 +64,84 @@ const Settings = (props) => {
   };
 
   return (
-    <div class="container">
-      <label for="first name">First name</label>
-      <Input
-        type="text"
-        /* placeholder="Enter first name" */
-        /* name="first name" */
-        value={change.first_name}
-        onChange={(e) => setChange({ first_name: e.target.value })}
+    <div class="Main">
+      <PageHeader
+        className="site-page-header"
+        title="My Settings"
+        subTitle="User Sttings"
       />
-      <label for="last name">Last name</label>
-      <Input
-        type="text"
-        /*  placeholder="Enter Last name" */
-        /*  name="Last name" */
-        value={change.last_name}
-        onChange={(e) => setChange({ last_name: e.target.value })}
-      />
-      <label for="password">Password</label>{" "}
-      <Input
-        type="text"
-        /* placeholder="Enter Password" */
-        /*  name="password" */
-        value={change.password}
-        onChange={(e) => setChange({ password: e.target.value })}
-      />
-      <label for="phone number">Phone number</label>
-      <Input
-        type="text"
-        /* placeholder="Enter phone number" */
-        /*  name="phone Number" */
-        value={change.phone_number}
-        onChange={(e) => setChange({ phone_number: e.target.value })}
-      />
-      <label for="address">Address</label>
-      <Input
-        type="text"
-        /* placeholder="Enter Address" */
-        /*  name="address" */
-        value={change.address}
-        onChange={(e) => setChange({ address: e.target.value })}
-      />
-      <label for="gender">Gender</label>
-      <Input
-        type="text"
-        /* placeholder="Enter gender" */
-        /* name="gender" */
-        value={change.gender}
-        onChange={(e) => setChange({ gender: e.target.value })}
-      />
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => updateSettings()}
-      >
-        Update Settings
-      </Button>
+      <Divider>Settings</Divider>
+      <div className=" container-fluid page">
+        {loading ? (
+          <div className="loading">
+            <Spinner />
+          </div>
+        ) : (
+          <Row>
+            <Col span={8}></Col>
+            <Col span={8}>
+              <Form onFinish={updateSettings}>
+                <Form.Item label="First Name">
+                  <Input
+                    type="text"
+                    placeholder="Enter First Name"
+                    value={change.first_name}
+                    onChange={(e) =>
+                      setChange({ ...change, first_name: e.target.value })
+                    }
+                  />
+                </Form.Item>
+
+                <Form.Item label="Last Name">
+                  <Input
+                    type="text"
+                    placeholder="Enter Last Name"
+                    value={change.last_name}
+                    onChange={(e) =>
+                      setChange({ ...change, last_name: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item label="Phone Number">
+                  <Input
+                    type="text"
+                    placeholder="Enter Phone Number"
+                    value={change.phone_number}
+                    onChange={(e) =>
+                      setChange({ ...change, phone_number: e.target.value })
+                    }
+                  />
+                </Form.Item>
+
+                <Form.Item label="Address">
+                  <Input
+                    type="text"
+                    placeholder="Enter Address"
+                    value={change.address}
+                    onChange={(e) =>
+                      setChange({ ...change, address: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item label="Gender">
+                  <Input
+                    type="text"
+                    placeholder="Enter Gender"
+                    value={change.gender}
+                    onChange={(e) =>
+                      setChange({ ...change, gender: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Update Settings
+                </Button>
+              </Form>
+            </Col>
+            <Col span={8}></Col>
+          </Row>
+        )}
+      </div>
     </div>
   );
 };

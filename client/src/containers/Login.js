@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { login } from "../components/Userfunctions";
-import {Button} from 'antd'
+import { Button } from "antd";
 import { withSnackbar } from "notistack";
 
 class Login extends Component {
@@ -32,7 +32,11 @@ class Login extends Component {
       };
 
       login(user).then((res) => {
-        if (res === "No account found") {
+        if (res === true) {
+          this.props.enqueueSnackbar("Blocked By Admin", {
+            variant: "error",
+          });
+        } else if (res === "No account found") {
           this.props.enqueueSnackbar("Account Dosent Exist", {
             variant: "error",
           });
@@ -41,24 +45,28 @@ class Login extends Component {
             variant: "error",
           });
         } else {
-          if(localStorage.getItem("admin") === "true"){
+          if (localStorage.getItem("admin") === "true") {
             this.props.history.push("/dashboard");
-          }else{
-          this.props.history.push("/main");
+          } else {
+            this.props.history.push("/main");
           }
         }
       });
     }
   }
   render() {
-
     return (
       <div className="Header">
         <div className="login-form container">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <form noValidate>
-                <h1 className="h3 mb-3 font-weight-normal" style={{color:"White"}}>Log In</h1>
+                <h1
+                  className="h3 mb-3 font-weight-normal"
+                  style={{ color: "White" }}
+                >
+                  Log In
+                </h1>
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
                   <input
@@ -80,7 +88,9 @@ class Login extends Component {
                   />
                 </div>
                 <div className="btn-wrapper">
-                  <Button type="primary" size="medium"  onClick={this.onSubmit}>Log In</Button>
+                  <Button type="primary" size="medium" onClick={this.onSubmit}>
+                    Log In
+                  </Button>
                 </div>
               </form>
             </div>
