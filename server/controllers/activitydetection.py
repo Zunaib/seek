@@ -115,7 +115,7 @@ def getSuspiciousActivity():
 
                 cv2.imshow('iSecure', frame)  # show frames
                 key = cv2.waitKey(33)  # show frame for 33 milli seconds
-                if key == 27:  # escape
+                if key == 27 or key == 127:  # escape
                     cv2.destroyAllWindows()  # destroy window if user presses escape
                     break
             cap.release()  # release the capture
