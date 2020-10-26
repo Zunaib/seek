@@ -120,6 +120,17 @@ def getSuspiciousActivity():
                     break
             cap.release()  # release the capture
 
+            videoFiles = videos.insert_one({
+                "email": email,
+                "videoName": filename,
+                "suspName": processed_filename+'-out_susp.mp4',
+                "norName": processed_filename+'-out_normal.mp4',
+                "sttName": processed_filename+'-out_static.mp4',
+                "filePath": vidstr,
+                "blocked": False,
+                "deleted": False
+            })
+
             # release saved frames
             if(susFile == True):
                 out_susp.release()
@@ -157,17 +168,6 @@ def getSuspiciousActivity():
                     "sttblocked": False,
                     "sttdeleted": False
                 })
-
-            videoFiles = videos.insert_one({
-                "email": email,
-                "videoName": filename,
-                "suspName": processed_filename+'-out_susp.mp4',
-                "norName": processed_filename+'-out_normal.mp4',
-                "sttName": processed_filename+'-out_static.mp4',
-                "filePath": vidstr,
-                "blocked": False,
-                "deleted": False
-            })
 
         except:
             pass
