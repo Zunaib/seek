@@ -38,29 +38,33 @@ const Settings = (props) => {
   }, [reload]);
 
   const updateSettings = () => {
-    console.log(change);
-    axios
-      .post("http://localhost:5000/users/updateusersettings", {
-        email: localStorage.getItem("useremail"),
-        first_name: change.first_name,
-        last_name: change.last_name,
-        address: change.address,
-        phone_number: change.phone_number,
-        gender: change.gender,
-        password: change.password,
-      })
-      .then((response) => {
-        if (response.data.success) {
-          props.enqueueSnackbar("User Updated", {
-            variant: "success",
-          });
-          setReload(!reload);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
+    if (change.first_name === "" || change.last_name === "") {
+      this.props.enqueueSnackbar("Empty Fields", {
+        variant: "error",
       });
+    } else {
+      axios
+        .post("http://localhost:5000/users/updateusersettings", {
+          email: localStorage.getItem("useremail"),
+          first_name: change.first_name,
+          last_name: change.last_name,
+          address: change.address ? change.address : "",
+          phone_number: change.phone_number ? change.phone_number : "",
+          gender: change.gender ? change.gender : "",
+        })
+        .then((response) => {
+          if (response.data.success) {
+            props.enqueueSnackbar("User Updated", {
+              variant: "success",
+            });
+            setReload(!reload);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          return err;
+        });
+    }
   };
 
   return (
