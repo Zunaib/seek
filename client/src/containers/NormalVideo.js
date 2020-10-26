@@ -68,27 +68,27 @@ class NormalVideo extends Component {
       // height: "auto",
     };
     return (
-      <div className="main-app">
-        <div className=" container-fluid page">
-          {this.state.redirect ? (
-            <Redirect to="/videos" />
-          ) : this.state.loading ? (
-            <div className="prvideo">
-              <div className="loading">
-                <Spinner />
-              </div>
+      <div className="Main">
+        {this.state.redirect ? (
+          <Redirect to="/videos" />
+        ) : this.state.loading ? (
+          <div className="prvideo">
+            <div className="loading">
+              <Spinner />
             </div>
-          ) : (
-            <>
-              <PageHeader
-                className="site-page-header"
-                title="Normal Video"
-                subTitle={
-                  `This is normal part of ` +
-                  this.state.video.norName.split(".")[0]
-                }
-              />
-              <Divider>Normal Part</Divider>
+          </div>
+        ) : (
+          <>
+            <PageHeader
+              className="site-page-header"
+              title="Normal Video"
+              subTitle={
+                `This is normal part of ` +
+                this.state.video.norName.split(".")[0]
+              }
+            />
+            <Divider>Normal Part</Divider>
+            <div className="managevideo">
               <div className="prvideo">
                 <ReactPlayer
                   url={"http://localhost:5000/" + this.state.video.norPath}
@@ -115,9 +115,9 @@ class NormalVideo extends Component {
                   ))}
                 </Card>
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </div>
     );
   }

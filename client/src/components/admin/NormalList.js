@@ -25,7 +25,7 @@ const NormalList = (props) => {
         <span>{props.name}</span>
       </td>
       <td>
-        <span>{props.norname}</span>
+        <span>{props.norName}</span>
       </td>
       <td>
         <span>{props.filePath}</span>

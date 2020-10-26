@@ -114,7 +114,7 @@ def getSuspiciousActivity():
                     stabcount += 1
 
                 cv2.imshow('iSecure', frame)  # show frames
-                key = cv2.waitKey(33)  # show frame for 33 milli seconds
+                key = cv2.waitKey(1)  # show frame for 33 milli seconds
                 if key == 27 or key == 127:  # escape
                     cv2.destroyAllWindows()  # destroy window if user presses escape
                     break
@@ -148,7 +148,7 @@ def getSuspiciousActivity():
                     "suspblocked": False,
                     "suspdeleted": False
                 })
-            elif(norFile == True):
+            if(norFile == True):
                 out_normal.release()
                 norvideoFiles = nor_videos.insert_one({
                     "email": email,
@@ -158,7 +158,7 @@ def getSuspiciousActivity():
                     "norblocked": False,
                     "nordeleted": False
                 })
-            elif(sttFile == True):
+            if(sttFile == True):
                 out_static.release()
                 sttvideoFiles = stt_videos.insert_one({
                     "email": email,

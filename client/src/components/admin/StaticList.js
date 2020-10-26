@@ -20,7 +20,7 @@ const StaticList = (props) => {
       </td>
       <td>{props.email}</td>
       <td>
-        <span>{props.videoName}</span>
+        <span>{props.name}</span>
       </td>
       <td>
         <span>{props.sttName}</span>
