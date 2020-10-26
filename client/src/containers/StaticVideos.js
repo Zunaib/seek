@@ -20,7 +20,7 @@ const StaticVideos = (props) => {
       .then((response) => {
         if (response.data.length >= 1) {
           setLoading(false);
-          setVideo(response.data.filter((res) => res.static !== true));
+          setVideo(response.data.filter((res) => res.sttdeleted !== true));
         } else {
           setLoading(false);
           setVideo(response.data);
@@ -42,7 +42,7 @@ const StaticVideos = (props) => {
     axios
       .post("http://localhost:5000/deletesttvideo", {
         email: localStorage.getItem("useremail"),
-        norvideoname: vidName,
+        sttvideoname: vidName,
       })
       .then((response) => {
         if (response.data.success) {

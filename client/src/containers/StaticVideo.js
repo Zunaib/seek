@@ -78,54 +78,56 @@ class StaticVideo extends Component {
               }
             />
             <Divider>Static Part</Divider>
-            <div className="prvideo">
-              <ReactPlayer
-                url={"http://localhost:5000/" + this.state.video.sttPath}
-                {...videostyles}
-              />
-              <h2>{this.state.video.sttName.split(".")[0]}</h2>
-            </div>
-            <div className="prvideostat">
-              <h4>Static part contains static frames</h4>
-              <Card title="Activites">
-                Static frames have just still activity like :
-                <Tag
-                  style={{
-                    display: "block",
-                    fontSize: "15px",
-                    padding: "5px",
-                    margin: "5px auto",
-                    width: "30%",
-                  }}
-                  color={"#87d068"}
-                >
-                  Empty Garage At Night
-                </Tag>
-                <Tag
-                  style={{
-                    display: "block",
-                    fontSize: "15px",
-                    padding: "5px",
-                    margin: "5px auto",
-                    width: "30%",
-                  }}
-                  color={"#87d068"}
-                >
-                  Empty Security Areas
-                </Tag>
-                <Tag
-                  style={{
-                    display: "block",
-                    fontSize: "15px",
-                    padding: "5px",
-                    margin: "5px auto",
-                    width: "30%",
-                  }}
-                  color={"#87d068"}
-                >
-                  Empty Roads
-                </Tag>
-              </Card>
+            <div className="managevideo">
+              <div className="prvideo">
+                <ReactPlayer
+                  url={"http://localhost:5000/" + this.state.video.sttPath}
+                  {...videostyles}
+                />
+                <h2>{this.state.video.sttName.split(".")[0]}</h2>
+              </div>
+              <div className="prvideostat">
+                <h4>Static part contains static frames</h4>
+                <Card title="Activites">
+                  Static frames have just still activity like :
+                  <Tag
+                    style={{
+                      display: "block",
+                      fontSize: "15px",
+                      padding: "5px",
+                      margin: "5px auto",
+                      width: "30%",
+                    }}
+                    color={"#87d068"}
+                  >
+                    Empty Garage At Night
+                  </Tag>
+                  <Tag
+                    style={{
+                      display: "block",
+                      fontSize: "15px",
+                      padding: "5px",
+                      margin: "5px auto",
+                      width: "30%",
+                    }}
+                    color={"#87d068"}
+                  >
+                    Empty Security Areas
+                  </Tag>
+                  <Tag
+                    style={{
+                      display: "block",
+                      fontSize: "15px",
+                      padding: "5px",
+                      margin: "5px auto",
+                      width: "30%",
+                    }}
+                    color={"#87d068"}
+                  >
+                    Empty Roads
+                  </Tag>
+                </Card>
+              </div>
             </div>
           </>
         )}

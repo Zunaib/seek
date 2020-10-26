@@ -114,11 +114,22 @@ def getSuspiciousActivity():
                     stabcount += 1
 
                 cv2.imshow('iSecure', frame)  # show frames
-                key = cv2.waitKey(33)  # show frame for 33 milli seconds
-                if key == 27:  # escape
+                key = cv2.waitKey(1)  # show frame for 33 milli seconds
+                if key == 27 or key == 127:  # escape
                     cv2.destroyAllWindows()  # destroy window if user presses escape
                     break
             cap.release()  # release the capture
+
+            videoFiles = videos.insert_one({
+                "email": email,
+                "videoName": filename,
+                "suspName": processed_filename+'-out_susp.mp4',
+                "norName": processed_filename+'-out_normal.mp4',
+                "sttName": processed_filename+'-out_static.mp4',
+                "filePath": vidstr,
+                "blocked": False,
+                "deleted": False
+            })
 
             # release saved frames
             if(susFile == True):
@@ -137,7 +148,7 @@ def getSuspiciousActivity():
                     "suspblocked": False,
                     "suspdeleted": False
                 })
-            elif(norFile == True):
+            if(norFile == True):
                 out_normal.release()
                 norvideoFiles = nor_videos.insert_one({
                     "email": email,
@@ -147,7 +158,7 @@ def getSuspiciousActivity():
                     "norblocked": False,
                     "nordeleted": False
                 })
-            elif(sttFile == True):
+            if(sttFile == True):
                 out_static.release()
                 sttvideoFiles = stt_videos.insert_one({
                     "email": email,
@@ -157,17 +168,6 @@ def getSuspiciousActivity():
                     "sttblocked": False,
                     "sttdeleted": False
                 })
-
-            videoFiles = videos.insert_one({
-                "email": email,
-                "videoName": filename,
-                "suspName": processed_filename+'-out_susp.mp4',
-                "norName": processed_filename+'-out_normal.mp4',
-                "sttName": processed_filename+'-out_static.mp4',
-                "filePath": vidstr,
-                "blocked": False,
-                "deleted": False
-            })
 
         except:
             pass

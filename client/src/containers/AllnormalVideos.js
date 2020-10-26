@@ -92,22 +92,20 @@ const AllnormalVideos = (props) => {
           <div>
             <table cellPadding="0" cellSpacing="0" border="0">
               <tbody className="tbl-content">
-                {videos.map((video, index) =>
-                  video.email !== localStorage.getItem("useremail") ? (
-                    <NormalList
-                      key={index}
-                      btnClicked={(type) =>
-                        actionBtn(type, video.email, video.videoName)
-                      }
-                      email={video.email}
-                      name={video.videoName}
-                      suspname={video.norName}
-                      filePath={video.norPath}
-                      blocked={video.norblocked}
-                      deleted={video.nordeleted}
-                    />
-                  ) : null
-                )}
+                {videos.map((video, index) => (
+                  <NormalList
+                    key={index}
+                    btnClicked={(type) =>
+                      actionBtn(type, video.email, video.videoName)
+                    }
+                    email={video.email}
+                    name={video.videoName}
+                    norName={video.norName}
+                    filePath={video.norPath}
+                    blocked={video.norblocked}
+                    deleted={video.nordeleted}
+                  />
+                ))}
               </tbody>
             </table>
           </div>

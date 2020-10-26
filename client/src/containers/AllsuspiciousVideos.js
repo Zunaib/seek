@@ -13,7 +13,6 @@ const AllsuspiciousVideos = (props) => {
     axios
       .get("http://localhost:5000/getallsuspvideos")
       .then((response) => {
-        console.log(response);
         setLoading(false);
         setVideos(response.data);
       })

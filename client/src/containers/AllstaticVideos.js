@@ -79,7 +79,7 @@ const AllstaticVideos = (props) => {
                   <th>Video</th>
                   <th>Email</th>
                   <th>Name</th>
-                  <th>Suspicious Name</th>
+                  <th>Static Name</th>
                   <th>Path</th>
                   <th>Blocked</th>
                   <th>Deleted</th>
@@ -91,22 +91,20 @@ const AllstaticVideos = (props) => {
           <div>
             <table cellPadding="0" cellSpacing="0" border="0">
               <tbody className="tbl-content">
-                {videos.map((video, index) =>
-                  video.email !== localStorage.getItem("useremail") ? (
-                    <StaticList
-                      key={index}
-                      btnClicked={(type) =>
-                        actionBtn(type, video.email, video.videoName)
-                      }
-                      email={video.email}
-                      name={video.videoName}
-                      sttName={video.sttName}
-                      sttPath={video.sttPath}
-                      sttblocked={video.sttblocked}
-                      sttdeleted={video.sttdeleted}
-                    />
-                  ) : null
-                )}
+                {videos.map((video, index) => (
+                  <StaticList
+                    key={index}
+                    btnClicked={(type) =>
+                      actionBtn(type, video.email, video.videoName)
+                    }
+                    email={video.email}
+                    name={video.videoName}
+                    sttName={video.sttName}
+                    sttPath={video.sttPath}
+                    sttblocked={video.sttblocked}
+                    sttdeleted={video.sttdeleted}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
