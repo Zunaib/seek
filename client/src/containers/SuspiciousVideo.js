@@ -62,7 +62,7 @@ class SuspiciousVideo extends Component {
   }
 
   render() {
-    const activities = this.state.activities.sort((a, b) => b - a);
+    const activities = this.state.activities.sort((a, b) => b.count - a.count);
     const videostyles = {
       playing: false,
       controls: true,
