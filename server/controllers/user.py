@@ -65,13 +65,12 @@ def login():
     admin = False
     blocked = False
 
-    for key, val in response.items():
-        if 'blocked' in key:
-            blocked = val
-        if 'admin' in key:
-            admin = val
-
     if response:
+        for key, val in response.items():
+            if 'blocked' in key:
+                blocked = val
+            if 'admin' in key:
+                admin = val
         if bcrypt.check_password_hash(response["password"], password):
             access_token = create_access_token(identity={
                 "first_name": response["first_name"],

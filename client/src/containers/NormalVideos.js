@@ -96,7 +96,7 @@ const NormalVideos = (props) => {
                   </div>
                   <div className="cardInfo">
                     <div className="activities">
-                      <Link to={"/videos/suspicious/" + vid.norName}>
+                      <Link to={"/videos/normal/" + vid.norName}>
                         <Button
                           type="primary"
                           size="small"

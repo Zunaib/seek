@@ -54,7 +54,7 @@ const AdminLayout = ({ children }) => {
               icon={<HomeOutlined />}
               onClick={() => shiftprofile()}
             >
-              Shift Normal
+              Shift To Normal
             </Menu.Item>
           )}
 

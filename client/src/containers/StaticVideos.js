@@ -96,7 +96,7 @@ const StaticVideos = (props) => {
                   </div>
                   <div className="cardInfo">
                     <div className="activities">
-                      <Link to={"/videos/suspicious/" + vid.sttName}>
+                      <Link to={"/videos/static/" + vid.sttName}>
                         <Button
                           type="primary"
                           size="small"
