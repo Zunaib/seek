@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import NormalList from "../components/admin/NormalList";
 import axios from "axios";
-import Spinner from "../components/Spinner";
 import { withSnackbar } from "notistack";
-import { PageHeader, Divider } from "antd";
+import { PageHeader, Divider, Button, Table } from "antd";
+import ReactPlayer from "react-player";
 
 const AllnormalVideos = (props) => {
   const [videos, setVideos] = useState([]);
@@ -15,13 +14,94 @@ const AllnormalVideos = (props) => {
       .get("http://localhost:5000/getallnorvideos")
       .then((response) => {
         setLoading(false);
-        setVideos(response.data);
+        setVideos(
+          response?.data?.map((vid, index) => ({
+            key: index + 1,
+            video: (
+              <ReactPlayer
+                url={"http://localhost:5000/" + vid.norPath}
+                playing={false}
+                controls={true}
+                volume={1}
+                width={"inherit"}
+                height={"inherit"}
+              />
+            ),
+            email: vid.email,
+            name: vid.videoName,
+            norname: vid.norName,
+            filepath: vid.norPath ? "True" : "False",
+            blocked: vid.norblocked ? "True" : "False",
+            deleted: vid.nordeleted ? "True" : "False",
+            vid: vid,
+          }))
+        );
       })
       .catch((err) => {
         console.log(err);
         return err;
       });
   }, [reload]);
+
+  const columns = [
+    {
+      title: "Video",
+      dataIndex: "video",
+      key: "video",
+      width: 200,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Normal Name",
+      dataIndex: "norname",
+      key: "norname",
+    },
+    {
+      title: "Path",
+      dataIndex: "filepath",
+      key: "filepath",
+    },
+    {
+      title: "Blocked",
+      dataIndex: "blocked",
+      key: "blocked",
+    },
+    {
+      title: "Deleted",
+      dataIndex: "deleted",
+      key: "deleted",
+    },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (record) => (
+        <Button
+          disabled={record.vid.email === localStorage.getItem("useremail")}
+          type="primary"
+          danger
+          onClick={() =>
+            actionBtn(
+              record.vid.norblocked ? "unblock" : "block",
+              record.vid.email,
+              record.vid.videoName
+            )
+          }
+        >
+          {record.vid.norblocked ? "Unblock" : "Block"}
+        </Button>
+      ),
+    },
+  ];
 
   const actionBtn = (type, email, vidName) => {
     if (type === "block") {
@@ -69,50 +149,8 @@ const AllnormalVideos = (props) => {
         subTitle="All Normal Suspicious Videos Information and Actions"
       />
       <Divider>Normal Videos</Divider>
-      {loading ? (
-        <Spinner />
-      ) : videos.length >= 1 ? (
-        <div className="AdminList">
-          <div className="tbl-header">
-            <table cellPadding="0" cellSpacing="0" border="0">
-              <thead className="">
-                <tr>
-                  <th>Video</th>
-                  <th>Email</th>
-                  <th>Name</th>
-                  <th>Suspicious Name</th>
-                  <th>Path</th>
-                  <th>Blocked</th>
-                  <th>Deleted</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-          <div>
-            <table cellPadding="0" cellSpacing="0" border="0">
-              <tbody className="tbl-content">
-                {videos.map((video, index) => (
-                  <NormalList
-                    key={index}
-                    btnClicked={(type) =>
-                      actionBtn(type, video.email, video.videoName)
-                    }
-                    email={video.email}
-                    name={video.videoName}
-                    norName={video.norName}
-                    filePath={video.norPath}
-                    blocked={video.norblocked}
-                    deleted={video.nordeleted}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <h3>No Videos Found</h3>
-      )}
+      <Table bordered loading={loading} dataSource={videos} columns={columns} />
+      ;
     </div>
   );
 };

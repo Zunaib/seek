@@ -89,18 +89,20 @@ def login():
 @userroutes.route("/updateusersettings", methods=['POST'])
 def updateusersettings():
     users = mongo.db.users
-    email = request.get_json()['email']
-    first_name = request.get_json()['first_name']
-    last_name = request.get_json()['last_name']
-    phone_number = request.get_json()['phone_number']
-    address = request.get_json()["address"]
-    gender = request.get_json()["gender"]
+    email = request.args['email']
+    first_name = request.args['first_name']
+    last_name = request.args['last_name']
+    phone_number = request.args['phone_number']
+    about = request.args["about"]
+    address = request.args["address"]
+    gender = request.args["gender"]
+    picture = request.files['picture']
 
     user_exists = users.find_one({"email": email})
     if user_exists:
         response = users.update({'email': email}, {"$set":
                                                    {"first_name": first_name, "last_name": last_name,
-                                                    "phone_number": phone_number, "address": address, "gender": gender}
+                                                    "phone_number": phone_number, "address": address, "about": about, "gender": gender}
                                                    })
         if response:
             result = jsonify({"success": "User Updated"})
@@ -137,6 +139,7 @@ def fetchusersettngs():
         "last_name": 1,
         "email": 1,
         "blocked": 1,
+        "about": 1,
         "admin": 1,
         "phone_number": 1,
         "address": 1,

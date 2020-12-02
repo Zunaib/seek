@@ -96,7 +96,7 @@ class StaticVideo extends Component {
                       fontSize: "15px",
                       padding: "5px",
                       margin: "5px auto",
-                      width: "30%",
+                      width: "40%",
                     }}
                     color={"#87d068"}
                   >
@@ -108,7 +108,7 @@ class StaticVideo extends Component {
                       fontSize: "15px",
                       padding: "5px",
                       margin: "5px auto",
-                      width: "30%",
+                      width: "40%",
                     }}
                     color={"#87d068"}
                   >
@@ -120,7 +120,7 @@ class StaticVideo extends Component {
                       fontSize: "15px",
                       padding: "5px",
                       margin: "5px auto",
-                      width: "30%",
+                      width: "40%",
                     }}
                     color={"#87d068"}
                   >

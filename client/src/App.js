@@ -55,7 +55,6 @@ class App extends Component {
           />
           <Route exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Redirect to="/" />
         </Switch>
       </>
     );
@@ -84,7 +83,6 @@ class App extends Component {
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/logout" component={Logout} />
-                <Redirect to="/dashboard" />
               </AdminLayout>
             </Switch>
           </>
@@ -126,7 +124,6 @@ class App extends Component {
                 />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/logout" component={Logout} />
-                <Redirect to="/main" />
               </WebLayout>
             </Switch>
           </>

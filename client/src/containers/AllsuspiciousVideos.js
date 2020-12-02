@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import SuspiciousList from "../components/admin/SuspiciousList";
 import axios from "axios";
-import Spinner from "../components/Spinner";
-import { Divider, PageHeader } from "antd";
+import { Divider, PageHeader, Button, Table } from "antd";
+import ReactPlayer from "react-player";
 
 const AllsuspiciousVideos = (props) => {
   const [videos, setVideos] = useState([]);
@@ -14,7 +13,28 @@ const AllsuspiciousVideos = (props) => {
       .get("http://localhost:5000/getallsuspvideos")
       .then((response) => {
         setLoading(false);
-        setVideos(response.data);
+        setVideos(
+          response?.data?.map((vid, index) => ({
+            key: index + 1,
+            video: (
+              <ReactPlayer
+                url={"http://localhost:5000/" + vid.suspPath}
+                playing={false}
+                controls={true}
+                volume={1}
+                width={"inherit"}
+                height={"inherit"}
+              />
+            ),
+            email: vid.email,
+            name: vid.videoName,
+            suspname: vid.suspName,
+            filepath: vid.suspPath ? "True" : "False",
+            blocked: vid.suspblocked ? "True" : "False",
+            deleted: vid.suspdeleted ? "True" : "False",
+            vid: vid,
+          }))
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -60,6 +80,66 @@ const AllsuspiciousVideos = (props) => {
     }
   };
 
+  const columns = [
+    {
+      title: "Video",
+      dataIndex: "video",
+      key: "video",
+      width: 200,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Suspicious Name",
+      dataIndex: "suspname",
+      key: "suspname",
+    },
+    {
+      title: "Path",
+      dataIndex: "filepath",
+      key: "filepath",
+    },
+    {
+      title: "Blocked",
+      dataIndex: "blocked",
+      key: "blocked",
+    },
+    {
+      title: "Deleted",
+      dataIndex: "deleted",
+      key: "deleted",
+    },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (record) => (
+        <Button
+          disabled={record.vid.email === localStorage.getItem("useremail")}
+          type="primary"
+          danger
+          onClick={() =>
+            actionBtn(
+              record.vid.suspblocked ? "unblock" : "block",
+              record.vid.email,
+              record.vid.videoName
+            )
+          }
+        >
+          {record.vid.suspblocked ? "Unblock" : "Block"}
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <div className="Main">
       <PageHeader
@@ -68,50 +148,8 @@ const AllsuspiciousVideos = (props) => {
         subTitle="All  Suspicious Videos Information and Actions"
       />
       <Divider>Normal Videos</Divider>
-      {loading ? (
-        <Spinner />
-      ) : videos && videos.length >= 1 ? (
-        <div className="AdminList">
-          <div className="tbl-header">
-            <table cellPadding="0" cellSpacing="0" border="0">
-              <thead className="">
-                <tr>
-                  <th>Video</th>
-                  <th>Email</th>
-                  <th>Name</th>
-                  <th>Suspicious Name</th>
-                  <th>Path</th>
-                  <th>Blocked</th>
-                  <th>Deleted</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-          <div>
-            <table cellPadding="0" cellSpacing="0" border="0">
-              <tbody className="tbl-content">
-                {videos.map((video, index) => (
-                  <SuspiciousList
-                    key={index}
-                    btnClicked={(type) =>
-                      actionBtn(type, video.email, video.videoName)
-                    }
-                    email={video.email}
-                    videoName={video.videoName}
-                    suspName={video.suspName}
-                    suspPath={video.suspPath}
-                    suspblocked={video.suspblocked}
-                    suspdeleted={video.suspdeleted}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <h3>No Videos Found</h3>
-      )}
+      <Table bordered loading={loading} dataSource={videos} columns={columns} />
+      ;
     </div>
   );
 };

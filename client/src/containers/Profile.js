@@ -51,7 +51,7 @@ const Profile = () => {
           <div className="imagebutton">
             <Avatar
               size={128}
-              style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
+              style={{ color: "#fff", backgroundColor: "#001529" }}
             >
               <div style={{ fontSize: "40px" }}>{profile.first_name[0]}</div>
             </Avatar>

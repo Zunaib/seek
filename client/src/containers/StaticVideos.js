@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPlayer from "react-player";
-import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
 import { withSnackbar } from "notistack";
-import { PageHeader, Divider, Button, Popconfirm } from "antd";
+import {
+  PageHeader,
+  Divider,
+  Button,
+  Popconfirm,
+  Row,
+  Col,
+  Card,
+  Typography,
+} from "antd";
 
 const StaticVideos = (props) => {
   const [video, setVideo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
+
+  const { Title } = Typography;
 
   useEffect(() => {
     axios
@@ -70,7 +80,58 @@ const StaticVideos = (props) => {
         subTitle="My Static Videos Information and Actions"
       />
       <Divider>My Static Videos</Divider>
-      <div className=" container-fluid page">
+      <Row justify="start">
+        {video?.map((vid) => (
+          <Col span={4}>
+            <Card
+              loading={loading}
+              className="main-card"
+              cover={
+                <ReactPlayer
+                  className="player"
+                  url={
+                    vid.sttblocked
+                      ? "http://localhost:5000/"
+                      : "http://localhost:5000/" + vid.sttPath
+                  }
+                  {...staticvideostyles}
+                />
+              }
+              actions={[
+                <Link to={"/videos/static/" + vid.sttName}>
+                  <Button
+                    type="primary"
+                    size="small"
+                    style={{ margin: "0px 5px" }}
+                  >
+                    Expand
+                  </Button>
+                </Link>,
+                <Popconfirm
+                  title="Sure to delete?"
+                  onConfirm={() => handleDelete(vid.sttName)}
+                >
+                  <Button type="primary" danger size="small">
+                    Delete
+                  </Button>
+                </Popconfirm>,
+              ]}
+            >
+              <Card.Meta
+                title={
+                  <Title level={4}>
+                    {vid.sttblocked
+                      ? vid.sttName.split(".")[0] + "" + vid.sttblocked &&
+                        "(Blocked By Admin)"
+                      : vid.sttName.split(".")[0]}
+                  </Title>
+                }
+              />
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      {/* <div className=" container-fluid page">
         {loading ? (
           <div className="loading">
             <Spinner />
@@ -131,7 +192,7 @@ const StaticVideos = (props) => {
         ) : (
           <h3>No Videos Found</h3>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
