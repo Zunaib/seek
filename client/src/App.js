@@ -61,9 +61,8 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/welcomesettings" component={Welcomesettings}/>
-          <Route path="/message" component={Message}/>
-          <Route path="/usermessages" component={Usermessages}/>
-          <Route path="/allmessages" component={Allmessages}/>
+          
+        
           
 
         
@@ -95,6 +94,7 @@ class App extends Component {
                 <Route exact path="/allrequests" component={Allrequests} />
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
+                <Route path="/allmessages" component={Allmessages}/>
                 <Route exact path="/logout" component={Logout} />
               </AdminLayout>
             </Switch>
@@ -116,6 +116,8 @@ class App extends Component {
                   path="/videos/suspicious/:videoname"
                   component={SuspiciousVideo}
                 />
+                <Route path="/message" exact component={Message}/>
+                <Route path="/usermessages" exact component={Usermessages}/>
                 <Route
                   exact
                   path="/videos/static/:videoname"

@@ -25,10 +25,26 @@ import Spinner from "../components/Spinner";
 import axios from "axios";
 
 const Usermessages = (props) => {
-
-    
     const { Title } = Typography;
+    const [message,setMessage]=useState([]);
+
   
+    useEffect(() => {
+      axios
+        .get("http://localhost:5000/users/getusermessages?email=" +
+
+        localStorage.getItem("useremail")
+        )
+        .then((response) => {
+          setMessage(response.data)
+          console.log(response);
+      
+        })
+        .catch((err) => {
+          console.log(err);
+          return err;
+        });
+    }, []);
 
   return (
     <div class="Main">
@@ -37,20 +53,21 @@ const Usermessages = (props) => {
         {
          <Row type="flex" justify="center" align="middle" style={{minHeight: '50vh'}}>
             <Col className="profile-settings" span={24}>
-              <Form
-                labelCol={{ span: 8 }}
-               /*  wrapperCol={{ span: 16 }} */
-               /*  onFinish={updateSettings} */
-              >
+              
                 <Row>
                   <Col span={24} >
-                  <Card style={{ width: 1660, height: 50 }}  bordered={true}>
+                  <Card style={{ height: 50 }}  bordered={true}>
 
-                      <Row justify="start">
-                          <Col span={1}>waqar.gmail.com</Col>
-                          <Col span={22}>helllooooooo from the other sidee</Col>
-                          <Col span={1}>4.44 am</Col>
-                      </Row>
+                  
+                      {message?.map(msg=>(
+                            <Row justify="start">
+                            <Col span={6}>{msg.recieveremail?.map(re=>{return re})}</Col>
+                            <Col span={6}>{msg.number?.map(num=>{return num})}</Col>
+                            <Col span={6}>{msg.message1}</Col>
+                           <Col span={6}>{msg.createdat}</Col>
+                        </Row>
+
+                      ))}
             
            
             
@@ -65,7 +82,7 @@ const Usermessages = (props) => {
             
             
               
-              </Form>
+            
             </Col>
             
           </Row>

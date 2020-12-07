@@ -28,9 +28,20 @@ import axios from "axios";
 
 const Allmessages = (props) => {
 
-    
-    const { Title } = Typography;
-  
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/users/?email=" +
+
+      localStorage.getItem("useremail")
+      )
+      .then((response) => {
+       
+      })
+      .catch((err) => {
+       
+      });
+  }, []);
+
 
   return (
     <div class="Main">

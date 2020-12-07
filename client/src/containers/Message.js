@@ -1,44 +1,64 @@
 import React, { useState, useEffect } from "react";
 import {
-    Checkbox,
- Card,
   PageHeader,
-  Divider,
   Button,
   Input,
   Row,
   Col,
   Form,
   Select,
-  Avatar,
-  Upload,
-  message,
   Typography,
 } from "antd";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { withSnackbar } from "notistack";
-import ImgCrop from "antd-img-crop";
-import Spinner from "../components/Spinner";
 import axios from "axios";
-
 const Message = (props) => {
-    const [loading, setLoading] = useState(true);
     const Option = Select.Option;
- 
     const { Title } = Typography;
     const { TextArea } = Input;
-    const [fileList, setFileList] = useState();
-  
-    const children = [];
-    for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+
+
+    const[details,setDetails]=useState({
+      number:[],
+      email:[],
+      message1:""
+
+    })
+    const onFinish= () => {
+      
+      axios
+      .post("http://localhost:5000/users/message",
+      {
+        number:details.number,
+        recieveremail:details.email,
+        message1:details.message1,
+        email: localStorage.getItem("useremail")
+      
+      }
+      )
+      
+     
+      .then((res)=>{
+        
+        if(res.data.success){
+          props.enqueueSnackbar(res.data.success, {
+            variant: "success",
+          });
+          setDetails({
+            number:[],
+            email:[],
+            message1:""
+          });
+        }
+        else if(res.data.error){
+          props.enqueueSnackbar(res.data.error, {
+            variant: "error",
+          });
+
+        }
+        
+      })
+      
     }
-
-    function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
-  
 
   return (
     <div class="Main">
@@ -50,19 +70,23 @@ const Message = (props) => {
             <Col className="profile-settings" span={14}>
               <Form
                 labelCol={{ span: 8 }}
-               /*  wrapperCol={{ span: 16 }} */
-               /*  onFinish={updateSettings} */
+                onFinish={onFinish}
               >
+                
                 <Row>
                   <Col span={24} pull={3}>
                     <Form.Item label="Number">
                     <Select
                         mode="tags"
                         style={{ width: '100%' }}
-                       onChange={handleChange} 
+               /*          onChange={handleChange}  */
+                       /*  value={details.number} */
+                       onChange={(val)=>
+                        setDetails({...details,number:val})}
+                     
                         tokenSeparators={[',']}
                     >
-                        {children}
+                   
                     </Select>
                     </Form.Item>
                   </Col>
@@ -73,10 +97,13 @@ const Message = (props) => {
                     <Select
                         mode="tags"
                         style={{ width: '100%' }}
-                       onChange={handleChange} 
+                    
+                    
+                       onChange={(val)=>
+                      setDetails({...details,email:val})}
                         tokenSeparators={[',']}
                     >
-                        {children}
+                    
                     </Select>
                     </Form.Item>
                  
@@ -90,10 +117,10 @@ const Message = (props) => {
                       <TextArea
                         rows={2}
                         placeholder="Enter Message"
-                      /*   value={change.about}
-                        onChange={(e) =>
-                          setChange({ ...change, about: e.target.value })
-                        } */
+                        value={details.message1}
+                        onChange={(e)=>
+                        setDetails({...details,message1:e.target.value})}
+                   
                       />
                     </Form.Item>
                   </Col>
