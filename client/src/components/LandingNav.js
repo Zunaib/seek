@@ -26,6 +26,12 @@ class LandingNavbar extends Component {
             Register
           </Link>
         </li>
+        <li className="nav-item">
+          <Link to="/register" className="nav-link">
+            Basic Settings
+          </Link>
+        </li>
+
       </>
     );
 
