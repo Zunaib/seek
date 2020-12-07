@@ -53,3 +53,64 @@ def deletevideo():
     else:
         result = jsonify({"error": "No Video Found"})
         return result
+
+# Add to Favorite
+
+
+@videoroutes.route("/addtofavvideo", methods=['POST'])
+def addfavvideo():
+    favvideos = mongo.db.favvideos
+    videos = mongo.db.videos
+    email = request.get_json()['email']
+    name = request.get_json()['name']
+    path = request.get_json()['path']
+    blocked = request.get_json()['blocked']
+    deleted = request.get_json()['deleted']
+    favvideos_exist = favvideos.find_one({"email": email, "name": name})
+    result = ""
+    if favvideos_exist:
+        result = jsonify({"error": "Video Already Favourited"})
+        return result
+    else:
+        response = videos.update_one({'email': email, "videoName": name}, {"$set":
+                                                                           {"fav": True}
+                                                                           }, upsert=False)
+        favvideoFiles = favvideos.insert_one({
+            "email": email,
+            "name": name,
+            "path": path,
+            "blocked": False,
+            "deleted": False
+        })
+        if response:
+            result = jsonify({"success": "Video Favourited"})
+            return result
+        else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+
+# Remove from Favorite
+
+
+@videoroutes.route("/remfavvideo", methods=['POST'])
+def remfavvideo():
+    favvideos = mongo.db.favvideos
+    videos = mongo.db.videos
+    email = request.get_json()['email']
+    name = request.get_json()['name']
+    favvideo_exist = favvideos.find_one({"email": email, "name": name})
+    result = ""
+    if favvideo_exist:
+        response = videos.update_one({'email': email, "videoName": name}, {"$set":
+                                                                           {"fav": False}
+                                                                           }, upsert=False)
+        favvideos.delete_one({'email': email, "name": name})
+        if response:
+            result = jsonify({"success": "Video Favourited"})
+            return result
+        else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+    else:
+        result = jsonify({"error": "Video Not Exists"})
+        return result

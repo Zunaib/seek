@@ -12,7 +12,9 @@ import {
   Row,
   Col,
   Typography,
+  Tooltip,
 } from "antd";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 
 const Videos = (props) => {
   const [video, setVideo] = useState([]);
@@ -72,6 +74,33 @@ const Videos = (props) => {
       });
   };
 
+  const addToFav = (video) => {
+    axios
+      .post("http://localhost:5000/addtofavvideo", {
+        email: video.email,
+        name: video.videoName,
+        path: video.filePath,
+        blocked: video.blocked,
+        deleted: video.deleted,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          props.enqueueSnackbar("Video Favourited", {
+            variant: "success",
+          });
+          setReload(!reload);
+        } else {
+          props.enqueueSnackbar("Video Not Found", {
+            variant: "error",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  };
+
   return (
     <div className="Main">
       <PageHeader
@@ -106,6 +135,18 @@ const Videos = (props) => {
                     Delete
                   </Button>
                 </Popconfirm>,
+                vid.fav ? (
+                  <Tooltip title="Remove From Favourite">
+                    <HeartFilled className="fav-icon" />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Add To Favourite">
+                    <HeartOutlined
+                      className="fav-icon"
+                      onClick={() => addToFav(video[0])}
+                    />
+                  </Tooltip>
+                ),
               ]}
             >
               <Card.Meta

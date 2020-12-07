@@ -9,13 +9,10 @@ import {
   Form,
   Select,
   Avatar,
-  Upload,
-  message,
   Typography,
 } from "antd";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { withSnackbar } from "notistack";
-import ImgCrop from "antd-img-crop";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 
@@ -27,9 +24,9 @@ const Settings = (props) => {
     about: "",
     address: "",
     phone_number: "",
+    picture: null,
     gender: "",
     password: "",
-    picture: "",
   });
   const [change, setChange] = useState({
     first_name: "",
@@ -37,9 +34,9 @@ const Settings = (props) => {
     about: "",
     address: "",
     phone_number: "",
+    picture: null,
     gender: "",
     password: "",
-    picture: "",
   });
   const [reload, setReload] = useState(false);
 
@@ -58,6 +55,7 @@ const Settings = (props) => {
           address: response.data[0].address,
           phone_number: response.data[0].phone_number,
           gender: response.data[0].gender,
+          picture: response.data[0].picture,
         });
         setChange({
           first_name: response.data[0].first_name,
@@ -66,6 +64,7 @@ const Settings = (props) => {
           address: response.data[0].address,
           phone_number: response.data[0].phone_number,
           gender: response.data[0].gender,
+          picture: response.data[0].picture,
         });
       })
       .catch((err) => {
@@ -75,77 +74,49 @@ const Settings = (props) => {
   }, [reload]);
 
   const updateSettings = () => {
-    if (JSON.stringify(extchange) === JSON.stringify(change)) {
-      props.enqueueSnackbar("Nothing Changed in Fields", {
+    if (change.first_name === "" || change.last_name === "") {
+      props.enqueueSnackbar("Empty Fields", {
         variant: "error",
       });
     } else {
-      if (change.first_name === "" || change.last_name === "") {
-        props.enqueueSnackbar("Empty Fields", {
-          variant: "error",
+      const formData = new FormData();
+      formData.append("picture", fileList);
+      axios
+        .post("http://localhost:5000/users/updateusersettings", formData, {
+          params: {
+            email: localStorage.getItem("useremail"),
+            first_name: change.first_name,
+            last_name: change.last_name,
+            about: change.about ? change.about : "",
+            address: change.address ? change.address : "",
+            phone_number: change.phone_number ? change.phone_number : "",
+            extPicture: fileList !== null ? "" : extchange.picture,
+            gender: change.gender ? change.gender : "",
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            console.log(response);
+            window.location.reload(false);
+            props.enqueueSnackbar("User Updated", {
+              variant: "success",
+            });
+            setReload(!reload);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          return err;
         });
-      } else {
-        const formData = new FormData();
-        formData.append("picture", fileList);
-        axios
-          .post("http://localhost:5000/users/updateusersettings", formData, {
-            params: {
-              email: localStorage.getItem("useremail"),
-              first_name: change.first_name,
-              last_name: change.last_name,
-              about: change.about ? change.about : "",
-              address: change.address ? change.address : "",
-              phone_number: change.phone_number ? change.phone_number : "",
-              gender: change.gender ? change.gender : "",
-            },
-          })
-          .then((response) => {
-            if (response.data.success) {
-              console.log(response);
-              props.enqueueSnackbar("User Updated", {
-                variant: "success",
-              });
-              setReload(!reload);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            return err;
-          });
-      }
     }
   };
 
   const { Title } = Typography;
   const { TextArea } = Input;
 
-  const [fileList, setFileList] = useState();
+  const [fileList, setFileList] = useState(null);
   const onChange = (e) => {
-    // if (file.status !== "uploading") {
-    //   console.log(file, newFileList);
-    // }
     setFileList(e.target.files[0]);
-  };
-  // const onChange = ({ file, fileList: newFileList }) => {
-  //   if (file.status !== "uploading") {
-  //     console.log(file, newFileList);
-  //   }
-  //   setFileList(newFileList);
-  // };
-
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
   };
 
   return (
@@ -262,27 +233,18 @@ const Settings = (props) => {
                   <Avatar
                     size={128}
                     icon={<UserOutlined />}
-                    src={fileList && URL.createObjectURL(fileList)}
+                    src={
+                      fileList
+                        ? URL.createObjectURL(fileList)
+                        : "http://localhost:5000/" + change.picture
+                    }
                   />
                 </Col>
               </Row>
               <Row justify="center">
                 <Col style={{ margin: "10px 0px" }}>
+                  <Title level={5}>Please crop to sqaure ratio.</Title>
                   <input name="picture" type="file" onChange={onChange} />
-                  {/* <ImgCrop rotate>
-                    <Upload
-                      onPreview={onPreview}
-                      name="profilepicture"
-                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      accept="image/*"
-                      listType="picture"
-                      className="upload-list-inline"
-                      fileList={fileList}
-                      onChange={onChange}
-                    >
-                      {fileList.length < 1 && <Button>Update</Button>}
-                    </Upload>
-                  </ImgCrop> */}
                 </Col>
               </Row>
               <Row justify="center">

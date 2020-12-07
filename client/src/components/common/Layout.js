@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu, Avatar, Dropdown } from "antd";
-
 import axios from "axios";
 import {
   MenuUnfoldOutlined,
@@ -24,6 +23,7 @@ const AdminLayout = ({ children }) => {
     last_name: "",
     address: "",
     phone_number: "",
+    picture: null,
     gender: "",
     password: "",
   });
@@ -41,6 +41,7 @@ const AdminLayout = ({ children }) => {
           last_name: response.data[0].last_name,
           address: response.data[0].address,
           phone_number: response.data[0].phone_number,
+          picture: response.data[0].picture,
           gender: response.data[0].gender,
         });
       })
@@ -183,12 +184,12 @@ const AdminLayout = ({ children }) => {
           <Dropdown overlay={menu} trigger={["click"]}>
             <Avatar
               loading={loading}
+              icon={<UserOutlined />}
               style={{ margin: "0px 50px", cursor: "pointer" }}
               size="large"
               onClick={(e) => e.preventDefault()}
-            >
-              {profile.first_name[0]}
-            </Avatar>
+              src={"http://localhost:5000/" + profile?.picture}
+            />
           </Dropdown>
         </Header>
         <Content

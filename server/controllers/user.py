@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, Blueprint, request, json
+from flask import Flask, jsonify, Blueprint, request, json, redirect, url_for, session
 from flask_pymongo import PyMongo
 from datetime import datetime
 from flask_bcrypt import Bcrypt
@@ -6,6 +6,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
 import requests
+import os
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = "theseek"
@@ -19,6 +20,9 @@ jwt = JWTManager(app)
 
 userroutes = Blueprint('userroutes', __name__)
 CORS(userroutes)
+
+
+uploads_dir = 'static'
 
 
 @userroutes.route("/register", methods=['POST'])
@@ -96,14 +100,28 @@ def updateusersettings():
     about = request.args["about"]
     address = request.args["address"]
     gender = request.args["gender"]
-    picture = request.files['picture']
+    extPicture = request.args["extPicture"]
 
     user_exists = users.find_one({"email": email})
     if user_exists:
-        response = users.update({'email': email}, {"$set":
-                                                   {"first_name": first_name, "last_name": last_name,
-                                                    "phone_number": phone_number, "address": address, "about": about, "gender": gender}
-                                                   })
+        if(extPicture == ""):
+            if(request.files['picture']):
+                picture = request.files['picture']
+                target = os.path.join(uploads_dir, "pictures")
+                if not os.path.isdir(target):
+                    os.mkdir(target)
+
+                destination = "/".join([target, email+picture.filename])
+                picture.save(destination)
+                response = users.update({'email': email}, {"$set":
+                                                           {"first_name": first_name, "last_name": last_name,
+                                                            "phone_number": phone_number, "address": address, "about": about, "gender": gender, "picture": "static/pictures/"+email+picture.filename}
+                                                           })
+        else:
+            response = users.update({'email': email}, {"$set":
+                                                       {"first_name": first_name, "last_name": last_name,
+                                                        "phone_number": phone_number, "address": address, "about": about, "gender": gender, "picture": extPicture}
+                                                       })
         if response:
             result = jsonify({"success": "User Updated"})
             return result
@@ -144,6 +162,7 @@ def fetchusersettngs():
         "phone_number": 1,
         "address": 1,
         "gender": 1,
+        "picture": 1,
         "created": 1
     })
     response = []

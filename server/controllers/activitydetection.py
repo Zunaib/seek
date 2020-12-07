@@ -127,6 +127,7 @@ def getSuspiciousActivity():
                 "norName": processed_filename+'-out_normal.mp4',
                 "sttName": processed_filename+'-out_static.mp4',
                 "filePath": vidstr,
+                "fav": False,
                 "blocked": False,
                 "deleted": False
             })
@@ -145,6 +146,7 @@ def getSuspiciousActivity():
                     "explosion": expcount,
                     "stabbing": stabcount,
                     "vandalism": vandcount,
+                    "fav": False,
                     "suspblocked": False,
                     "suspdeleted": False
                 })
@@ -155,6 +157,7 @@ def getSuspiciousActivity():
                     "videoName": filename,
                     "norName": processed_filename+'-out_normal.mp4',
                     "norPath": 'static/Processed/'+processed_filename+'-out_normal.mp4',
+                    "fav": False,
                     "norblocked": False,
                     "nordeleted": False
                 })
@@ -165,6 +168,7 @@ def getSuspiciousActivity():
                     "videoName": filename,
                     "sttName": processed_filename+'-out_static.mp4',
                     "sttPath": 'static/Processed/'+processed_filename+'-out_static.mp4',
+                    "fav": False,
                     "sttblocked": False,
                     "sttdeleted": False
                 })
