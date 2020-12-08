@@ -146,7 +146,6 @@ const Allvideos = (props) => {
       />
       <Divider>Videos</Divider>
       <Table bordered loading={loading} dataSource={videos} columns={columns} />
-      ;
     </div>
   );
 };

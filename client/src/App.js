@@ -4,7 +4,7 @@ import LandingNavBar from "./components/LandingNav";
 import Landing from "./containers/Landing";
 import Login from "./containers/Login";
 import Register from "./containers/Register";
-import Welcomesettings from "./containers/Welcomesettings"
+import Welcomesettings from "./containers/Welcomesettings";
 import Main from "./containers/Main";
 import Videos from "./containers/Videos";
 import SuspiciousVideos from "./containers/SuspiciousVideos";
@@ -27,7 +27,7 @@ import AdminLayout from "./components/common/Layout";
 import WebLayout from "./components/common/WebLayout";
 import Settings from "./containers/Settings";
 import Profile from "./containers/Profile";
-import Message from "./containers/Message"
+import Message from "./containers/Message";
 import Usermessages from "./containers/Usermessages";
 import Allmessages from "./containers/Allmessages";
 
@@ -45,7 +45,6 @@ class App extends Component {
   render() {
     let routes = (
       <>
-       
         <LandingNavBar />
         <Switch>
           <Route
@@ -60,14 +59,8 @@ class App extends Component {
           />
           <Route exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path="/welcomesettings" component={Welcomesettings}/>
-          
-        
-          
-
-        
+          <Route path="/welcomesettings" component={Welcomesettings} />
         </Switch>
-      
       </>
     );
 
@@ -94,7 +87,7 @@ class App extends Component {
                 <Route exact path="/allrequests" component={Allrequests} />
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
-                <Route path="/allmessages" component={Allmessages}/>
+                <Route exact path="/allmessages" component={Allmessages} />
                 <Route exact path="/logout" component={Logout} />
               </AdminLayout>
             </Switch>
@@ -116,8 +109,8 @@ class App extends Component {
                   path="/videos/suspicious/:videoname"
                   component={SuspiciousVideo}
                 />
-                <Route path="/message" exact component={Message}/>
-                <Route path="/usermessages" exact component={Usermessages}/>
+                <Route path="/message" exact component={Message} />
+                <Route path="/usermessages" exact component={Usermessages} />
                 <Route
                   exact
                   path="/videos/static/:videoname"

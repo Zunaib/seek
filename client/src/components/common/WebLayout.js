@@ -9,6 +9,7 @@ import {
   HomeOutlined,
   UsergroupAddOutlined,
   UserAddOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -154,6 +155,15 @@ const WebLayout = ({ children }) => {
           >
             <Link to="/normalvideos" onClick={() => setselectedKey("7")}>
               My Normal Videos
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="8"
+            icon={<MessageOutlined />}
+            onClick={() => setselectedKey("8")}
+          >
+            <Link to="/usermessages" onClick={() => setselectedKey("8")}>
+              My Messages
             </Link>
           </Menu.Item>
         </Menu>
