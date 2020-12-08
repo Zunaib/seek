@@ -94,7 +94,7 @@ class App extends Component {
                 <Route exact path="/allrequests" component={Allrequests} />
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
-                <Route path="/allmessages" component={Allmessages}/>
+                <Route path="/allmessages"  exact component={Allmessages}/>
                 <Route exact path="/logout" component={Logout} />
               </AdminLayout>
             </Switch>

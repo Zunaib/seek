@@ -28,17 +28,29 @@ import axios from "axios";
 
 const Allmessages = (props) => {
 
+  const[message,setMessage]=useState([]);
   useEffect(() => {
+   /*  console.log(data) */
     axios
-      .get("http://localhost:5000/users/?email=" +
-
-      localStorage.getItem("useremail")
-      )
+      .get("http://localhost:5000/users/allmessages")
       .then((response) => {
-       
+        setMessage(response.data
+          /* response?.data?.map(allmsg=>({
+            number: allmsg.number,
+            email: allmsg.email,
+            message1:allmsg.message1,
+            recieveremail:allmsg.recieveremail,
+            createdat:allmsg.createdat 
+
+          })) */
+        
+        );
+        console.log(response)
       })
       .catch((err) => {
-       
+        console.log(err)
+        return err
+    
       });
   }, []);
 
@@ -57,15 +69,20 @@ const Allmessages = (props) => {
               >
                 <Row type="flex" justify="center" align="middle" style={{minHeight: '25vh'}}>
                   <Col span={24} >
-                  <Card style={{ width: 1660, height: 50 }}  bordered={true}>
+                  <Card style={{ height: 50 }}  bordered={true}>
 
-                      <Row >
-                          <Col span={1} >waqar.gmail.com</Col>
-                          <Col span={10} >helllooooooo from the other sidee</Col>
-                          <Col  span={2} >Firing</Col>
+                     
+                      {message?.map(msg=>(
+                         <Row >
+                         <Col span={6}>{msg.recieveremail?.map(re=>{return re})}</Col>
+                            <Col span={6}>{msg.number?.map(num=>{return num})}</Col>
+                            <Col span={6}>{msg.message1}</Col>
+                           <Col span={6}>{msg.createdat}</Col>
+                     </Row>
 
-                          <Col  span={1} >4.44 am</Col>
-                      </Row>
+                      ))}
+                        
+    
             
            
             
