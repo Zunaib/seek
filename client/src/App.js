@@ -30,6 +30,9 @@ import Profile from "./containers/Profile";
 import Message from "./containers/Message"
 import Usermessages from "./containers/Usermessages";
 import Allmessages from "./containers/Allmessages";
+import Addcctv from "./containers/Addcctv";
+import Usercctv from "./containers/Usercctv";
+import Allcctvs from "./containers/Allcctvs";
 
 class App extends Component {
   constructor(props) {
@@ -95,6 +98,8 @@ class App extends Component {
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
                 <Route path="/allmessages"  exact component={Allmessages}/>
+                <Route path="/allcctvs"  exact component={Allcctvs}/>
+
                 <Route exact path="/logout" component={Logout} />
               </AdminLayout>
             </Switch>
@@ -118,6 +123,9 @@ class App extends Component {
                 />
                 <Route path="/message" exact component={Message}/>
                 <Route path="/usermessages" exact component={Usermessages}/>
+                <Route path="/addcctv" exact component={Addcctv}/>
+                <Route path="/usercctv" exact component={Usercctv}/>
+
                 <Route
                   exact
                   path="/videos/static/:videoname"
