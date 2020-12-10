@@ -33,6 +33,7 @@ import Allmessages from "./containers/Allmessages";
 import Addcctv from "./containers/Addcctv";
 import Usercctv from "./containers/Usercctv";
 import Allcctvs from "./containers/Allcctvs";
+import Notifications from "./containers/Notifications";
 
 class App extends Component {
   constructor(props) {
@@ -125,6 +126,7 @@ class App extends Component {
                 <Route path="/usermessages" exact component={Usermessages}/>
                 <Route path="/addcctv" exact component={Addcctv}/>
                 <Route path="/usercctv" exact component={Usercctv}/>
+                <Route path="/notification" exact component={Notifications}/>
 
                 <Route
                   exact
