@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  Rate,
-  Checkbox,
-  Card,
-  PageHeader,
-  Divider,
-  Button,
-  Input,
-  Row,
-  Col,
-  Form,
-  Select,
-  Avatar,
-  Upload,
-  message,
-  Typography,
-  Table,
-  Tag,
-} from "antd";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
-import { withSnackbar } from "notistack";
-import ImgCrop from "antd-img-crop";
-import Spinner from "../components/Spinner";
+import { PageHeader, Divider, Button, Table, Tag } from "antd";
 import axios from "axios";
+import { withSnackbar } from "notistack";
+import SendMessage from "../components/modals/sendMessage";
 
 const Usermessages = (props) => {
-  const { Title } = Typography;
   const [messages, setMessages] = useState([]);
+  const [msgModal, setMsgModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [reload, setReloading] = useState(false);
 
   useEffect(() => {
     axios
@@ -36,42 +17,31 @@ const Usermessages = (props) => {
           localStorage.getItem("useremail")
       )
       .then((response) => {
-        console.log(response);
         setLoading(false);
-        setMessages(
-          response?.data?.map((msg, index) => ({
-            key: index + 1,
-            emails: msg.recieveremail?.map((re) => {
-              return <Tag>{re}</Tag>;
-            }),
-            numbers: msg.number?.map((num) => {
-              return <Tag>{num}</Tag>;
-            }),
-            message: msg.message1,
-            sentat: msg.createdat,
-          }))
-        );
+        if (response.data.length > 0) {
+          setMessages(
+            response?.data?.map((msg, index) => ({
+              key: index + 1,
+              emails: msg.recieveremail?.map((re) => {
+                return <Tag>{re}</Tag>;
+              }),
+              numbers: msg.number?.map((num) => {
+                return <Tag>{num}</Tag>;
+              }),
+              message: msg.message1,
+              sentat: msg.createdat,
+              msg: msg,
+            }))
+          );
+        } else {
+          setMessages([]);
+        }
       })
       .catch((err) => {
         console.log(err);
         return err;
       });
-  }, []);
-
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  }, [reload]);
 
   const columns = [
     {
@@ -94,47 +64,60 @@ const Usermessages = (props) => {
       dataIndex: "sentat",
       key: "sentat",
     },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (record) => (
+        <Button type="primary" danger onClick={() => deleteMsg(record.msg)}>
+          Delete
+        </Button>
+      ),
+    },
   ];
+
+  const deleteMsg = (msg) => {
+    axios
+      .post("http://localhost:5000/users/remmsg", {
+        messageid: msg._id,
+      })
+      .then((res) => {
+        props.enqueueSnackbar(res.data.success, {
+          variant: "success",
+        });
+        setReloading(!reload);
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  };
+
+  const closeMsg = () => {
+    setMsgModal(false);
+    setReloading(!reload);
+  };
 
   return (
     <div class="Main">
+      {msgModal && <SendMessage onClose={closeMsg} />}
       <PageHeader
         className="site-page-header"
-        title="My Videos"
-        subTitle="My Videos Information and Actions"
+        title="My Message"
+        subTitle="My Messages And Information"
+        extra={[
+          <Button type="primary" onClick={() => setMsgModal(!msgModal)}>
+            Send New Message
+          </Button>,
+        ]}
       />
-      <Divider>My Videos</Divider>
+      <Divider>My Message</Divider>
       <Table
         bordered
         loading={loading}
         dataSource={messages}
         columns={columns}
       />
-
-      {/* <Col className="profile-settings" span={24}>
-          <Row>
-            <Col span={24}>
-              <Card style={{ height: 50 }} bordered={true}>
-                {message?.map((msg) => (
-                  <Row justify="start">
-                    <Col span={6}>
-                      {msg.recieveremail?.map((re) => {
-                        return re;
-                      })}
-                    </Col>
-                    <Col span={6}>
-                      {msg.number?.map((num) => {
-                        return num;
-                      })}
-                    </Col>
-                    <Col span={6}>{msg.message1}</Col>
-                    <Col span={6}>{msg.createdat}</Col>
-                  </Row>
-                ))}
-              </Card>
-            </Col>
-          </Row>
-        </Col> */}
     </div>
   );
 };

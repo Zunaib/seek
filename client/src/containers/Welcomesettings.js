@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-    Checkbox,
- Card,
+  Checkbox,
+  Card,
   PageHeader,
   Divider,
   Button,
@@ -22,48 +22,55 @@ import Spinner from "../components/Spinner";
 import axios from "axios";
 
 const Welcomesettings = (props) => {
-    const [loading, setLoading] = useState(true);
- 
-    const { Title } = Typography;
-    const { TextArea } = Input;
-    const [fileList, setFileList] = useState();
-  
-  
+  const [loading, setLoading] = useState(true);
+
+  const { Title } = Typography;
+  const { TextArea } = Input;
+  const [fileList, setFileList] = useState();
 
   return (
     <div class="Main">
-     <PageHeader/>
+      <PageHeader />
 
-     <div className="site-card-wrapper">
-    <Row gutter={16} type="flex" justify="center" align="middle" style={{minHeight: '50vh'}} >
-      <Col span={8}>
-        <Card title="Card title" bordered={true} style={{ height: 250 }}>
-          Card content
-        </Card>
-      </Col>
-      <Col span={8}>
-        <Card title="Card title" bordered={true}  style={{ height: 250 }}>
-          Card content
-        </Card>
-      </Col>
-      <Col span={8}>
-        <Card title="Card title" bordered={true}  style={{ height: 250 }}>
-          Card content
-        </Card>
-      </Col>
-    </Row>
-  </div>
-     
+      <div className="site-card-wrapper">
+        <Row
+          gutter={16}
+          type="flex"
+          justify="center"
+          align="middle"
+          style={{ minHeight: "50vh" }}
+        >
+          <Col span={8}>
+            <Card title="Card title" bordered={true} style={{ height: 250 }}>
+              Card content
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="Card title" bordered={true} style={{ height: 250 }}>
+              Card content
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="Card title" bordered={true} style={{ height: 250 }}>
+              Card content
+            </Card>
+          </Col>
+        </Row>
+      </div>
 
-     
       <div className=" container-fluid page">
         {
-         <Row type="flex" justify="center" align="middle" style={{minHeight: '25vh'}}>
+          <Row
+            type="flex"
+            justify="center"
+            align="middle"
+            style={{ minHeight: "25vh" }}
+          >
             <Col className="profile-settings" span={14}>
               <Form
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
-               /*  onFinish={updateSettings} */
+                /*  onFinish={updateSettings} */
               >
                 <Row>
                   <Col span={12}>
@@ -71,16 +78,15 @@ const Welcomesettings = (props) => {
                       <Input
                         type="text"
                         placeholder="Enter First Name"
-                       /*  value={change.first_name} */
-                       /*  onChange={(e) =>
+                        /*  value={change.first_name} */
+                        /*  onChange={(e) =>
                           setChange({ ...change, first_name: e.target.value })
                         } */
                       />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                  <Checkbox>Do you Want Admin Access</Checkbox>
-               
+                    <Checkbox>Do you Want Admin Access</Checkbox>
                   </Col>
                 </Row>
                 <Row>
@@ -89,7 +95,7 @@ const Welcomesettings = (props) => {
                       <TextArea
                         rows={5}
                         placeholder="Enter About"
-                      /*   value={change.about}
+                        /*   value={change.about}
                         onChange={(e) =>
                           setChange({ ...change, about: e.target.value })
                         } */
@@ -101,7 +107,7 @@ const Welcomesettings = (props) => {
                       <TextArea
                         rows={5}
                         placeholder="Enter Address"
-                     /*    value={change.address}
+                        /*    value={change.address}
                         onChange={(e) =>
                           setChange({ ...change, address: e.target.value })
                         } */
@@ -115,7 +121,7 @@ const Welcomesettings = (props) => {
                       <Input
                         type="text"
                         placeholder="Enter Phone Number"
-                       /*  value={change.phone_number}
+                        /*  value={change.phone_number}
                         onChange={(e) =>
                           setChange({ ...change, phone_number: e.target.value })
                         } */
@@ -125,7 +131,7 @@ const Welcomesettings = (props) => {
                   <Col span={12}>
                     <Form.Item label="Gender">
                       <Select
-                     /*    value={change.gender}
+                      /*    value={change.gender}
                         onChange={(e) => setChange({ ...change, gender: e })} */
                       >
                         <Select.Option value="Male">Male</Select.Option>
@@ -152,7 +158,10 @@ const Welcomesettings = (props) => {
               </Row>
               <Row justify="center">
                 <Col style={{ margin: "10px 0px" }}>
-                  <input name="picture" type="file"/*  onChange={onChange}  *//>
+                  <input
+                    name="picture"
+                    type="file" /*  onChange={onChange}  */
+                  />
                   {/* <ImgCrop rotate>
                     <Upload
                       onPreview={onPreview}
@@ -172,7 +181,7 @@ const Welcomesettings = (props) => {
               <Row justify="center">
                 <Col style={{ margin: "10px 0px" }}>
                   <Title level={2}>
-                 {/*    {change.first_name + " " + change.last_name} */}
+                    {/*    {change.first_name + " " + change.last_name} */}
                   </Title>
                   <Title level={5}>{/* {change.about} */}</Title>
                 </Col>
@@ -186,4 +195,3 @@ const Welcomesettings = (props) => {
 };
 
 export default withSnackbar(Welcomesettings);
-

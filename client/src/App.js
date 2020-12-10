@@ -27,9 +27,9 @@ import AdminLayout from "./components/common/Layout";
 import WebLayout from "./components/common/WebLayout";
 import Settings from "./containers/Settings";
 import Profile from "./containers/Profile";
-import Message from "./containers/Message";
 import Usermessages from "./containers/Usermessages";
 import Allmessages from "./containers/Allmessages";
+import Test from "./containers/Test";
 
 class App extends Component {
   constructor(props) {
@@ -73,6 +73,8 @@ class App extends Component {
           <>
             <Switch>
               <AdminLayout>
+                <Route exact path="/" component={Test} />
+
                 <Route exact path="/dashboard" component={Admindashboard} />
                 <Route exact path="/allvideos" component={Allvideos} />
                 <Route exact path="/allusers" component={Allusers} />
@@ -98,6 +100,7 @@ class App extends Component {
           <>
             <Switch>
               <WebLayout>
+                <Route exact path="/" component={Test} />
                 <Route exact path="/main" component={Main} />
                 <Route
                   exact
@@ -109,7 +112,6 @@ class App extends Component {
                   path="/videos/suspicious/:videoname"
                   component={SuspiciousVideo}
                 />
-                <Route path="/message" exact component={Message} />
                 <Route path="/usermessages" exact component={Usermessages} />
                 <Route
                   exact

@@ -170,6 +170,15 @@ const AdminLayout = ({ children }) => {
               All Requests
             </Link>
           </Menu.Item>
+          <Menu.Item
+            key="10"
+            icon={<UsergroupAddOutlined />}
+            onClick={() => setselectedKey("10")}
+          >
+            <Link to="/allmessages" onClick={() => setselectedKey("10")}>
+              All Messages
+            </Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
