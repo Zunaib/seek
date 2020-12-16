@@ -18,5 +18,6 @@
 }
 
 .site-layout .site-layout-background {
-  background: #fff;
+  background: rgb(255, 255, 255);
+  margin: 0px 0px !important;
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
 import { withSnackbar } from "notistack";
-import { PageHeader, Divider, Card, Tag } from "antd";
+import { PageHeader, Divider, Card, Tag, Row, Col } from "antd";
 import { Redirect } from "react-router-dom";
 
 class SuspiciousVideo extends Component {
@@ -62,7 +62,7 @@ class SuspiciousVideo extends Component {
   }
 
   render() {
-    const activities = this.state.activities.sort((a, b) => b - a);
+    const activities = this.state.activities.sort((a, b) => b.count - a.count);
     const videostyles = {
       playing: false,
       controls: true,
@@ -75,11 +75,13 @@ class SuspiciousVideo extends Component {
         {this.state.redirect ? (
           <Redirect to="/videos" />
         ) : this.state.loading ? (
-          <div className="prvideo">
-            <div className="loading">
-              <Spinner />
-            </div>
-          </div>
+          <Row justify="center">
+            <Col>
+              <div className="loading-spinner">
+                <Spinner />
+              </div>
+            </Col>
+          </Row>
         ) : (
           <>
             <PageHeader

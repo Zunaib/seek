@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Spinner from "../components/Spinner";
 import { Avatar, Card, Col, Row, Statistic } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
@@ -10,7 +11,9 @@ const Profile = () => {
     first_name: "",
     last_name: "",
     address: "",
+    about: "",
     phone_number: "",
+    picture: null,
     gender: "",
     password: "",
   });
@@ -29,6 +32,8 @@ const Profile = () => {
           last_name: response.data[0].last_name,
           address: response.data[0].address,
           phone_number: response.data[0].phone_number,
+          about: response.data[0].about,
+          picture: response.data[0].picture,
           gender: response.data[0].gender,
         });
         setCounts(response.data[1]);
@@ -42,28 +47,32 @@ const Profile = () => {
   return (
     <div className="Main">
       {loading ? (
-        <div className="loading">
-          <Spinner />
-        </div>
+        <Row justify="center">
+          <Col>
+            <div className="loading-spinner">
+              <Spinner />
+            </div>
+          </Col>
+        </Row>
       ) : (
         <>
           <div className="topimage"></div>
           <div className="imagebutton">
             <Avatar
+              icon={<UserOutlined />}
               size={128}
-              style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
-            >
-              <div style={{ fontSize: "40px" }}>{profile.first_name[0]}</div>
-            </Avatar>
+              style={{ color: "#fff", backgroundColor: "#001529" }}
+              src={"http://localhost:5000/" + profile?.picture}
+            />
           </div>
 
           <div className="profile">
             <div className="profileinfo">
               <h1>{profile.first_name + " " + profile.last_name}</h1>
-              <h5>
+              <h4>
                 {localStorage.getItem("admin") === "true" ? "Admin" : "User"}
-              </h5>
-
+              </h4>
+              <h5>{profile?.about}</h5>
               <div className="connect"></div>
             </div>
             <div className="videostats">

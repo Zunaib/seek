@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import VideoList from "../components/admin/VideoList";
 import { withSnackbar } from "notistack";
-import Spinner from "../components/Spinner";
-import { PageHeader, Divider } from "antd";
+import { PageHeader, Divider, Button, Table } from "antd";
+import ReactPlayer from "react-player";
 
 const Allvideos = (props) => {
   const [videos, setVideos] = useState([]);
@@ -16,7 +15,28 @@ const Allvideos = (props) => {
       .then((response) => {
         console.log(response);
         setLoading(false);
-        setVideos(response.data);
+
+        setVideos(
+          response?.data?.map((vid, index) => ({
+            key: index + 1,
+            video: (
+              <ReactPlayer
+                url={"http://localhost:5000/" + vid.filePath}
+                playing={false}
+                controls={true}
+                volume={1}
+                width={"inherit"}
+                height={"inherit"}
+              />
+            ),
+            email: vid.email,
+            name: vid.videoName,
+            filepath: vid.filePath ? "True" : "False",
+            blocked: vid.blocked ? "True" : "False",
+            deleted: vid.deleted ? "True" : "False",
+            vid: vid,
+          }))
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -62,6 +82,61 @@ const Allvideos = (props) => {
     }
   };
 
+  const columns = [
+    {
+      title: "Video",
+      dataIndex: "video",
+      key: "video",
+      width: 200,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Path",
+      dataIndex: "filepath",
+      key: "filepath",
+    },
+    {
+      title: "Blocked",
+      dataIndex: "blocked",
+      key: "blocked",
+    },
+    {
+      title: "Deleted",
+      dataIndex: "deleted",
+      key: "deleted",
+    },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (record) => (
+        <Button
+          disabled={record.vid.email === localStorage.getItem("useremail")}
+          type="primary"
+          danger
+          onClick={() =>
+            actionBtn(
+              record.vid.blocked ? "unblock" : "block",
+              record.vid.email,
+              record.vid.videoName
+            )
+          }
+        >
+          {record.vid.blocked ? "Unblock" : "Block"}
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <div className="Main">
       <PageHeader
@@ -70,48 +145,7 @@ const Allvideos = (props) => {
         subTitle="All Videos Information and Actions"
       />
       <Divider>Videos</Divider>
-      {loading ? (
-        <Spinner />
-      ) : videos.length >= 1 ? (
-        <div className="AdminList">
-          <div className="tbl-header">
-            <table cellPadding="0" cellSpacing="0" border="0">
-              <thead className="">
-                <tr>
-                  <th>Video</th>
-                  <th>Email</th>
-                  <th>Name</th>
-                  <th>Path</th>
-                  <th>Blocked</th>
-                  <th>Deleted</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-          <div>
-            <table cellPadding="0" cellSpacing="0" border="0">
-              <tbody className="tbl-content">
-                {videos.map((video, index) => (
-                  <VideoList
-                    key={index}
-                    btnClicked={(type) =>
-                      actionBtn(type, video.email, video.videoName)
-                    }
-                    email={video.email}
-                    name={video.videoName}
-                    filePath={video.filePath}
-                    blocked={video.blocked}
-                    deleted={video.deleted}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <h3>No Videos Found</h3>
-      )}
+      <Table bordered loading={loading} dataSource={videos} columns={columns} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Spinner from "../components/Spinner";
-import { PageHeader, Divider, Card, Tag } from "antd";
+import { PageHeader, Divider, Card, Tag, Row, Col } from "antd";
 import { withSnackbar } from "notistack";
 import { Redirect } from "react-router-dom";
 
@@ -62,11 +62,13 @@ class StaticVideo extends Component {
         {this.state.redirect ? (
           <Redirect to="/videos" />
         ) : this.state.loading ? (
-          <div className="prvideo">
-            <div className="loading">
-              <Spinner />
-            </div>
-          </div>
+          <Row justify="center">
+            <Col>
+              <div className="loading-spinner">
+                <Spinner />
+              </div>
+            </Col>
+          </Row>
         ) : (
           <>
             <PageHeader
@@ -96,7 +98,7 @@ class StaticVideo extends Component {
                       fontSize: "15px",
                       padding: "5px",
                       margin: "5px auto",
-                      width: "30%",
+                      width: "40%",
                     }}
                     color={"#87d068"}
                   >
@@ -108,7 +110,7 @@ class StaticVideo extends Component {
                       fontSize: "15px",
                       padding: "5px",
                       margin: "5px auto",
-                      width: "30%",
+                      width: "40%",
                     }}
                     color={"#87d068"}
                   >
@@ -120,7 +122,7 @@ class StaticVideo extends Component {
                       fontSize: "15px",
                       padding: "5px",
                       margin: "5px auto",
-                      width: "30%",
+                      width: "40%",
                     }}
                     color={"#87d068"}
                   >

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import RequestsList from "../components/admin/RequestsList";
 import axios from "axios";
-import Spinner from "../components/Spinner";
 import { withSnackbar } from "notistack";
-import { PageHeader, Divider } from "antd"
-
+import { PageHeader, Divider, Button, Table } from "antd";
 const Allrequests = (props) => {
-
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
@@ -16,8 +12,20 @@ const Allrequests = (props) => {
       .get("http://localhost:5000/fetchrequests")
       .then((response) => {
         setLoading(false);
-        setRequests(response.data);
+        if (response.data.length > 1) {
+          setRequests(
+            response?.data?.map((req, index) => ({
+              key: index + 1,
+              email: req.email,
+              reason: req.reason,
+              message: req.message,
+              type: "Wants To Be Admin",
+              req: req,
+            }))
+          );
+        }
       })
+
       .catch((err) => {
         console.log(err);
         return err;
@@ -26,21 +34,58 @@ const Allrequests = (props) => {
 
   const actionBtn = (email) => {
     axios
-    .post("http://localhost:5000/grantadminaccess", {
-      email: email,
-    })
-    .then((res) => {
-      if (res.data.success === "Access Granted") {
-        props.enqueueSnackbar("Access Granted", {
-          variant: "success",
-        });
-        setReload(!reload);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .post("http://localhost:5000/grantadminaccess", {
+        email: email,
+      })
+      .then((res) => {
+        if (res.data.success === "Access Granted") {
+          props.enqueueSnackbar("Access Granted", {
+            variant: "success",
+          });
+          setReload(!reload);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const columns = [
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Reason",
+      dataIndex: "reason",
+      key: "reason",
+    },
+    {
+      title: "Message",
+      dataIndex: "message",
+      key: "message",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (record) => (
+        <Button
+          type="primary"
+          danger
+          onClick={() => actionBtn(record.req.email)}
+        >
+          Grant Access
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div className="Main">
@@ -50,46 +95,14 @@ const Allrequests = (props) => {
         subTitle="All Admin Requests"
       />
       <Divider>Requests</Divider>
-      {loading ? (
-        <Spinner />
-      ) : (
-          requests.length >= 1 ?
-            <div className="AdminList">
-              <div className="tbl-header">
-                <table cellPadding="0" cellSpacing="0" border="0">
-                  <thead className="">
-                    <tr>
-                      <th>Email</th>
-                      <th>Reason</th>
-                      <th>Message</th>
-                      <th>Type</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
-              <div>
-                <table cellPadding="0" cellSpacing="0" border="0">
-                  <tbody className="tbl-content">
-                    {requests.map((user, index) =>
-                      <RequestsList
-                        key={index}
-                        email={user.email}
-                        btnClicked={(type) =>
-                          actionBtn(user.email)
-                        }
-                        reason={user.reason}
-                        message={user.message}
-                      />
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            : <h3>No Requests Found</h3>
-        )}
+      <Table
+        bordered
+        loading={loading}
+        dataSource={requests}
+        columns={columns}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default withSnackbar(Allrequests)
+export default withSnackbar(Allrequests);

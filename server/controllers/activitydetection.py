@@ -1,8 +1,14 @@
-from flask import Flask, Blueprint, jsonify, request
+from flask import Flask, Blueprint, jsonify, request, Response
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 import keras
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout, Activation, Flatten
+from keras.layers.convolutional import Convolution2D, MaxPooling2D
+from keras.utils import np_utils
+from keras.preprocessing.image import img_to_array
 import numpy as np
+import tensorflow as tf
 import cv2
 import os
 
@@ -29,6 +35,11 @@ def getSuspiciousActivity():
     nor_videos = mongo.db.norvideos
     stt_videos = mongo.db.sttvideos
     model = keras.models.load_model('susp_act.model')  # to load crime model
+
+    # object detection model
+    m, n = 50, 50
+    objmodel = keras.models.load_model("models\\model_latest.h5")
+
     # cats_ contains categories i.e. burglary, firing, fighting
     cats_ = [i for i in os.listdir('Dataset/')]
     email = request.args['email']
@@ -44,12 +55,16 @@ def getSuspiciousActivity():
     vandcount = 0
     stabcount = 0
 
+    # object count
+    kncount = 0
+    sgcount = 0
+    lgcount = 0
+
     video = request.files['video']
     filename = video.filename.replace(" ", "")
     processed_filename = filename.rsplit('.', 1)[0]
     video.save(os.path.join(uploads_dir, filename))
     vidstr = 'static/'+filename
-    print(vidstr)
     cap = cv2.VideoCapture(vidstr)  # video
 
     # initialize Save Video
@@ -57,30 +72,56 @@ def getSuspiciousActivity():
     frame_height = int(cap.get(4))
     fourcc = cv2.VideoWriter_fourcc(*'X264')
     out_susp = cv2.VideoWriter('static/Processed/'+processed_filename +
-                               '-out_susp.mp4', fourcc, 24, (frame_width, frame_height))
+                               '-out_susp.mp4', fourcc, 24, (frame_width, frame_height), False)
     out_normal = cv2.VideoWriter('static/Processed/'+processed_filename +
-                                 '-out_normal.mp4', fourcc, 24, (frame_width, frame_height))
+                                 '-out_normal.mp4', fourcc, 24, (frame_width, frame_height), False)
     out_static = cv2.VideoWriter('static/Processed/'+processed_filename +
-                                 '-out_static.mp4', fourcc, 24, (frame_width, frame_height))
+                                 '-out_static.mp4', fourcc, 24, (frame_width, frame_height), False)
 
     result = ""
+    object_name = ""
 
     if videos.find_one({"email": email, "videoName": filename}):
         result = jsonify({"error": "Video Name Against Account Exists"})
     else:
         try:
             while True:  # iterate each frame one by one
+                x = []
                 ret, frame = cap.read()  # extract frame
                 img = frame.copy()  # copy frame
-                # convert frame from BGR to RGB
+
+                # Detecting Object
+                imrs = cv2.resize(img, (m, n))  # resize image for object
+                imrs = img_to_array(imrs)/255
+                imrs = imrs.transpose(2, 0, 1)
+                imrs = imrs.reshape(3, m, n)
+                x.append(imrs)
+                x = np.array(x)
+                result = objmodel.predict(x)
+
+                if (result[0][0] > result[0][1]) and (result[0][0] > result[0][2]):
+                    object_name = "Knife"
+                    if(result[0][0] > 0.6):
+                        kncount = kncount+1
+
+                elif (result[0][1] > result[0][0]) and (result[0][1] > result[0][2]):
+                    object_name = "Long Gun"
+                    if(result[0][1] > 0.6):
+                        lgcount = lgcount+1
+                else:
+                    object_name = "Small Gun"
+                    if(result[0][2] > 0.6):
+                        sgcount = sgcount+1
+
+                # Detecting Activity
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 img = cv2.resize(img, (224, 224))  # resize image by 224x224
                 # find the class with highest probability 0 or 1 or 2
                 actual = np.argmax(
                     list(model.predict([img.reshape(-1, 224, 224, 3)])))
                 # print the probability for each of 3 classes and return the class
-                print(list(model.predict(
-                    [img.reshape(-1, 224, 224, 3)])), 'corresponding action : ', cats_[actual])
+                # print(list(model.predict(
+                #     [img.reshape(-1, 224, 224, 3)])), 'corresponding action : ', cats_[actual])
 
                 # Write the frame into the file 'output.mp4'
                 if(cats_[actual] == 'Stabbing' or cats_[actual] == "Burglary" or cats_[actual] == "Fighting" or cats_[actual] == "Firing" or cats_[actual] == "Vandalism" or cats_[actual] == "Explosion"):
@@ -97,8 +138,10 @@ def getSuspiciousActivity():
                 frame = cv2.resize(frame, (600, 400))
 
                 # put text on video frames
+                # cv2.putText(frame, str(
+                #     cats_[actual]), (20, 20), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 255))
                 cv2.putText(frame, str(
-                    cats_[actual]), (20, 20), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 255))
+                    cats_[actual] + " -- " + object_name), (20, 20), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 255))
 
                 if(cats_[actual] == "Firing"):
                     fircount += 1
@@ -127,6 +170,7 @@ def getSuspiciousActivity():
                 "norName": processed_filename+'-out_normal.mp4',
                 "sttName": processed_filename+'-out_static.mp4',
                 "filePath": vidstr,
+                "fav": False,
                 "blocked": False,
                 "deleted": False
             })
@@ -139,12 +183,16 @@ def getSuspiciousActivity():
                     "videoName": filename,
                     "suspName": processed_filename+'-out_susp.mp4',
                     "suspPath": 'static/Processed/'+processed_filename+'-out_susp.mp4',
+                    "knife": kncount,
+                    "smallgun": sgcount,
+                    "longgun": lgcount,
                     "burglary": burgcount,
                     "fighting": figcount,
                     "firing": fircount,
                     "explosion": expcount,
                     "stabbing": stabcount,
                     "vandalism": vandcount,
+                    "fav": False,
                     "suspblocked": False,
                     "suspdeleted": False
                 })
@@ -155,6 +203,7 @@ def getSuspiciousActivity():
                     "videoName": filename,
                     "norName": processed_filename+'-out_normal.mp4',
                     "norPath": 'static/Processed/'+processed_filename+'-out_normal.mp4',
+                    "fav": False,
                     "norblocked": False,
                     "nordeleted": False
                 })
@@ -165,10 +214,10 @@ def getSuspiciousActivity():
                     "videoName": filename,
                     "sttName": processed_filename+'-out_static.mp4',
                     "sttPath": 'static/Processed/'+processed_filename+'-out_static.mp4',
+                    "fav": False,
                     "sttblocked": False,
                     "sttdeleted": False
                 })
-
         except:
             pass
         result = jsonify({"video": "Video has been saved"})
@@ -193,21 +242,28 @@ def getSuspiciousActivityWebcam():
             actual = np.argmax(
                 list(model.predict([img.reshape(-1, 224, 224, 3)])))
             # print the probability for each of 3 classes and return the class
-            print(list(model.predict(
-                [img.reshape(-1, 224, 224, 3)])), 'corresponding action : ', cats_[actual])
-
             # resize by 600x400 to show on screen
             frame = cv2.resize(frame, (600, 400))
             # put text on video frames
             cv2.putText(frame, str(cats_[actual]), (20, 20),
                         cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 255))
-            cv2.imshow('iSecure', frame)  # show frames
+            # cv2.imshow('iSecure', frame)  # show frames
             key = cv2.waitKey(33)  # show frame for 33 milli seconds
             if key == 27:  # escape
                 cv2.destroyAllWindows()  # destroy window if user presses escape
                 break
+            cv2.imwrite('t.jpg', frame)
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
         cap.release()  # release the capture
     except:
         pass
     result = jsonify({"webcam": "Webcam Successfull"})
     return result
+
+
+# @activitydetectionroutes.route('/video_feed')
+# def video_feed():
+#     """Video streaming route. Put this in the src attribute of an img tag."""
+#     return Response(getSuspiciousActivityWebcam(),
+#                     mimetype='multipart/x-mixed-replace; boundary=frame', )

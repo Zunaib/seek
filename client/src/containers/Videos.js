@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPlayer from "react-player";
-import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
 import { withSnackbar } from "notistack";
-import { PageHeader, Divider, Button, Popconfirm } from "antd";
+import {
+  PageHeader,
+  Divider,
+  Button,
+  Popconfirm,
+  Card,
+  Row,
+  Col,
+  Typography,
+  Tooltip,
+} from "antd";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 
 const Videos = (props) => {
   const [video, setVideo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
+
+  const { Title } = Typography;
 
   useEffect(() => {
     axios
@@ -23,7 +35,7 @@ const Videos = (props) => {
           setVideo(response.data.filter((res) => res.deleted !== true));
         } else {
           setLoading(false);
-          setVideo(response.data);
+          setVideo([]);
         }
       })
       .catch((err) => {
@@ -62,6 +74,33 @@ const Videos = (props) => {
       });
   };
 
+  const addToFav = (video) => {
+    axios
+      .post("http://localhost:5000/addtofavvideo", {
+        email: video.email,
+        name: video.videoName,
+        path: video.filePath,
+        blocked: video.blocked,
+        deleted: video.deleted,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          props.enqueueSnackbar("Video Favourited", {
+            variant: "success",
+          });
+          setReload(!reload);
+        } else {
+          props.enqueueSnackbar("Video Not Found", {
+            variant: "error",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  };
+
   return (
     <div className="Main">
       <PageHeader
@@ -70,88 +109,91 @@ const Videos = (props) => {
         subTitle="My Videos Information and Actions"
       />
       <Divider>My Videos</Divider>
-      <div className=" container-fluid page">
-        {loading ? (
-          <div className="loading">
-            <Spinner />
-          </div>
-        ) : video.length >= 1 ? (
-          <div className="row">
-            {video.length > 0 ? (
-              video.map((vid, index) => (
-                <div className="vlogCard" key={index}>
-                  <ReactPlayer
-                    url={
-                      vid.blocked
-                        ? "http://localhost:5000/"
-                        : "http://localhost:5000/" + vid.filePath
-                    }
-                    {...videostyles}
-                  />
-                  <div className="cardText">
-                    <h4>
-                      <b>{vid.videoName.split(".")[0]}</b>
-                      <b>{vid.blocked && "(Blocked By Admin)"}</b>
-                    </h4>
-                  </div>
-                  <div className="cardInfo">
-                    <div className="activities">
-                      <Link to={"/videos/suspicious/" + vid.suspName}>
-                        <Button
-                          type="primary"
-                          size="small"
-                          style={{ margin: "0px 4px 0px 4px" }}
-                        >
-                          Suspicious Part
-                        </Button>
-                      </Link>
-                      <Link to={"/videos/normal/" + vid.norName}>
-                        <Button
-                          type="primary"
-                          size="small"
-                          style={{ margin: "0px 4px 0px 4px" }}
-                        >
-                          Normal Part
-                        </Button>
-                      </Link>
-                      <Link to={"/videos/static/" + vid.sttName}>
-                        <Button
-                          type="primary"
-                          size="small"
-                          style={{ margin: "0px 4px 0px 4px" }}
-                        >
-                          Static Part
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
+      <Row justify="start">
+        {video?.map((vid) => (
+          <Col span={4}>
+            <Card
+              loading={loading}
+              className="main-card"
+              cover={
+                <ReactPlayer
+                  className="player"
+                  url={
+                    vid.blocked
+                      ? "http://localhost:5000/"
+                      : "http://localhost:5000/" + vid.filePath
+                  }
+                  {...videostyles}
+                />
+              }
+              actions={[
+                <Popconfirm
+                  title="Sure to delete?"
+                  onConfirm={() => handleDelete(vid.videoName)}
+                >
+                  <Button type="primary" danger size="small">
+                    Delete
+                  </Button>
+                </Popconfirm>,
+                vid.fav ? (
+                  <Tooltip title="Remove From Favourite">
+                    <HeartFilled className="fav-icon" />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Add To Favourite">
+                    <HeartOutlined
+                      className="fav-icon"
+                      onClick={() => addToFav(video[0])}
+                    />
+                  </Tooltip>
+                ),
+              ]}
+            >
+              <Card.Meta
+                title={
+                  <Title level={4}>
+                    {vid.blocked
+                      ? vid.videoName.split(".")[0] + "" + vid.blocked &&
+                        "(Blocked By Admin)"
+                      : vid.videoName.split(".")[0]}
+                  </Title>
+                }
+                description={
                   <div>
-                    <Popconfirm
-                      title="Sure to delete?"
-                      onConfirm={() => handleDelete(vid.videoName)}
-                    >
+                    <Link to={"/videos/suspicious/" + vid.suspName}>
                       <Button
                         type="primary"
-                        danger={true}
                         size="small"
-                        style={{ margin: "0px 4px 0px 4px" }}
+                        style={{ margin: "2px 5px" }}
                       >
-                        Delete Video
+                        Suspicious
                       </Button>
-                    </Popconfirm>
+                    </Link>
+                    <Link to={"/videos/normal/" + vid.norName}>
+                      <Button
+                        type="primary"
+                        size="small"
+                        style={{ margin: "2px 5px" }}
+                      >
+                        Normal
+                      </Button>
+                    </Link>
+                    <Link to={"/videos/static/" + vid.sttName}>
+                      <Button
+                        type="primary"
+                        size="small"
+                        style={{ margin: "2px 5px" }}
+                      >
+                        Static
+                      </Button>
+                    </Link>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div>
-                <h2>No Videos Exist</h2>
-              </div>
-            )}
-          </div>
-        ) : (
-          <h3>No Videos Found</h3>
-        )}
-      </div>
+                }
+              />
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };

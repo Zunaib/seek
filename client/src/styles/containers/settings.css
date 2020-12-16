@@ -1,0 +1,8 @@
+.profile-settings{
+  border-radius: 5px;
+  margin: 0px 40px;
+  padding: 50px 80px;
+  -webkit-box-shadow: 0px 10px 24px -11px #001529ad;
+  -moz-box-shadow: 0px 10px 24px -11px #001529ad;
+  box-shadow: 0px 10px 24px -11px #001529ad;
+}

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import LandingNavBar from "./components/LandingNav";
 import Landing from "./containers/Landing";
 import Login from "./containers/Login";
 import Register from "./containers/Register";
+import Welcomesettings from "./containers/Welcomesettings";
 import Main from "./containers/Main";
 import Videos from "./containers/Videos";
 import SuspiciousVideos from "./containers/SuspiciousVideos";
@@ -26,6 +27,13 @@ import AdminLayout from "./components/common/Layout";
 import WebLayout from "./components/common/WebLayout";
 import Settings from "./containers/Settings";
 import Profile from "./containers/Profile";
+import Usermessages from "./containers/Usermessages";
+import Allmessages from "./containers/Allmessages";
+import Test from "./containers/Test";
+import Addcctv from "./containers/Addcctv";
+import Usercctv from "./containers/Usercctv";
+import Allcctvs from "./containers/Allcctvs";
+import Notifications from "./containers/Notifications";
 
 class App extends Component {
   constructor(props) {
@@ -55,7 +63,7 @@ class App extends Component {
           />
           <Route exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Redirect to="/" />
+          <Route path="/welcomesettings" component={Welcomesettings} />
         </Switch>
       </>
     );
@@ -69,6 +77,8 @@ class App extends Component {
           <>
             <Switch>
               <AdminLayout>
+                <Route exact path="/" component={Test} />
+
                 <Route exact path="/dashboard" component={Admindashboard} />
                 <Route exact path="/allvideos" component={Allvideos} />
                 <Route exact path="/allusers" component={Allusers} />
@@ -83,8 +93,10 @@ class App extends Component {
                 <Route exact path="/allrequests" component={Allrequests} />
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
+                <Route path="/allmessages" exact component={Allmessages} />
+                <Route path="/allcctvs" exact component={Allcctvs} />
+
                 <Route exact path="/logout" component={Logout} />
-                <Redirect to="/dashboard" />
               </AdminLayout>
             </Switch>
           </>
@@ -94,6 +106,7 @@ class App extends Component {
           <>
             <Switch>
               <WebLayout>
+                <Route exact path="/" component={Test} />
                 <Route exact path="/main" component={Main} />
                 <Route
                   exact
@@ -105,6 +118,11 @@ class App extends Component {
                   path="/videos/suspicious/:videoname"
                   component={SuspiciousVideo}
                 />
+                <Route path="/usermessages" exact component={Usermessages} />
+                <Route path="/addcctv" exact component={Addcctv} />
+                <Route path="/usercctv" exact component={Usercctv} />
+                <Route path="/notification" exact component={Notifications} />
+
                 <Route
                   exact
                   path="/videos/static/:videoname"
@@ -126,7 +144,6 @@ class App extends Component {
                 />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/logout" component={Logout} />
-                <Redirect to="/main" />
               </WebLayout>
             </Switch>
           </>
