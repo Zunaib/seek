@@ -33,7 +33,7 @@ const StaticVideos = (props) => {
           setVideo(response.data.filter((res) => res.sttdeleted !== true));
         } else {
           setLoading(false);
-          setVideo(response.data);
+          setVideo([]);
         }
       })
       .catch((err) => {

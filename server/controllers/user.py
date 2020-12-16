@@ -95,6 +95,61 @@ def message():
     return jsonify({"success": "Message Sent"})
 
 
+@userroutes.route("/addcctv", methods=["POST"])
+def addcctv():
+    cctv = mongo.db.cctv
+    name = request.get_json()["name"]
+    email = request.get_json()["email"]
+    ip_address = request.get_json()["ip_address"]
+    cam_type = request.get_json()["cam_type"]
+    ccctv_id = cctv.insert({
+        "name": name,
+        "email": email,
+        "ip_address": ip_address,
+        "cam_type": cam_type
+    })
+    return jsonify({"success": "CCTV Cam Added"})
+
+
+@userroutes.route("/getusercctv", methods=["GET"])
+def getusercctv():
+    cctv = mongo.db.cctv
+    email = request.args['email']
+    documents = cctv.find({"email": email})
+    response = []
+    for document in documents:
+        document['_id'] = str(document['_id'])
+        response.append(document)
+    results = json.dumps(response)
+    if len(response) == 0:
+        result = jsonify({"Error": "No cameras Found", "response": response})
+    else:
+        result = json.dumps(response)
+    return result
+
+
+@userroutes.route("/allcctvs", methods=["GET"])
+def getallcctvs():
+
+    cctv = mongo.db.cctv
+    documents = cctv.find({}, {"_id": 1, "name": 1,
+                               "email": 1, "ip_address": 1, "cam_type": 1})
+    response = []
+
+    for document in documents:
+        document['_id'] = str(document['_id'])
+        response.append(document)
+        results = json.dumps(response)
+
+    if len(response) == 0:
+
+        result = jsonify({"Error": "No cctvs Found", "response": response})
+    else:
+
+        result = json.dumps(response)
+    return result
+
+
 @userroutes.route("/getusermessages", methods=["GET"])
 def getusermessages():
     message = mongo.db.message

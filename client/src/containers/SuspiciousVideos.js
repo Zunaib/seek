@@ -33,7 +33,7 @@ const SuspiciousVideos = (props) => {
           setVideo(response.data.filter((res) => res.suspdeleted !== true));
         } else {
           setLoading(false);
-          setVideo(response.data);
+          setVideo([]);
         }
       })
       .catch((err) => {

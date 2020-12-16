@@ -33,7 +33,7 @@ const NormalVideos = (props) => {
           setVideo(response.data.filter((res) => res.nordeleted !== true));
         } else {
           setLoading(false);
-          setVideo(response.data);
+          setVideo([]);
         }
       })
       .catch((err) => {

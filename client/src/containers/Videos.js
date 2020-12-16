@@ -35,7 +35,7 @@ const Videos = (props) => {
           setVideo(response.data.filter((res) => res.deleted !== true));
         } else {
           setLoading(false);
-          setVideo(response.data);
+          setVideo([]);
         }
       })
       .catch((err) => {
