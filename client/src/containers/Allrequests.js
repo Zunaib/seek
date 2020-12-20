@@ -12,7 +12,7 @@ const Allrequests = (props) => {
       .get("http://localhost:5000/fetchrequests")
       .then((response) => {
         setLoading(false);
-        if (response.data.length > 1) {
+        if (response.data.length >= 1) {
           setRequests(
             response?.data?.map((req, index) => ({
               key: index + 1,

@@ -60,7 +60,6 @@ def grantadminaccess():
     admrequest = mongo.db.adminrequest
     email = request.get_json()['email']
     user_exist = users.find_one({"email": email})
-
     result = ""
     if user_exist:
         response = users.update_one({'email': email}, {"$set":

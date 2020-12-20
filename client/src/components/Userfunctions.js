@@ -30,6 +30,7 @@ export const login = (user) => {
           localStorage.setItem("usertoken", response.data.token);
           localStorage.setItem("useremail", response.data.email);
           localStorage.setItem("admin", response.data.admin);
+          localStorage.setItem("welcomed", response.data.welcomed);
           localStorage.setItem("loggedIn", true);
           if (response.data.admin === true) {
             localStorage.setItem("profile", "admin");

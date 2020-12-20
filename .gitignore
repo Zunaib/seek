@@ -29,3 +29,9 @@ server/Dataset_v1.npy
 Dataset/
 logs/
 static/
+
+.env
+.env.*
+
+server/*.jpg
+server/*.png

@@ -106,7 +106,7 @@ def remfavvideo():
                                                                            }, upsert=False)
         favvideos.delete_one({'email': email, "name": name})
         if response:
-            result = jsonify({"success": "Video Favourited"})
+            result = jsonify({"success": "Video UnFavourited"})
             return result
         else:
             result = jsonify({"error": "Error Occured"})
@@ -114,3 +114,22 @@ def remfavvideo():
     else:
         result = jsonify({"error": "Video Not Exists"})
         return result
+
+
+@videoroutes.route("/getuserfavvideos", methods=['GET'])
+def getuserfavvideos():
+    favvideos = mongo.db.favvideos
+    email = request.args['email']
+    documents = favvideos.find({"email": email})
+    response = []
+    files = {}
+    for document in documents:
+        document['_id'] = str(document['_id'])
+        response.append(document)
+    results = json.dumps(response)
+
+    if len(response) == 0:
+        result = jsonify({"Error": "No Fav Videos Found", "data": response})
+    else:
+        result = json.dumps(response)
+    return result

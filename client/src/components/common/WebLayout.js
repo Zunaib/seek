@@ -10,6 +10,7 @@ import {
   UsergroupAddOutlined,
   UserAddOutlined,
   MessageOutlined,
+  CameraOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -135,8 +136,8 @@ const WebLayout = ({ children }) => {
             icon={<VideoCameraOutlined />}
             onClick={() => setselectedKey("5")}
           >
-            <Link to="/suspiciousvideos" onClick={() => setselectedKey("5")}>
-              My Suspicious Videos
+            <Link to="/favvideos" onClick={() => setselectedKey("5")}>
+              My Fav Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -144,8 +145,8 @@ const WebLayout = ({ children }) => {
             icon={<VideoCameraOutlined />}
             onClick={() => setselectedKey("6")}
           >
-            <Link to="/staticvideos" onClick={() => setselectedKey("6")}>
-              My Static Videos
+            <Link to="/suspiciousvideos" onClick={() => setselectedKey("6")}>
+              My Suspicious Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -153,17 +154,44 @@ const WebLayout = ({ children }) => {
             icon={<VideoCameraOutlined />}
             onClick={() => setselectedKey("7")}
           >
-            <Link to="/normalvideos" onClick={() => setselectedKey("7")}>
-              My Normal Videos
+            <Link to="/staticvideos" onClick={() => setselectedKey("7")}>
+              My Static Videos
             </Link>
           </Menu.Item>
           <Menu.Item
             key="8"
-            icon={<MessageOutlined />}
+            icon={<VideoCameraOutlined />}
             onClick={() => setselectedKey("8")}
           >
-            <Link to="/usermessages" onClick={() => setselectedKey("8")}>
+            <Link to="/normalvideos" onClick={() => setselectedKey("8")}>
+              My Normal Videos
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="9"
+            icon={<MessageOutlined />}
+            onClick={() => setselectedKey("9")}
+          >
+            <Link to="/usermessages" onClick={() => setselectedKey("9")}>
               My Messages
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="10"
+            icon={<CameraOutlined />}
+            onClick={() => setselectedKey("10")}
+          >
+            <Link to="/usercctvs" onClick={() => setselectedKey("10")}>
+              Manage CCTV's
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="11"
+            icon={<CameraOutlined />}
+            onClick={() => setselectedKey("11")}
+          >
+            <Link to="/cctvdetection" onClick={() => setselectedKey("11")}>
+              My CCTV's
             </Link>
           </Menu.Item>
         </Menu>

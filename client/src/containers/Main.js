@@ -4,22 +4,22 @@ import Cctvipaddress from "../components/modals/cctvipaddress";
 import { Button, Typography, Row, Card, Col, PageHeader, Divider } from "antd";
 import axios from "axios";
 import { withSnackbar } from "notistack";
-const Main = () => {
+const Main = (props) => {
   const [videoModal, setVideoModal] = useState(false);
   const [cctvModal, setCCTVModal] = useState(false);
 
-  const onWebCam = (props) => {
-    axios
-      .post("http://localhost:5000/getSuspiciousActivityWebcam")
-      .then((res) => {
-        console.log(res);
-        if (res.data.webcam === "Webcam Successfull") {
-          props.enqueueSnackbar(res.data.webcam, {
-            variant: "success",
-          });
-        }
-      });
-  };
+  // const onWebCam = (props) => {
+  //   axios
+  //     .post("http://localhost:5000/getSuspiciousActivityWebcam")
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.data.webcam === "Webcam Successfull") {
+  //         props.enqueueSnackbar(res.data.webcam, {
+  //           variant: "success",
+  //         });
+  //       }
+  //     });
+  // };
 
   const { Title, Paragraph } = Typography;
 
@@ -52,7 +52,11 @@ const Main = () => {
             className="main-card"
             cover={<img alt="example" src={require("../assets/webcam.jpg")} />}
             actions={[
-              <Button type="primary" size="large" onClick={() => onWebCam()}>
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => props.history.push("/webcamstream")}
+              >
                 Open Webcam
               </Button>,
             ]}

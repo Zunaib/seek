@@ -45,10 +45,14 @@ class Login extends Component {
             variant: "error",
           });
         } else {
-          if (localStorage.getItem("admin") === "true") {
-            this.props.history.push("/dashboard");
+          if (localStorage.getItem("welcomed") === "true") {
+            if (localStorage.getItem("admin") === "true") {
+              this.props.history.push("/dashboard");
+            } else {
+              this.props.history.push("/main");
+            }
           } else {
-            this.props.history.push("/main");
+            this.props.history.push("/welcomesettings");
           }
         }
       });

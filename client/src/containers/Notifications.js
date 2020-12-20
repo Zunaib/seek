@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Notificationmodal from "../components/modals/notification"
-import {
-    Button,Modal
-  
-} from "antd";
+import React from "react";
+import Notificationmodal from "../components/modals/notification";
 import { withSnackbar } from "notistack";
-import axios from "axios";
 
 const Notification = (props) => {
   /* const [isModalVisible, setIsModalVisible] = useState(false);
@@ -24,25 +19,13 @@ const Notification = (props) => {
 
  */
 
-    
-
-return (
-<div class="Main">
- <div>
-
-<Notificationmodal/>
-
- 
-
-
-
-
-</div>
- 
-</div>
-);
+  return (
+    <div class="Main">
+      <div>
+        <Notificationmodal />
+      </div>
+    </div>
+  );
 };
 
-
 export default withSnackbar(Notification);
-

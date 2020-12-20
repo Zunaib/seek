@@ -7,16 +7,15 @@ import {
   PageHeader,
   Divider,
   Button,
-  Popconfirm,
   Card,
   Row,
   Col,
   Typography,
   Tooltip,
 } from "antd";
-import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { HeartFilled } from "@ant-design/icons";
 
-const Videos = (props) => {
+const FavVideos = (props) => {
   const [video, setVideo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
@@ -26,13 +25,13 @@ const Videos = (props) => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:5000/getuservideos?email=" +
+        "http://localhost:5000/getuserfavvideos?email=" +
           localStorage.getItem("useremail")
       )
       .then((response) => {
         if (response.data.length >= 1) {
           setLoading(false);
-          setVideo(response.data.filter((res) => res.deleted !== true));
+          setVideo(response.data);
         } else {
           setLoading(false);
           setVideo([]);
@@ -50,63 +49,11 @@ const Videos = (props) => {
     width: "100%",
   };
 
-  const handleDelete = (vidName) => {
-    axios
-      .post("http://localhost:5000/deletevideo", {
-        email: localStorage.getItem("useremail"),
-        videoName: vidName,
-      })
-      .then((response) => {
-        if (response.data.success) {
-          props.enqueueSnackbar("Video Deleted", {
-            variant: "success",
-          });
-          setReload(!reload);
-        } else {
-          props.enqueueSnackbar("Video Not Found", {
-            variant: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  };
-
-  const addToFav = (video) => {
-    axios
-      .post("http://localhost:5000/addtofavvideo", {
-        email: video.email,
-        name: video.videoName,
-        path: video.filePath,
-        blocked: video.blocked,
-        deleted: video.deleted,
-      })
-      .then((response) => {
-        console.log(response);
-        if (response.data.success) {
-          props.enqueueSnackbar("Video Favourited", {
-            variant: "success",
-          });
-          setReload(!reload);
-        } else {
-          props.enqueueSnackbar("Video Not Found", {
-            variant: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  };
-
   const delfromFav = (video) => {
     axios
       .post("http://localhost:5000/remfavvideo", {
         email: video.email,
-        name: video.videoName,
+        name: video.name,
       })
       .then((response) => {
         console.log(response);
@@ -131,8 +78,8 @@ const Videos = (props) => {
     <div className="Main">
       <PageHeader
         className="site-page-header"
-        title="My Videos"
-        subTitle="My Videos Information and Actions"
+        title="My Favourite Videos"
+        subTitle="My Favorite Videos Information and Actions"
       />
       <Divider>My Videos</Divider>
       <Row justify="start">
@@ -147,44 +94,27 @@ const Videos = (props) => {
                   url={
                     vid.blocked
                       ? "http://localhost:5000/"
-                      : "http://localhost:5000/" + vid.filePath
+                      : "http://localhost:5000/" + vid.path
                   }
                   {...videostyles}
                 />
               }
               actions={[
-                <Popconfirm
-                  title="Sure to delete?"
-                  onConfirm={() => handleDelete(vid.videoName)}
-                >
-                  <Button type="primary" danger size="small">
-                    Delete
-                  </Button>
-                </Popconfirm>,
-                vid.fav ? (
-                  <Tooltip title="Remove From Favourite">
-                    <HeartFilled
-                      className="fav-icon"
-                      onClick={() => delfromFav(video[0])}
-                    />
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="Add To Favourite">
-                    <HeartOutlined
-                      className="fav-icon"
-                      onClick={() => addToFav(video[0])}
-                    />
-                  </Tooltip>
-                ),
+                <Tooltip title="Remove From Favourite">
+                  <HeartFilled
+                    className="fav-icon"
+                    onClick={() => delfromFav(video[0])}
+                  />
+                </Tooltip>,
               ]}
             >
               <Card.Meta
                 title={
                   <Title level={4}>
                     {vid.blocked
-                      ? vid.videoName.split(".")[0] + "" + vid.blocked &&
+                      ? vid.name.split(".")[0] + "" + vid.blocked &&
                         "(Blocked By Admin)"
-                      : vid.videoName.split(".")[0]}
+                      : vid.name.split(".")[0]}
                   </Title>
                 }
                 description={
@@ -227,4 +157,4 @@ const Videos = (props) => {
   );
 };
 
-export default withSnackbar(Videos);
+export default withSnackbar(FavVideos);
