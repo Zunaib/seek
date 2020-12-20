@@ -56,6 +56,7 @@ const SendMessage = (props) => {
             <Col span={24} pull={3}>
               <Form.Item label="Number">
                 <Select
+                  placeholder="Type with Country Code i.e. +923889787654"
                   open={false}
                   mode="tags"
                   style={{ width: "100%" }}
@@ -69,6 +70,7 @@ const SendMessage = (props) => {
             <Col span={24} pull={3}>
               <Form.Item label="Email">
                 <Select
+                  placeholder="Enter Valid Emails"
                   open={false}
                   mode="tags"
                   style={{ width: "100%" }}

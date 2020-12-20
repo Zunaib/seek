@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "antd";
 import { withSnackbar } from "notistack";
-import axios from "axios";
 
 const Notification = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

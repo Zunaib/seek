@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import LandingNavBar from "./components/LandingNav";
 import Landing from "./containers/Landing";
 import Login from "./containers/Login";
@@ -7,6 +7,7 @@ import Register from "./containers/Register";
 import Welcomesettings from "./containers/Welcomesettings";
 import Main from "./containers/Main";
 import Videos from "./containers/Videos";
+import FavVideos from "./containers/FavVideos";
 import SuspiciousVideos from "./containers/SuspiciousVideos";
 import SuspiciousVideo from "./containers/SuspiciousVideo";
 import NormalVideos from "./containers/NormalVideos";
@@ -28,46 +29,45 @@ import WebLayout from "./components/common/WebLayout";
 import Settings from "./containers/Settings";
 import Profile from "./containers/Profile";
 import Usermessages from "./containers/Usermessages";
+import Usercctvs from "./containers/Usercctvs";
+import UserCCTVDetection from "./containers/UserCCTVDetection";
 import Allmessages from "./containers/Allmessages";
-import Test from "./containers/Test";
-import Addcctv from "./containers/Addcctv";
-import Usercctv from "./containers/Usercctv";
+import WebCamStream from "./containers/WebCamStream";
 import Allcctvs from "./containers/Allcctvs";
 import Notifications from "./containers/Notifications";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.contactUsRef = React.createRef();
-    this.scrollTocontactUs = this.scrollTocontactUs.bind(this);
-  }
+const App = () => {
+  let contactUsRef = React.createRef();
 
-  scrollTocontactUs() {
-    window.scrollTo(0, this.contactUsRef.current.offsetTop);
-  }
+  const scrollTocontactUs = () => {
+    window.scrollTo(0, contactUsRef.current.offsetTop);
+  };
 
-  render() {
-    let routes = (
-      <>
-        <LandingNavBar />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Landing
-                contactUsRefProp={this.contactUsRef}
-                scrollToContactUs={this.scrollTocontactUs}
-              />
-            )}
-          />
-          <Route exact path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/welcomesettings" component={Welcomesettings} />
-        </Switch>
-      </>
-    );
+  let routes = (
+    <>
+      <LandingNavBar />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <Landing
+              contactUsRefProp={contactUsRef}
+              scrollToContactUs={scrollTocontactUs}
+            />
+          )}
+        />
+        <Route exact path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Redirect to="/" />
+      </Switch>
+    </>
+  );
 
+  if (
+    localStorage.getItem("welcomed") === null ||
+    localStorage.getItem("welcomed") === "true"
+  ) {
     if (localStorage.getItem("loggedIn") === "true") {
       if (
         localStorage.getItem("admin") === "true" &&
@@ -77,8 +77,6 @@ class App extends Component {
           <>
             <Switch>
               <AdminLayout>
-                <Route exact path="/" component={Test} />
-
                 <Route exact path="/dashboard" component={Admindashboard} />
                 <Route exact path="/allvideos" component={Allvideos} />
                 <Route exact path="/allusers" component={Allusers} />
@@ -97,6 +95,7 @@ class App extends Component {
                 <Route path="/allcctvs" exact component={Allcctvs} />
 
                 <Route exact path="/logout" component={Logout} />
+                {/* <Redirect to="/dashboard" /> */}
               </AdminLayout>
             </Switch>
           </>
@@ -106,7 +105,7 @@ class App extends Component {
           <>
             <Switch>
               <WebLayout>
-                <Route exact path="/" component={Test} />
+                <Route exact path="/webcamstream" component={WebCamStream} />
                 <Route exact path="/main" component={Main} />
                 <Route
                   exact
@@ -119,8 +118,12 @@ class App extends Component {
                   component={SuspiciousVideo}
                 />
                 <Route path="/usermessages" exact component={Usermessages} />
-                <Route path="/addcctv" exact component={Addcctv} />
-                <Route path="/usercctv" exact component={Usercctv} />
+                <Route path="/usercctvs" exact component={Usercctvs} />
+                <Route
+                  path="/cctvdetection"
+                  exact
+                  component={UserCCTVDetection}
+                />
                 <Route path="/notification" exact component={Notifications} />
 
                 <Route
@@ -129,6 +132,7 @@ class App extends Component {
                   component={StaticVideo}
                 />
                 <Route exact path="/videos" component={Videos} />
+                <Route exact path="/favvideos" component={FavVideos} />
                 <Route
                   exact
                   path="/suspiciousvideos"
@@ -144,15 +148,28 @@ class App extends Component {
                 />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/logout" component={Logout} />
+                {/* <Redirect to="/main" /> */}
               </WebLayout>
             </Switch>
           </>
         );
       }
     }
+  } else {
+    routes = (
+      <>
+        <LandingNavBar />
+        <Switch>
+          <Route path="/welcomesettings" component={Welcomesettings} />
+          <Route exact path="/logout" component={Logout} />
 
-    return <div>{routes}</div>;
+          <Redirect to="/welcomesettings" />
+        </Switch>
+      </>
+    );
   }
-}
+
+  return <div>{routes}</div>;
+};
 
 export default withRouter(App);

@@ -19,6 +19,7 @@ from controllers import admin
 from controllers import normalvideo
 from controllers import suspiciousvideo
 from controllers import staticvideo
+from controllers import cctv
 
 
 app = Flask(__name__)

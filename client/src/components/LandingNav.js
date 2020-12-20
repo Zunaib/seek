@@ -10,7 +10,7 @@ class LandingNavbar extends Component {
   }
   render() {
     const loginRegLink = (
-      <>
+      <ul className="nav-links">
         <li className="nav-item">
           <Link to="/main" className="nav-link">
             Home
@@ -26,38 +26,18 @@ class LandingNavbar extends Component {
             Register
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/register" className="nav-link">
-            Basic Settings
-          </Link>
-        </li>
-
-      </>
+      </ul>
     );
 
     const userLink = (
-      <>
-        <li className="nav-item">
-          <Link to="/videos" className="nav-link">
-            My Videos
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/main" className="nav-link">
-            Main
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <a
-            href="#logout"
-            onClick={this.logOut.bind(this)}
-            className="nav-link"
-          >
-            Logout
-          </a>
-        </li>
-      </>
+      <Link
+        to="/logout"
+        style={{
+          color: "white",
+        }}
+      >
+        Logout
+      </Link>
     );
 
     return (
@@ -69,10 +49,7 @@ class LandingNavbar extends Component {
             alt="Seek Logo"
           />
         </a>
-
-        <ul className="nav-links">
-          {localStorage.getItem("usertoken") ? userLink : loginRegLink}
-        </ul>
+        {localStorage.getItem("usertoken") ? userLink : loginRegLink}
       </nav>
     );
   }

@@ -10,6 +10,7 @@ class SuspiciousVideo extends Component {
   state = {
     video: null,
     loading: true,
+    objects: [],
     activities: [],
     redirect: false,
   };
@@ -40,6 +41,7 @@ class SuspiciousVideo extends Component {
           });
           this.setState({ loading: false, redirect: true });
         } else {
+          console.log(response);
           this.setState({
             loading: false,
             video: response.data,
@@ -50,6 +52,11 @@ class SuspiciousVideo extends Component {
               { count: response.data.stabbing, name: "Stabbing" },
               { count: response.data.explosion, name: "Explosion" },
               { count: response.data.burglary, name: "Burglary" },
+            ],
+            objects: [
+              { count: response.data.smallgun, name: "Small Gun" },
+              { count: response.data.longgun, name: "Long Gun" },
+              { count: response.data.knife, name: "Knife" },
             ],
           });
           console.log(response);
@@ -63,6 +70,7 @@ class SuspiciousVideo extends Component {
 
   render() {
     const activities = this.state.activities.sort((a, b) => b.count - a.count);
+    const objects = this.state.objects.sort((a, b) => b.count - a.count);
     const videostyles = {
       playing: false,
       controls: true,
@@ -102,24 +110,57 @@ class SuspiciousVideo extends Component {
                 <h2>{this.state.video.suspName.split(".")[0]}</h2>
               </div>
               <div className="prvideostat">
-                <h4>Activities detected in order of most to least :</h4>
-                <Card title="Activites">
-                  {activities.map((act, index) => (
-                    <Tag
+                <h4>Detected in order of most to least :</h4>
+                <Row>
+                  <Col span={12}>
+                    <Card
+                      title="Activity"
                       style={{
-                        display: "block",
-                        fontSize: index === 0 ? "25px" : "15px",
-                        padding: index === 0 ? "10px" : "5px",
-                        // margin: "5px",
-                        margin: index === 0 ? "10px auto" : "5px auto",
-                        width: "30%",
+                        minHeight: "34vh",
                       }}
-                      color={index === 0 ? "#f50" : "#87d068"}
                     >
-                      {act.name}
-                    </Tag>
-                  ))}
-                </Card>
+                      {activities.map((act, index) => (
+                        <Tag
+                          style={{
+                            display: "block",
+                            fontSize: index === 0 ? "25px" : "15px",
+                            padding: index === 0 ? "10px" : "5px",
+                            // margin: "5px",
+                            margin: index === 0 ? "10px auto" : "5px auto",
+                            width: "50%",
+                          }}
+                          color={index === 0 ? "#f50" : "#87d068"}
+                        >
+                          {act.name}
+                        </Tag>
+                      ))}
+                    </Card>
+                  </Col>
+                  <Col span={12}>
+                    <Card
+                      title="Object"
+                      style={{
+                        minHeight: "34vh",
+                      }}
+                    >
+                      {objects.map((obj, index) => (
+                        <Tag
+                          style={{
+                            display: "block",
+                            fontSize: index === 0 ? "25px" : "15px",
+                            padding: index === 0 ? "10px" : "5px",
+                            // margin: "5px",
+                            margin: index === 0 ? "10px auto" : "5px auto",
+                            width: "50%",
+                          }}
+                          color={index === 0 ? "#f50" : "#87d068"}
+                        >
+                          {obj.name}
+                        </Tag>
+                      ))}
+                    </Card>
+                  </Col>
+                </Row>
               </div>
             </div>
           </>
