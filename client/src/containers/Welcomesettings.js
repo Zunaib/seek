@@ -157,6 +157,7 @@ const Welcomesettings = (props) => {
               >
                 <Col span={16}>
                   <Card
+                    loading={loading}
                     className="welcome-card"
                     title={
                       <Title style={{ textAlign: "center" }} level={3}>
