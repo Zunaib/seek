@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Videoupload from "../components/modals/videoupload";
 import Cctvipaddress from "../components/modals/cctvipaddress";
 import { Button, Typography, Row, Card, Col, PageHeader, Divider } from "antd";
-import axios from "axios";
 import { withSnackbar } from "notistack";
 const Main = (props) => {
   const [videoModal, setVideoModal] = useState(false);

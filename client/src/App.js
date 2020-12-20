@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import LandingNavBar from "./components/LandingNav";
 import Landing from "./containers/Landing";
@@ -95,7 +95,7 @@ const App = () => {
                 <Route path="/allcctvs" exact component={Allcctvs} />
 
                 <Route exact path="/logout" component={Logout} />
-                {/* <Redirect to="/dashboard" /> */}
+                <Redirect to="/dashboard" />
               </AdminLayout>
             </Switch>
           </>
