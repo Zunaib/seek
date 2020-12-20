@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  Checkbox,
   Card,
-  PageHeader,
+  Tag,
   Button,
   Input,
   Row,
@@ -139,14 +138,14 @@ const Welcomesettings = (props) => {
     <section className="welcome-back ">
       <div
         className=" container-fluid page"
-        style={{ padding: "80px 0px 0px 0px" }}
+        style={{ padding: "70px 0px 0px 0px" }}
       >
         <Row
           className="wel-card-row"
           type="flex"
           justify="center"
           align="middle"
-          style={{ margin: "0 100px" }}
+          style={{ margin: "0 50px" }}
         >
           <Col span={24}>
             <div className="site-card-wrapper">
@@ -165,21 +164,187 @@ const Welcomesettings = (props) => {
                       </Title>
                     }
                     bordered={true}
-                    style={{ height: 250 }}
+                    style={{ margin: "10px" }}
                   >
                     <Row justify="center">
                       <Col span={12}>
                         <Row justify="center">
                           <Col>
-                            <Title level={4}>Admin User</Title>
+                            <Title level={4}>Normal User</Title>
+                            <Row>
+                              <Col span={24}>
+                                <h5>
+                                  User Includes Following Functionalities:
+                                </h5>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  View Own Suspicious/Normal/Static Video
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Add CCTV Cams
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Edit CCTV Cams
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Delete CCTV Cams
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Upload Videos
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Delete videos
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Update Settings
+                                </Tag>
+                                <Tag
+                                  style={{
+                                    fontSize: "20px",
+                                    padding: "5px",
+                                    margin: "5px",
+                                  }}
+                                  color="#87d068"
+                                >
+                                  Send Contact Queries
+                                </Tag>
+                              </Col>
+                            </Row>
                           </Col>
                         </Row>
                       </Col>
                       <Col span={12}>
                         <Row justify="center">
                           <Col>
-                            <Title level={4}>Normal User</Title>
+                            <Title level={4}>Admin User</Title>
                           </Col>
+                          <Row>
+                            <Col span={24}>
+                              <h5>
+                                Admin Access Includes Following Functionalities:
+                              </h5>
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                View/Block Any Video
+                              </Tag>
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                View/Block Any Suspicious Video
+                              </Tag>
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                View/Block Any Normal Video
+                              </Tag>
+
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                View/Block Any Static Video
+                              </Tag>
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                View/Block Any User
+                              </Tag>
+
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                View Contact Queries
+                              </Tag>
+                              <Tag
+                                style={{
+                                  fontSize: "20px",
+                                  padding: "5px",
+                                  margin: "5px",
+                                }}
+                                color="#87d068"
+                              >
+                                Grant Admin Access
+                              </Tag>
+                            </Col>
+                          </Row>
                         </Row>
                       </Col>
                     </Row>
@@ -251,7 +416,7 @@ const Welcomesettings = (props) => {
                   <Form.Item label="Phone Number">
                     <Input
                       type="text"
-                      placeholder="Enter Phone Number"
+                      placeholder="With country Code (+923456789098)"
                       value={change.phone_number}
                       onChange={(e) =>
                         setChange({ ...change, phone_number: e.target.value })
