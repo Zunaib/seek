@@ -3,6 +3,7 @@ import { PageHeader, Divider, Button, Table } from "antd";
 import axios from "axios";
 import Cctvipaddress from "../components/modals/cctvipaddress";
 import { withSnackbar } from "notistack";
+import { Link } from "react-router-dom";
 
 const Usercctvs = (props) => {
   const [cctvs, setcctvs] = useState([]);
@@ -66,6 +67,7 @@ const Usercctvs = (props) => {
             Delete
           </Button>
           <Button
+            style={{ margin: "0 10px" }}
             type="primary"
             onClick={() => {
               setcctvToEdit(record.cam);
@@ -74,6 +76,21 @@ const Usercctvs = (props) => {
           >
             Edit
           </Button>
+          <Link
+            to={{
+              pathname: "/cctvdetection",
+              state: {
+                cam: record.cam,
+              },
+            }}
+          >
+            <Button
+              style={{ margin: "0 10px", backgroundColor: "green" }}
+              type="primary"
+            >
+              Stream Camera
+            </Button>
+          </Link>
         </>
       ),
     },

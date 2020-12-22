@@ -29,7 +29,7 @@ const AllsuspiciousVideos = (props) => {
             email: vid.email,
             name: vid.videoName,
             suspname: vid.suspName,
-            filepath: vid.suspPath ? "True" : "False",
+            filepath: vid.suspPath,
             blocked: vid.suspblocked ? "True" : "False",
             deleted: vid.suspdeleted ? "True" : "False",
             vid: vid,

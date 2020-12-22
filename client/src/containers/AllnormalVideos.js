@@ -30,7 +30,7 @@ const AllnormalVideos = (props) => {
             email: vid.email,
             name: vid.videoName,
             norname: vid.norName,
-            filepath: vid.norPath ? "True" : "False",
+            filepath: vid.norPath,
             blocked: vid.norblocked ? "True" : "False",
             deleted: vid.nordeleted ? "True" : "False",
             vid: vid,
