@@ -21,3 +21,17 @@
   background: rgb(255, 255, 255);
   margin: 0px 0px !important;
 }
+
+.ant-layout-sider{
+  background-color: #4E1A3D ;
+}
+
+.ant-layout-sider .ant-menu{
+  background-color: #4E1A3D ;
+
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected{
+  background-color: rgb(132, 47, 104);
+
+}

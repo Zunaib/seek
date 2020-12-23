@@ -2,14 +2,23 @@
   text-align: center;
 }
 
-/*
 .ant-btn {
-  background-color: #0F3460;
-  color: white;
-  border: none;
   border-radius: 5px;
-  width: 40%;
+  background-color: rgb(114, 41, 90);
+  border: rgb(132, 47, 104);
 }
+
+.ant-btn:focus{
+  background-color: rgb(151, 54, 119);
+}
+.ant-btn:active{
+  background-color: rgb(151, 54, 119);
+}
+.ant-btn:hover{
+  background-color: rgb(151, 54, 119);
+}
+/*
+
 
 .w-50 {
   width: 50%;

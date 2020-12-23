@@ -35,7 +35,12 @@ const Main = (props) => {
           <Card
             style={{ width: 350 }}
             className="main-card"
-            cover={<img alt="example" src={require("../assets/webcam.jpg")} />}
+            cover={
+              <img
+                alt="example"
+                src={require("../assets/shubhadeep-das-DGJ5nUe4etM-unsplash.jpg")}
+              />
+            }
             actions={[
               <Button
                 type="primary"
@@ -62,7 +67,12 @@ const Main = (props) => {
           <Card
             style={{ width: 350 }}
             className="main-card"
-            cover={<img alt="example" src={require("../assets/vidcam.jpg")} />}
+            cover={
+              <img
+                alt="example"
+                src={require("../assets/umit-yildirim-TEvEZqYomK8-unsplash.jpg")}
+              />
+            }
             actions={[
               <Button
                 type="primary"
@@ -86,7 +96,12 @@ const Main = (props) => {
           <Card
             style={{ width: 350 }}
             className="main-card"
-            cover={<img alt="example" src={require("../assets/cctvcam.jpg")} />}
+            cover={
+              <img
+                alt="example"
+                src={require("../assets/helen-hermetic-SwJguEX8L3g-unsplash.jpg")}
+              />
+            }
             actions={[
               <Button
                 type="primary"

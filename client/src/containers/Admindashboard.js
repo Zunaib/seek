@@ -40,7 +40,13 @@ const Admindasboard = () => {
         ) : (
           stats.map((stat) => (
             <Col span={6}>
-              <Card style={{ margin: "5px", border: "1px solid #001529" }}>
+              <Card
+                style={{
+                  margin: "5px",
+                  border: "2px solid rgb(114, 41, 90)",
+                  borderRadius: "7px",
+                }}
+              >
                 <Statistic
                   title={stat.name}
                   value={stat.count}

@@ -7,7 +7,7 @@ const UserCCTVDetection = (props) => {
 
   useEffect(() => {
     setcam(props?.location?.state?.cam);
-  }, []);
+  }, [props]);
 
   return (
     <div className="Main">

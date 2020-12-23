@@ -148,7 +148,7 @@ const App = () => {
                 />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/logout" component={Logout} />
-                {/* <Redirect to="/main" /> */}
+                <Redirect to="/main" />
               </WebLayout>
             </Switch>
           </>
