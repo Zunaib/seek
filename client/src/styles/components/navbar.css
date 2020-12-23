@@ -1,9 +1,9 @@
 .navbar {
   background-color: #ffffff;
   padding: 0 100px;
-  -webkit-box-shadow: 0px 10px 24px -11px #001529ad;
-  -moz-box-shadow: 0px 10px 24px -11px #001529ad;
-  box-shadow: 0px 10px 24px -11px #001529ad;
+  -webkit-box-shadow: 0px 10px 24px -11px rgb(114, 41, 90);
+  -moz-box-shadow: 0px 10px 24px -11px rgb(114, 41, 90);
+  box-shadow: 0px 10px 24px -11px rgb(114, 41, 90);
 }
 
 .nav-links {
