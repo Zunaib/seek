@@ -103,7 +103,7 @@ const FavVideos = (props) => {
                 <Tooltip title="Remove From Favourite">
                   <HeartFilled
                     className="fav-icon"
-                    onClick={() => delfromFav(video[0])}
+                    onClick={() => delfromFav(vid)}
                   />
                 </Tooltip>,
               ]}

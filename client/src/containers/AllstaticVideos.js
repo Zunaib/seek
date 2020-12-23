@@ -29,7 +29,7 @@ const AllstaticVideos = (props) => {
             email: vid.email,
             name: vid.videoName,
             sttname: vid.sttName,
-            filepath: vid.sttPath ? "True" : "False",
+            filepath: vid.sttPath,
             blocked: vid.sttblocked ? "True" : "False",
             deleted: vid.sttdeleted ? "True" : "False",
             vid: vid,

@@ -31,7 +31,7 @@ const Allvideos = (props) => {
             ),
             email: vid.email,
             name: vid.videoName,
-            filepath: vid.filePath ? "True" : "False",
+            filepath: vid.filePath,
             blocked: vid.blocked ? "True" : "False",
             deleted: vid.deleted ? "True" : "False",
             vid: vid,

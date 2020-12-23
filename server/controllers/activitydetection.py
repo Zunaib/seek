@@ -18,6 +18,9 @@ import cv2
 import os
 from datetime import datetime
 
+import time
+
+t0 = time.time()  # start time in seconds
 
 app = Flask(__name__)
 
@@ -60,6 +63,7 @@ CORS(activitydetectionroutes)
 
 @activitydetectionroutes.route("/getSuspiciousActivity", methods=['POST'])
 def getSuspiciousActivity():
+    notifications = mongo.db.notifications
     videos = mongo.db.videos
     susp_videos = mongo.db.suspvideos
     nor_videos = mongo.db.norvideos
@@ -149,36 +153,38 @@ def getSuspiciousActivity():
                 x = np.array(x)
 
                 # Detecting Object
-                result = objmodel.predict(x)
+                result = objmodel.predict(x)[[0.2, 0.4, 0.6]]
                 if (result[0][0] > result[0][1]) and (result[0][0] > result[0][2]):
-                    if(result[0][2] > 0.8):
+                    if(result[0][0] > 0.6):
                         object_name = "Knife"
                     else:
                         object_name = "No Object"
                     if(result[0][0] > 0.6):
                         kncount = kncount+1
-
                 elif (result[0][1] > result[0][0]) and (result[0][1] > result[0][2]):
-                    if(result[0][2] > 0.8):
+                    if(result[0][1] > 0.6):
                         object_name = "Long Gun"
                     else:
                         object_name = "No Object"
                     if(result[0][1] > 0.6):
                         lgcount = lgcount+1
                 else:
-                    if(result[0][2] > 0.8):
+                    if(result[0][2] > 0.6):
                         object_name = "Small Gun"
                     else:
                         object_name = "No Object"
                     if(result[0][2] > 0.6):
                         sgcount = sgcount+1
+
                 susFile = True
                 out_susp.write(frame)
             elif(cats_[actual] == "Normal"):
                 norFile = True
+                object_name = "No Object"
                 out_normal.write(frame)
             elif(cats_[actual] == "Static"):
                 sttFile = True
+                object_name = "No Object"
                 out_static.write(frame)
 
                 # resize by 600x400 to show on screen
@@ -204,6 +210,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Firing Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Firing",
+                        "notification": "There is Firing Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Burglary"):
                 burgcount += 1
                 if(burgcount % 100 == 0):
@@ -350,7 +362,6 @@ def getSuspiciousActivity():
                 "sttdeleted": False
             })
         result = jsonify({"video": "Video has been saved"})
-
     return result
 
 
@@ -400,71 +411,69 @@ def video_feed():
 
 
 @activitydetectionroutes.route("/getSuspiciousActivityCCTV", methods=['POST'])
-def getSuspiciousActivityCCTV():
-    videos = mongo.db.videos
-    susp_videos = mongo.db.suspvideos
-    nor_videos = mongo.db.norvideos
-    stt_videos = mongo.db.sttvideos
+def getSuspiciousActivityCCTV(email, ip_address, camName):
+    with app.app_context():
+        videos = mongo.db.videos
+        susp_videos = mongo.db.suspvideos
+        nor_videos = mongo.db.norvideos
+        stt_videos = mongo.db.sttvideos
 
-    users = mongo.db.users
-    foundUsers = users.find({"admin": True}, {"_id": 1, "first_name": 1,
-                                              "last_name": 1, "email": 1, "phone_number": 1, })
-    admUsers = []
-    for fnduser in foundUsers:
-        fnduser['_id'] = str(fnduser['_id'])
-        admUsers.append(fnduser)
+        users = mongo.db.users
+        foundUsers = users.find({"admin": True}, {"_id": 1, "first_name": 1,
+                                                  "last_name": 1, "email": 1, "phone_number": 1, })
+        admUsers = []
+        for fnduser in foundUsers:
+            fnduser['_id'] = str(fnduser['_id'])
+            admUsers.append(fnduser)
 
-    cctv = mongo.db.cctv
-    documents = cctv.find()
-    response = []
-    for document in documents:
-        document['_id'] = str(document['_id'])
-        response.append(document)
+        model = keras.models.load_model(
+            'susp_act.model')  # to load crime model
+        # object detection model
+        m, n = 50, 50
+        objmodel = keras.models.load_model("models\\model_latest.h5")
+        # cats_ contains categories i.e. burglary, firing, fighting
+        cats_ = [i for i in os.listdir('Dataset/')]
 
-    model = keras.models.load_model('susp_act.model')  # to load crime model
+        susFile = False
+        sttFile = False
+        norFile = False
 
-    # object detection model
-    m, n = 50, 50
-    objmodel = keras.models.load_model("models\\model_latest.h5")
+        burgcount = 0
+        fircount = 0
+        figcount = 0
+        expcount = 0
+        vandcount = 0
+        stabcount = 0
 
-    # cats_ contains categories i.e. burglary, firing, fighting
-    cats_ = [i for i in os.listdir('Dataset/')]
-    email = request.args['email']
+        # object count
+        kncount = 0
+        sgcount = 0
+        lgcount = 0
 
-    susFile = False
-    sttFile = False
-    norFile = False
+        cap = cv2.VideoCapture(ip_address+"/video", cv2.CAP_DSHOW)  # video
+        # cap = cv2.VideoCapture(ip_address)
 
-    burgcount = 0
-    fircount = 0
-    figcount = 0
-    expcount = 0
-    vandcount = 0
-    stabcount = 0
+        # initialize Save Video
+        frame_width = int(cap.get(3))
+        frame_height = int(cap.get(4))
+        fourcc = cv2.VideoWriter_fourcc(*'X264')
+        date = str(datetime.now()).replace(".", "")
+        colonDate = date.replace(":", "-")
+        processed_filename = camName.replace(
+            " ", "") + "-" + colonDate.replace(" ", "")
 
-    # object count
-    kncount = 0
-    sgcount = 0
-    lgcount = 0
+        cctv_out = cv2.VideoWriter(
+            "static/"+processed_filename+"-cctv_out.mp4", fourcc, 24, (frame_width, frame_height), False)
+        cctv_out_susp = cv2.VideoWriter('static/Processed/'+processed_filename +
+                                        '-cctv_out_susp.mp4', fourcc, 24, (frame_width, frame_height), False)
+        cctv_out_normal = cv2.VideoWriter('static/Processed/'+processed_filename +
+                                          '-cctv_out_normal.mp4', fourcc, 24, (frame_width, frame_height), False)
+        cctv_out_static = cv2.VideoWriter('static/Processed/'+processed_filename +
+                                          '-cctv_out_static.mp4', fourcc, 24, (frame_width, frame_height), False)
 
-    # cap = cv2.VideoCapture(0)  # video
-    cap = cv2.VideoCapture(response[0]["ip_address"])  # video
-    # initialize Save Video
-    frame_width = int(cap.get(3))
-    frame_height = int(cap.get(4))
-    fourcc = cv2.VideoWriter_fourcc(*'X264')
-    processed_filename = response[0]["name"] + datetime.now()
-    cctv_out_susp = cv2.VideoWriter('static/Processed/'+processed_filename +
-                                    '-cctv_out_susp.mp4', fourcc, 24, (frame_width, frame_height), False)
-    cctv_out_normal = cv2.VideoWriter('static/Processed/'+processed_filename +
-                                      '-cctv_out_normal.mp4', fourcc, 24, (frame_width, frame_height), False)
-    cctv_out_static = cv2.VideoWriter('static/Processed/'+processed_filename +
-                                      '-cctv_out_static.mp4', fourcc, 24, (frame_width, frame_height), False)
-
-    result = ""
-    object_name = ""
-
-    try:
+        result = ""
+        object_name = ""
+        # try:
         while True:  # iterate each frame one by one
             # hide main window
             root = tkinter.Tk()
@@ -479,7 +488,10 @@ def getSuspiciousActivityCCTV():
             actual = np.argmax(
                 list(model.predict([img.reshape(-1, 224, 224, 3)])))
 
-          # Write the frame into the file 'output.mp4'
+            # Wite def frame
+            cctv_out.write(frame)
+
+            # Write the frame into the file 'output.mp4'
             if(cats_[actual] == 'Stabbing' or cats_[actual] == "Burglary" or cats_[actual] == "Fighting" or cats_[actual] == "Firing" or cats_[actual] == "Vandalism" or cats_[actual] == "Explosion"):
                 # obj
                 imrs = cv2.resize(img, (m, n))  # resize image for object
@@ -522,10 +534,11 @@ def getSuspiciousActivityCCTV():
                 sttFile = True
                 cctv_out_static.write(frame)
 
-                # resize by 600x400 to show on screen
+            # resize by 600x400 to show on screen
             frame = cv2.resize(frame, (600, 400))
 
             # put text on video frames
+
             cv2.putText(frame, str(
                 cats_[actual] + " -- " + object_name), (20, 20), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 0, 255))
 
@@ -538,11 +551,7 @@ def getSuspiciousActivityCCTV():
                         msg.html = "There is Firing Detected in the Cam." + \
                             "<b> - Sent From The Seek - Suspicious Activity Detector</b>"
                         res = mail.send(msg)
-                        client.messages.create(
-                            from_='+14139980018',
-                            body='The Seek - ' + "There is Firing Detected in the Cam.",
-                            to=adm["phone_number"]
-                        )
+
                     messagebox.showwarning(
                         "Security Alert", "There is Firing Detected in the Cam.")
             elif(cats_[actual] == "Burglary"):
@@ -628,12 +637,21 @@ def getSuspiciousActivityCCTV():
                     messagebox.showwarning(
                         "Security Alert", "There is Stabbing Detected in the Cam.")
 
-            cv2.imshow('Video Detection Frame', frame)  # show frames
             key = cv2.waitKey(1)  # show frame for 33 milli seconds
             if key == 27 or key == 127:  # escape
-                cv2.destroyAllWindows()  # destroy window if user presses escape
                 break
-        cap.release()  # release the capture
+            if not ret:
+                break
+            t1 = time.time()  # current time
+            num_seconds = t1 - t0  # diff
+            if num_seconds > 50:  # e.g. break after 30 seconds
+                break
+            cv2.imwrite('t.jpg', frame)
+            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
+
+        cap.release()
+        cctv_out.release()
+        cv2.destroyAllWindows()
 
         videoFiles = videos.insert_one({
             "email": email,
@@ -641,7 +659,7 @@ def getSuspiciousActivityCCTV():
             "suspName": processed_filename+'-cctv_out_susp.mp4',
             "norName": processed_filename+'-cctv_out_normal.mp4',
             "sttName": processed_filename+'-cctv_out_static.mp4',
-            "filePath": vidstr,
+            "filePath": 'static/'+processed_filename+'-cctv_out.mp4',
             "fav": False,
             "blocked": False,
             "deleted": False
@@ -649,7 +667,7 @@ def getSuspiciousActivityCCTV():
 
         # release saved frames
         if(susFile == True):
-            out_susp.release()
+            cctv_out_susp.release()
             suspvideoFiles = susp_videos.insert_one({
                 "email": email,
                 "videoName": processed_filename,
@@ -669,7 +687,7 @@ def getSuspiciousActivityCCTV():
                 "suspdeleted": False
             })
         if(norFile == True):
-            out_normal.release()
+            cctv_out_normal.release()
             norvideoFiles = nor_videos.insert_one({
                 "email": email,
                 "videoName": processed_filename,
@@ -680,7 +698,7 @@ def getSuspiciousActivityCCTV():
                 "nordeleted": False
             })
         if(sttFile == True):
-            out_static.release()
+            cctv_out_static.release()
             sttvideoFiles = stt_videos.insert_one({
                 "email": email,
                 "videoName": processed_filename,
@@ -690,19 +708,19 @@ def getSuspiciousActivityCCTV():
                 "sttblocked": False,
                 "sttdeleted": False
             })
-        cv2.imwrite('t.jpg', frame)
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
-        cap.release()  # release the capture
-        result = jsonify({"ipvideo": "Ip Cam Video has been saved"})
-    except:
-        pass
-        result = jsonify({"error": "Ipcam UnSuccessfull"})
-    return result
+
+        # except:
+        #     pass
+        result = jsonify({"IPCAM": "IPCam Successfull"})
+        return result
 
 
 @activitydetectionroutes.route('/cam_feed', methods=['GET'])
 def cam_feed():
+    email = request.args['email']
+    ip_address = request.args['ip_address']
+    camName = request.args['camName']
+
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(getSuspiciousActivityCCTV(),
+    return Response(getSuspiciousActivityCCTV(email, ip_address, camName),
                     mimetype='multipart/x-mixed-replace; boundary=frame', )

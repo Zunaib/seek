@@ -79,7 +79,6 @@ const Videoupload = (props) => {
                 onChange={(e) => setselectedFile(e.target.files[0])}
               />
               <Button
-                style={{ backgroundColor: "#0068cf", color: "white" }}
                 type="primary"
                 size="middle"
                 onClick={() => onFileUpload()}

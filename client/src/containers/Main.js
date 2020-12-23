@@ -6,20 +6,6 @@ import { withSnackbar } from "notistack";
 const Main = (props) => {
   const [videoModal, setVideoModal] = useState(false);
   const [cctvModal, setCCTVModal] = useState(false);
-
-  // const onWebCam = (props) => {
-  //   axios
-  //     .post("http://localhost:5000/getSuspiciousActivityWebcam")
-  //     .then((res) => {
-  //       console.log(res);
-  //       if (res.data.webcam === "Webcam Successfull") {
-  //         props.enqueueSnackbar(res.data.webcam, {
-  //           variant: "success",
-  //         });
-  //       }
-  //     });
-  // };
-
   const { Title, Paragraph } = Typography;
 
   return (
@@ -49,7 +35,12 @@ const Main = (props) => {
           <Card
             style={{ width: 350 }}
             className="main-card"
-            cover={<img alt="example" src={require("../assets/webcam.jpg")} />}
+            cover={
+              <img
+                alt="example"
+                src={require("../assets/shubhadeep-das-DGJ5nUe4etM-unsplash.jpg")}
+              />
+            }
             actions={[
               <Button
                 type="primary"
@@ -76,7 +67,12 @@ const Main = (props) => {
           <Card
             style={{ width: 350 }}
             className="main-card"
-            cover={<img alt="example" src={require("../assets/vidcam.jpg")} />}
+            cover={
+              <img
+                alt="example"
+                src={require("../assets/umit-yildirim-TEvEZqYomK8-unsplash.jpg")}
+              />
+            }
             actions={[
               <Button
                 type="primary"
@@ -100,7 +96,12 @@ const Main = (props) => {
           <Card
             style={{ width: 350 }}
             className="main-card"
-            cover={<img alt="example" src={require("../assets/cctvcam.jpg")} />}
+            cover={
+              <img
+                alt="example"
+                src={require("../assets/helen-hermetic-SwJguEX8L3g-unsplash.jpg")}
+              />
+            }
             actions={[
               <Button
                 type="primary"
