@@ -63,6 +63,7 @@ CORS(activitydetectionroutes)
 
 @activitydetectionroutes.route("/getSuspiciousActivity", methods=['POST'])
 def getSuspiciousActivity():
+    notifications = mongo.db.notifications
     videos = mongo.db.videos
     susp_videos = mongo.db.suspvideos
     nor_videos = mongo.db.norvideos
@@ -152,36 +153,38 @@ def getSuspiciousActivity():
                 x = np.array(x)
 
                 # Detecting Object
-                result = objmodel.predict(x)
+                result = objmodel.predict(x)[[0.2, 0.4, 0.6]]
                 if (result[0][0] > result[0][1]) and (result[0][0] > result[0][2]):
-                    if(result[0][2] > 0.8):
+                    if(result[0][0] > 0.6):
                         object_name = "Knife"
                     else:
                         object_name = "No Object"
                     if(result[0][0] > 0.6):
                         kncount = kncount+1
-
                 elif (result[0][1] > result[0][0]) and (result[0][1] > result[0][2]):
-                    if(result[0][2] > 0.8):
+                    if(result[0][1] > 0.6):
                         object_name = "Long Gun"
                     else:
                         object_name = "No Object"
                     if(result[0][1] > 0.6):
                         lgcount = lgcount+1
                 else:
-                    if(result[0][2] > 0.8):
+                    if(result[0][2] > 0.6):
                         object_name = "Small Gun"
                     else:
                         object_name = "No Object"
                     if(result[0][2] > 0.6):
                         sgcount = sgcount+1
+
                 susFile = True
                 out_susp.write(frame)
             elif(cats_[actual] == "Normal"):
                 norFile = True
+                object_name = "No Object"
                 out_normal.write(frame)
             elif(cats_[actual] == "Static"):
                 sttFile = True
+                object_name = "No Object"
                 out_static.write(frame)
 
                 # resize by 600x400 to show on screen
@@ -207,6 +210,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Firing Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Firing",
+                        "notification": "There is Firing Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Burglary"):
                 burgcount += 1
                 if(burgcount % 100 == 0):
@@ -353,7 +362,6 @@ def getSuspiciousActivity():
                 "sttdeleted": False
             })
         result = jsonify({"video": "Video has been saved"})
-
     return result
 
 
@@ -442,7 +450,7 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
         sgcount = 0
         lgcount = 0
 
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # video
+        cap = cv2.VideoCapture(ip_address+"/video", cv2.CAP_DSHOW)  # video
         # cap = cv2.VideoCapture(ip_address)
 
         # initialize Save Video

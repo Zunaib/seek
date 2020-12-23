@@ -6,20 +6,6 @@ import { withSnackbar } from "notistack";
 const Main = (props) => {
   const [videoModal, setVideoModal] = useState(false);
   const [cctvModal, setCCTVModal] = useState(false);
-
-  // const onWebCam = (props) => {
-  //   axios
-  //     .post("http://localhost:5000/getSuspiciousActivityWebcam")
-  //     .then((res) => {
-  //       console.log(res);
-  //       if (res.data.webcam === "Webcam Successfull") {
-  //         props.enqueueSnackbar(res.data.webcam, {
-  //           variant: "success",
-  //         });
-  //       }
-  //     });
-  // };
-
   const { Title, Paragraph } = Typography;
 
   return (

@@ -1,41 +1,79 @@
 import React, { Component } from "react";
 import { register } from "../components/Userfunctions";
-import  {Button}  from "antd";
+import { Button } from "antd";
 import { withSnackbar } from "notistack";
 
 class Register extends Component {
   constructor() {
     super();
     this.state = {
-      first_name: "",
-      last_name: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
+      errors: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+      },
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+
+    const validEmailRegex = RegExp(
+      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+    );
+
+    switch (name) {
+      case "firstname":
+        errors.firstname =
+          value.length < 5 ? "First Name must be 5 characters long!" : "";
+        break;
+      case "lastname":
+        errors.lastname =
+          value.length < 5 ? "Last Name must be 5 characters long!" : "";
+        break;
+      case "email":
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        break;
+      case "password":
+        errors.password =
+          value.length < 8 ? "Password must be 8 characters long!" : "";
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ errors, [name]: value });
   }
+
+  validateForm = (errors) => {
+    let valid = true;
+    Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+    return valid;
+  };
 
   onSubmit(e) {
     e.preventDefault();
+    let errors = this.state.errors;
 
     if (
-      this.state.first_name === "" ||
-      this.state.last_name === "" ||
-      this.state.email === "" ||
-      this.state.password === ""
+      this.validateForm(errors) &&
+      this.state.firstname !== "" &&
+      this.state.lastname !== "" &&
+      this.state.email !== "" &&
+      this.state.password !== ""
     ) {
-      this.props.enqueueSnackbar("Empty Fields", {
-        variant: "error",
-      });
-    } else {
       const newUser = {
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
+        first_name: this.state.firstname,
+        last_name: this.state.lastname,
         email: this.state.email,
         password: this.state.password,
       };
@@ -52,36 +90,58 @@ class Register extends Component {
           });
         }
       });
+    } else {
+      this.props.enqueueSnackbar("Invalid Form", {
+        variant: "error",
+      });
     }
   }
+
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="Header">
         <div className="register-form container">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <form noValidate>
-                <h1 className="h3 mb-3 font-weight-normal" style={{color:"White"}}>Register</h1>
+                <h1
+                  className="h3 mb-3 font-weight-normal"
+                  style={{ color: "White" }}
+                >
+                  Register
+                </h1>
                 <div className="form-group">
                   <label htmlFor="first_name">First Name</label>
                   <input
                     type="text"
-                    name="first_name"
+                    name="firstname"
                     placeholder="Enter first Name"
-                    value={this.state.first_name}
+                    value={this.state.firstname}
                     onChange={this.onChange}
                   />
+                  {errors.firstname.length > 0 && (
+                    <span className="error">
+                      <em> {errors.firstname}</em>
+                    </span>
+                  )}
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="last_name">Last Name</label>
                   <input
                     type="text"
-                    name="last_name"
+                    name="lastname"
                     placeholder="Enter Last Name"
-                    value={this.state.last_name}
+                    value={this.state.lastname}
                     onChange={this.onChange}
                   />
+                  {errors.lastname.length > 0 && (
+                    <span className="error">
+                      <em>{errors.lastname}</em>
+                    </span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -93,6 +153,11 @@ class Register extends Component {
                     value={this.state.email}
                     onChange={this.onChange}
                   />
+                  {errors.email.length > 0 && (
+                    <span className="error">
+                      <em>{errors.email}</em>
+                    </span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -104,10 +169,17 @@ class Register extends Component {
                     value={this.state.password}
                     onChange={this.onChange}
                   />
+                  {errors.password.length > 0 && (
+                    <span className="error">
+                      <em>{errors.password}</em>
+                    </span>
+                  )}
                 </div>
 
                 <div className="btn-wrapper">
-                  <Button type="primary" size="medium"  onClick={this.onSubmit}>Register</Button>
+                  <Button type="primary" size="medium" onClick={this.onSubmit}>
+                    Register
+                  </Button>
                 </div>
               </form>
             </div>

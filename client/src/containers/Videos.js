@@ -80,6 +80,9 @@ const Videos = (props) => {
         email: video.email,
         name: video.videoName,
         path: video.filePath,
+        suspName: video.suspName,
+        norName: video.norName,
+        sttName: video.sttName,
         blocked: video.blocked,
         deleted: video.deleted,
       })

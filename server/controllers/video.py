@@ -64,6 +64,9 @@ def addfavvideo():
     email = request.get_json()['email']
     name = request.get_json()['name']
     path = request.get_json()['path']
+    suspName = request.get_json()['suspName']
+    norName = request.get_json()['norName']
+    sttName = request.get_json()['sttName']
     blocked = request.get_json()['blocked']
     deleted = request.get_json()['deleted']
     favvideos_exist = favvideos.find_one({"email": email, "name": name})
@@ -79,6 +82,9 @@ def addfavvideo():
             "email": email,
             "name": name,
             "path": path,
+            "suspName": suspName,
+            "norName": norName,
+            "sttName": sttName,
             "blocked": False,
             "deleted": False
         })

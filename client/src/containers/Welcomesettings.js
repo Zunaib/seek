@@ -170,16 +170,16 @@ const Welcomesettings = (props) => {
                     <Row justify="center">
                       <Col span={12}>
                         <Row justify="center">
-                          <Col>
+                          <Col style={{ textAlign: "center" }}>
                             <Title level={4}>Normal User</Title>
-                            <Row>
-                              <Col span={24}>
+                            <Row justify="center">
+                              <Col span={24} style={{ textAlign: "center" }}>
                                 <h5>
                                   User Includes Following Functionalities:
                                 </h5>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -189,7 +189,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -199,7 +199,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -209,7 +209,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -219,7 +219,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -229,7 +229,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -239,7 +239,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -249,7 +249,7 @@ const Welcomesettings = (props) => {
                                 </Tag>
                                 <Tag
                                   style={{
-                                    fontSize: "20px",
+                                    fontSize: "15px",
                                     padding: "5px",
                                     margin: "5px",
                                   }}
@@ -268,13 +268,13 @@ const Welcomesettings = (props) => {
                             <Title level={4}>Admin User</Title>
                           </Col>
                           <Row>
-                            <Col span={24}>
+                            <Col span={24} style={{ textAlign: "center" }}>
                               <h5>
                                 Admin Access Includes Following Functionalities:
                               </h5>
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
@@ -284,7 +284,7 @@ const Welcomesettings = (props) => {
                               </Tag>
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
@@ -294,7 +294,7 @@ const Welcomesettings = (props) => {
                               </Tag>
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
@@ -305,7 +305,7 @@ const Welcomesettings = (props) => {
 
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
@@ -315,7 +315,7 @@ const Welcomesettings = (props) => {
                               </Tag>
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
@@ -326,7 +326,7 @@ const Welcomesettings = (props) => {
 
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
@@ -336,7 +336,7 @@ const Welcomesettings = (props) => {
                               </Tag>
                               <Tag
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "15px",
                                   padding: "5px",
                                   margin: "5px",
                                 }}
