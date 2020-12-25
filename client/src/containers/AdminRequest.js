@@ -13,8 +13,18 @@ const AdminRequest = (props) => {
     reason: "",
     message: "",
   });
+  const[errors, seterrors]=useState({
+    reason: "",
+    message: "",
+  })
 
   const onFinish = () => {
+    if (
+      validateForm(errors) &&
+      errors.reason !== "" &&
+      errors.message!== "" 
+  
+    )
     axios
       .post("http://localhost:5000/requestadmin", {
         email: localStorage.getItem("useremail"),
@@ -40,6 +50,30 @@ const AdminRequest = (props) => {
         console.log(err);
       });
   };
+  const validateForm = (errors) => {
+    let valid = true;
+    Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+    return valid;
+  };
+  const onChange=(e)=>{
+    const { name, value } = e.target;
+    switch(name){
+      case "reason":
+        setAdminReq({ ...adminReq, reason: e.target.value })
+        seterrors({
+          ...errors,
+          reason: value.length < 5 ? "reason is too short" : "",
+        });
+        break;
+        case "message":
+          setAdminReq({ ...adminReq, message: e.target.value })
+          seterrors({
+            ...errors,
+            message: value.length < 5 ? "message is too short" : "",
+          });
+          break;
+    }
+  }
 
   return (
     <div className="Main">
@@ -123,20 +157,36 @@ const AdminRequest = (props) => {
                 <Form.Item label="Reason" rules={[{ required: true }]}>
                   <Input
                     type="text"
+                    className={errors.reason.length > 0 && "error"}
+                    name="reason"
                     value={adminReq.reason}
                     onChange={(e) =>
-                      setAdminReq({ ...adminReq, reason: e.target.value })
+                      onChange(e) 
                     }
                   />
+                    {errors.reason.length > 0 && (
+                    <span className="error-text">
+                      <em> {errors.reason}</em>
+                    </span>
+            )}           
+            
                 </Form.Item>
                 <Form.Item label="Message" rules={[{ required: true }]}>
                   <Input
                     type="text"
+                    name="message"
+                    className={errors.message.length > 0 && "error"}
                     value={adminReq.message}
                     onChange={(e) =>
-                      setAdminReq({ ...adminReq, message: e.target.value })
+                      onChange(e) 
                     }
                   />
+                   {errors.message.length > 0 && (
+                    <span className="error-text">
+                      <em> {errors.message}</em>
+                    </span>
+                       )}
+                       
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                   <Button

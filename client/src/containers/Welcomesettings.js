@@ -37,7 +37,70 @@ const Welcomesettings = (props) => {
     gender: "",
     password: "",
   });
+  const [errors, seterrors] = useState({
+    first_name: "",
+    last_name: "",
+    about: "",
+    address: "",
+    phone_number: "",
+  /*   picture: null, */
+    gender: "",
+    password: "",
+  });
+   const validMobileRegex = RegExp(
+    /^(\+92)-{0,1}\d{3}-{0,1}\d{7}$|^\d{4}-\d{7}$/i
+  );
+
+
   const [reload, setReload] = useState(false);
+  const onNumChange=(e)=>{
+    setChange({ ...change, phone_number: e.target.value })
+    seterrors({
+      ...errors,
+     phone_number: validMobileRegex.test(e.target.value) ? "" : "Number is not valid!"
+     
+    });
+
+  }
+
+  const oninfoChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "first_name":
+        setChange({ ...change, first_name: e.target.value })
+        seterrors({
+          ...errors,
+          first_name: value.length < 3 ? "Name must be 3 characters long!" : "",
+        });
+        break;
+       case "last_name":
+       setChange({ ...change, last_name: e.target.value }) 
+
+        seterrors({
+          ...errors,
+          last_name: value.length <3 ? "Name must be 3 characters long!":"",
+        });
+        break;
+      case "about":
+      setChange({ ...change, about: e.target.value })
+      
+
+        seterrors({
+          ...errors,
+          about: value.length < 10 ? "user should enter a proper information about him" : "",
+        });
+        break;
+        case "address":
+          setChange({ ...change, address: e.target.value })
+        seterrors({
+          ...errors,
+          address: value.length < 10 ? "user should enter address" : "",
+        });
+        break;        
+      default:
+        break; 
+    }
+  };
 
   useEffect(() => {
     axios
@@ -365,24 +428,38 @@ const Welcomesettings = (props) => {
                   <Form.Item label="Name">
                     <Input
                       type="text"
+                      name="first_name"
+                      className={errors.first_name.length > 0 && "error"}
                       placeholder="Enter First Name"
                       value={change.first_name}
-                      onChange={(e) =>
-                        setChange({ ...change, first_name: e.target.value })
+                      onChange={(e) =>oninfoChange(e)
+                       /*   */
                       }
                     />
+                    {errors.first_name.length > 0 && (
+                    <span className="error-text">
+                      <em> {errors.first_name}</em>
+                    </span>
+                       )}
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="Last Name">
                     <Input
                       type="text"
+                      className={errors.last_name.length > 0 && "error"}
+                      name="last_name"
                       placeholder="Enter Last Name"
                       value={change.last_name}
-                      onChange={(e) =>
-                        setChange({ ...change, last_name: e.target.value })
+                      onChange={(e) =>oninfoChange(e)
+                   
                       }
                     />
+                      {errors.last_name.length > 0 && (
+                    <span className="error-text">
+                      <em> {errors.last_name}</em>
+                    </span>
+                       )}
                   </Form.Item>
                 </Col>
               </Row>
@@ -391,24 +468,39 @@ const Welcomesettings = (props) => {
                   <Form.Item label="About">
                     <TextArea
                       rows={5}
+                      className={errors.about.length > 0 && "error"}
+                      name="about"
                       placeholder="Enter About"
                       value={change.about}
                       onChange={(e) =>
-                        setChange({ ...change, about: e.target.value })
+                        oninfoChange(e)
+                      
                       }
                     />
+                     {errors.about.length > 0 && (
+                    <span className="error-text">
+                      <em> {errors.about}</em>
+                    </span>
+                       )}
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="Address">
                     <TextArea
                       rows={5}
+                      name="address"
+                        className={errors.address.length > 0 && "error"}
                       placeholder="Enter Address"
                       value={change.address}
                       onChange={(e) =>
-                        setChange({ ...change, address: e.target.value })
+                        oninfoChange(e)
                       }
                     />
+                     {errors.address.length > 0 && (
+                    <span className="error-text">
+                      <em> {errors.address}</em>
+                    </span>
+                       )}
                   </Form.Item>
                 </Col>
               </Row>
@@ -417,10 +509,11 @@ const Welcomesettings = (props) => {
                   <Form.Item label="Phone Number">
                     <Input
                       type="text"
+                      name="phone_number"
+                      className={errors.phone_number.length > 0 && "error"}
                       placeholder="With country Code (+923456789098)"
                       value={change.phone_number}
-                      onChange={(e) =>
-                        setChange({ ...change, phone_number: e.target.value })
+                      onChange={(e) =>onNumChange(e)
                       }
                     />
                   </Form.Item>

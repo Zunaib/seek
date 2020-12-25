@@ -18,6 +18,12 @@ const SendMessage = (props) => {
   });
 
   const onFinish = () => {
+    if (
+      validateForm(errors) &&
+      errors.number !== "" &&
+      errors.email!== "" &&
+      errors.message1 !== ""
+    )
     axios
       .post("http://localhost:5000/users/message", {
         number: details.number,
@@ -45,6 +51,12 @@ const SendMessage = (props) => {
       });
   };
 
+  
+  const validateForm = (errors) => {
+    let valid = true;
+    Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+    return valid;
+  };
   const validMobileRegex = RegExp(
     /^(\+92)-{0,1}\d{3}-{0,1}\d{7}$|^\d{4}-\d{7}$/i
   );
@@ -59,6 +71,33 @@ const SendMessage = (props) => {
       number: invalidcount === 0 ? "" : "Some numbers are invalid",
     });
   };
+  
+  const validEmailRegex = RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  );
+  const onEmailChange=(emails)=>{
+    let invalidemailcount=0
+    let temp= emails?.map(
+      (email)=> !validEmailRegex.test(email) && invalidemailcount++
+    );
+    seterrors({
+      ...errors,
+      email:invalidemailcount === 0 ? "" : "Some emails are invalid",
+    })
+  }
+  const onMessageChange=(e)=>{
+    const { name, value } = e.target
+    setDetails({ ...details, message1: e.target.value })
+    seterrors({
+      ...errors,
+      message1: value.length < 5 ? "Message body is very short!" : "",
+    });
+
+
+
+  }
+
+
 
   return (
     <div class="modal-main">
@@ -98,11 +137,19 @@ const SendMessage = (props) => {
                   placeholder="Enter Valid Emails"
                   name="email"
                   open={false}
+                  className={errors.email.length > 0 && "error"}
                   mode="tags"
                   style={{ width: "100%" }}
-                  onChange={(val) => setDetails({ ...details, email: val })}
+             
+                  onChange={(emails) => onEmailChange(emails)}
                   tokenSeparators={[","]}
                 ></Select>
+                 {errors.email.length > 0 && (
+                  <span className="error-text">
+                    <em> {errors.email}</em>
+                  </span>
+                )}
+                
               </Form.Item>
             </Col>
           </Row>
@@ -113,12 +160,19 @@ const SendMessage = (props) => {
                 <TextArea
                   rows={2}
                   name="message1"
+                  className={errors.message1.length > 0 && "error"}
                   placeholder="Enter Message"
                   value={details.message1}
-                  onChange={(e) =>
-                    setDetails({ ...details, message1: e.target.value })
+                  onChange={(e) =>onMessageChange(e)
+                 /*    setDetails({ ...details, message1: e.target.value }) */
+                   
                   }
                 />
+                 {errors.message1.length > 0 && (
+                  <span className="error-text">
+                    <em> {errors.message1}</em>
+                  </span>
+                )}
               </Form.Item>
             </Col>
           </Row>
