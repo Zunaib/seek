@@ -13,67 +13,62 @@ const AdminRequest = (props) => {
     reason: "",
     message: "",
   });
-  const[errors, seterrors]=useState({
+  const [errors, seterrors] = useState({
     reason: "",
     message: "",
-  })
+  });
 
   const onFinish = () => {
-    if (
-      validateForm(errors) &&
-      errors.reason !== "" &&
-      errors.message!== "" 
-  
-    )
-    axios
-      .post("http://localhost:5000/requestadmin", {
-        email: localStorage.getItem("useremail"),
-        reason: adminReq.reason,
-        message: adminReq.message,
-      })
-      .then((res) => {
-        if (res.data.success) {
-          props.enqueueSnackbar(res.data.success, {
-            variant: "success",
-          });
-          setAdminReq({
-            reason: "",
-            message: "",
-          });
-        } else if (res.data.error) {
-          props.enqueueSnackbar(res.data.error, {
-            variant: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (validateForm(errors) && errors.reason !== "" && errors.message !== "")
+      axios
+        .post("http://localhost:5000/requestadmin", {
+          email: localStorage.getItem("useremail"),
+          reason: adminReq.reason,
+          message: adminReq.message,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            props.enqueueSnackbar(res.data.success, {
+              variant: "success",
+            });
+            setAdminReq({
+              reason: "",
+              message: "",
+            });
+          } else if (res.data.error) {
+            props.enqueueSnackbar(res.data.error, {
+              variant: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   };
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
     return valid;
   };
-  const onChange=(e)=>{
+  const onChange = (e) => {
     const { name, value } = e.target;
-    switch(name){
+    switch (name) {
       case "reason":
-        setAdminReq({ ...adminReq, reason: e.target.value })
+        setAdminReq({ ...adminReq, reason: e.target.value });
         seterrors({
           ...errors,
           reason: value.length < 5 ? "reason is too short" : "",
         });
         break;
-        case "message":
-          setAdminReq({ ...adminReq, message: e.target.value })
-          seterrors({
-            ...errors,
-            message: value.length < 5 ? "message is too short" : "",
-          });
-          break;
+      case "message":
+        setAdminReq({ ...adminReq, message: e.target.value });
+        seterrors({
+          ...errors,
+          message: value.length < 5 ? "message is too short" : "",
+        });
+        break;
     }
-  }
+  };
 
   return (
     <div className="Main">
@@ -88,62 +83,62 @@ const AdminRequest = (props) => {
           <h5>Requesting Admin Access Includes Following Functionalities:</h5>
           <ul>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 View Any Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 Block Any Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 View Any Suspicious Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 Block Any Suspicious Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 View Any Normal Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 Block Any Normal Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 View Any Static Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 Block Any Static Video
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 View Any User
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 Block Any User
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 View Contact Queries
               </Tag>
             </li>
             <li>
-              <Tag style={{ fontSize: "20px", padding: "5px" }} color="#87d068">
+              <Tag className="welcome-tag" color="magenta">
                 Grant Admin Access
               </Tag>
             </li>
@@ -160,16 +155,13 @@ const AdminRequest = (props) => {
                     className={errors.reason.length > 0 && "error"}
                     name="reason"
                     value={adminReq.reason}
-                    onChange={(e) =>
-                      onChange(e) 
-                    }
+                    onChange={(e) => onChange(e)}
                   />
-                    {errors.reason.length > 0 && (
+                  {errors.reason.length > 0 && (
                     <span className="error-text">
                       <em> {errors.reason}</em>
                     </span>
-            )}           
-            
+                  )}
                 </Form.Item>
                 <Form.Item label="Message" rules={[{ required: true }]}>
                   <Input
@@ -177,16 +169,13 @@ const AdminRequest = (props) => {
                     name="message"
                     className={errors.message.length > 0 && "error"}
                     value={adminReq.message}
-                    onChange={(e) =>
-                      onChange(e) 
-                    }
+                    onChange={(e) => onChange(e)}
                   />
-                   {errors.message.length > 0 && (
+                  {errors.message.length > 0 && (
                     <span className="error-text">
                       <em> {errors.message}</em>
                     </span>
-                       )}
-                       
+                  )}
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                   <Button

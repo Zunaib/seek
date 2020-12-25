@@ -56,7 +56,7 @@ margin: 20px;
   justify-content: center;
   align-content: center;
   text-align: center;
-  color: rgb(87, 87, 87);
+  color:  rgb(151, 54, 119);
 }
 
 
@@ -93,11 +93,15 @@ border-radius: 5px;
 margin: 20px;
 font-size: 1.5em;
 cursor: pointer;
+  color: rgb(151, 54, 119);
+background-color:  transparent;    
+
+  transition: all 0.3s ease-in;
 }
 
 
 .workbutton i:hover{
-background-color: #195c9b;    
+background-color:  rgb(114, 41, 90);    
   padding: 45px 40px;
   border-radius: 5px;
   margin: 20px;

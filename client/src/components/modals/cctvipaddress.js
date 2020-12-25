@@ -189,7 +189,6 @@ const Cctvipaddress = (props) => {
           </div>
           <div className="btn-wrapper">
             <Button
-              style={{ backgroundColor: "#0068cf", color: "white" }}
               type="primary"
               size="middle"
               onClick={props.edit ? () => updateCam() : () => addCam()}

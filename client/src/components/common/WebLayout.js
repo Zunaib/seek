@@ -3,14 +3,16 @@ import { Layout, Menu, Avatar, Dropdown } from "antd";
 import axios from "axios";
 import {
   MenuUnfoldOutlined,
+  UserSwitchOutlined,
   MenuFoldOutlined,
   VideoCameraOutlined,
   UserOutlined,
   HomeOutlined,
-  UsergroupAddOutlined,
+  LogoutOutlined,
   UserAddOutlined,
   MessageOutlined,
   CameraOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -70,20 +72,18 @@ const WebLayout = ({ children }) => {
   };
 
   const menu = (
-    <Menu>
-      <Menu.Item key="1" icon={<UserAddOutlined />}>
-        <Link to="/request-admin-access">Admin Access</Link>
-      </Menu.Item>
-      <Menu.Item key="2" icon={<UsergroupAddOutlined />}>
-        <Link to="/settings">Settings</Link>
-      </Menu.Item>
-      <Menu.Divider />
-
+    <Menu style={{ padding: "10px", borderRadius: "2px" }}>
       <Menu.Item
-        key="3"
-        icon={<UsergroupAddOutlined style={{ fontSize: "1rem" }} />}
+        key="1"
+        icon={
+          <LogoutOutlined
+            style={{ fontSize: "1.2em", verticalAlign: "0.05em" }}
+          />
+        }
       >
-        <Link to="/logout">Logout</Link>
+        <Link to="/logout" style={{ fontSize: "1rem", margin: "10px 0px" }}>
+          Logout
+        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -107,7 +107,7 @@ const WebLayout = ({ children }) => {
           {localStorage.getItem("admin") === "true" && (
             <Menu.Item
               key="2"
-              icon={<HomeOutlined />}
+              icon={<UserSwitchOutlined />}
               onClick={() => shiftprofile()}
             >
               Shift To Admin
@@ -187,11 +187,23 @@ const WebLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item
             key="11"
-            icon={<CameraOutlined />}
+            icon={<UserAddOutlined />}
             onClick={() => setselectedKey("11")}
           >
-            <Link to="/cctvdetection" onClick={() => setselectedKey("11")}>
-              My CCTV's
+            <Link
+              to="/request-admin-access"
+              onClick={() => setselectedKey("11")}
+            >
+              Admin Access
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="12"
+            icon={<SettingOutlined />}
+            onClick={() => setselectedKey("12")}
+          >
+            <Link to="/settings" onClick={() => setselectedKey("12")}>
+              Settings
             </Link>
           </Menu.Item>
         </Menu>

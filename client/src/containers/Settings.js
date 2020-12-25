@@ -39,14 +39,13 @@ const Settings = (props) => {
     password: "",
   });
 
-  
   const [errors, seterrors] = useState({
     first_name: "",
     last_name: "",
     about: "",
     address: "",
     phone_number: "",
-  /*   picture: null, */
+    /*   picture: null, */
     gender: "",
     password: "",
   });
@@ -55,63 +54,63 @@ const Settings = (props) => {
     /^(\+92)-{0,1}\d{3}-{0,1}\d{7}$|^\d{4}-\d{7}$/i
   );
 
-
   const oninfoChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
       case "first_name":
-        setChange({ ...change, first_name: e.target.value })
+        setChange({ ...change, first_name: e.target.value });
         seterrors({
           ...errors,
           first_name: value.length < 3 ? "Name must be 3 characters long!" : "",
         });
         break;
-       case "last_name":
-       setChange({ ...change, last_name: e.target.value }) 
+      case "last_name":
+        setChange({ ...change, last_name: e.target.value });
 
         seterrors({
           ...errors,
-          last_name: value.length >3 ? "Name must be 3 characters long!":"",
+          last_name: value.length > 3 ? "Name must be 3 characters long!" : "",
         });
         break;
       case "about":
-      setChange({ ...change, about: e.target.value })
-      
+        setChange({ ...change, about: e.target.value });
 
         seterrors({
           ...errors,
-          about: value.length < 10 ? "user should enter a proper information about him" : "",
+          about:
+            value.length < 10
+              ? "user should enter a proper information about him"
+              : "",
         });
         break;
-        case "address":
-          setChange({ ...change, address: e.target.value })
+      case "address":
+        setChange({ ...change, address: e.target.value });
         seterrors({
           ...errors,
           address: value.length < 10 ? "user should enter address" : "",
         });
-        break;        
+        break;
       default:
-        break; 
+        break;
     }
   };
-  const onNumChange=(e)=>{
-    setChange({ ...change, phone_number: e.target.value })
+  const onNumChange = (e) => {
+    setChange({ ...change, phone_number: e.target.value });
     seterrors({
       ...errors,
-     phone_number: validMobileRegex.test(e.target.value) ? "" : "Number is not valid!"
-     
+      phone_number: validMobileRegex.test(e.target.value)
+        ? ""
+        : "Number is not valid!",
     });
-
-  }
+  };
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
     return valid;
   };
 
-
   useEffect(() => {
-   /*  if (
+    /*  if (
       validateForm(errors) &&
       errors.first_name !== "" &&
       errors.last_name !== "" &&
@@ -232,15 +231,16 @@ const Settings = (props) => {
                         className={errors.first_name.length > 0 && "error"}
                         placeholder="Enter First Name"
                         value={change.first_name}
-                        onChange={(e) =>oninfoChange(e)
+                        onChange={
+                          (e) => oninfoChange(e)
                           /* setChange({ ...change, first_name: e.target.value }) */
                         }
                       />
                       {errors.first_name.length > 0 && (
-                    <span className="error-text">
-                      <em> {errors.first_name}</em>
-                    </span>
-                       )}
+                        <span className="error-text">
+                          <em> {errors.first_name}</em>
+                        </span>
+                      )}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -251,15 +251,16 @@ const Settings = (props) => {
                         name="last_name"
                         placeholder="Enter Last Name"
                         value={change.last_name}
-                        onChange={(e) =>oninfoChange(e)
-                         /*  */
+                        onChange={
+                          (e) => oninfoChange(e)
+                          /*  */
                         }
                       />
                       {errors.last_name.length > 0 && (
-                    <span className="error-text">
-                      <em> {errors.last_name}</em>
-                    </span>
-                       )}
+                        <span className="error-text">
+                          <em> {errors.last_name}</em>
+                        </span>
+                      )}
                     </Form.Item>
                   </Col>
                 </Row>
@@ -272,15 +273,16 @@ const Settings = (props) => {
                         name="about"
                         placeholder="Enter About"
                         value={change.about}
-                        onChange={(e) =>oninfoChange(e)
+                        onChange={
+                          (e) => oninfoChange(e)
                           /* setChange({ ...change, about: e.target.value }) */
                         }
                       />
                       {errors.about.length > 0 && (
-                    <span className="error-text">
-                      <em> {errors.about}</em>
-                    </span>
-                       )}
+                        <span className="error-text">
+                          <em> {errors.about}</em>
+                        </span>
+                      )}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -291,15 +293,13 @@ const Settings = (props) => {
                         className={errors.address.length > 0 && "error"}
                         placeholder="Enter Address"
                         value={change.address}
-                        onChange={(e) =>oninfoChange(e)
-                          
-                        }
+                        onChange={(e) => oninfoChange(e)}
                       />
                       {errors.address.length > 0 && (
-                    <span className="error-text">
-                      <em> {errors.address}</em>
-                    </span>
-                       )}
+                        <span className="error-text">
+                          <em> {errors.address}</em>
+                        </span>
+                      )}
                     </Form.Item>
                   </Col>
                 </Row>
@@ -312,15 +312,13 @@ const Settings = (props) => {
                         name="phone_number"
                         placeholder="Enter Phone Number"
                         value={change.phone_number}
-                        onChange={(e) =>onNumChange(e)
-                      
-                        }
+                        onChange={(e) => onNumChange(e)}
                       />
-                       {errors.phone_number.length > 0 && (
-                    <span className="error-text">
-                      <em> {errors.phone_number}</em>
-                    </span>
-                       )}
+                      {errors.phone_number.length > 0 && (
+                        <span className="error-text">
+                          <em> {errors.phone_number}</em>
+                        </span>
+                      )}
                     </Form.Item>
                   </Col>
                   <Col span={12}>

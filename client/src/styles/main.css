@@ -9,6 +9,7 @@
 @import "./components/adminlists.css";
 @import "./components/layout.css";
 @import "./components/cards.css";
+@import "./components/tag.css";
 
 @import "./containers/login.css";
 @import "./containers/register.css";

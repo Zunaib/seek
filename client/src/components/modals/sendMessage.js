@@ -20,44 +20,44 @@ const SendMessage = (props) => {
   const onFinish = () => {
     if (
       validateForm(errors) &&
-      errors.number !== "" &&
-      errors.email!== "" &&
-      errors.message1 !== ""
+      details.number.length !== 0 &&
+      details.email.length !== 0 &&
+      details.message1 !== ""
     )
-    axios
-      .post("http://localhost:5000/users/message", {
-        number: details.number,
-        recieveremail: details.email,
-        message1: details.message1,
-        email: localStorage.getItem("useremail"),
-      })
+      axios
+        .post("http://localhost:5000/users/message", {
+          number: details.number,
+          recieveremail: details.email,
+          message1: details.message1,
+          email: localStorage.getItem("useremail"),
+        })
 
-      .then((res) => {
-        if (res.data.success) {
-          props.enqueueSnackbar(res.data.success, {
-            variant: "success",
-          });
-          setDetails({
-            number: [],
-            email: [],
-            message1: "",
-          });
-          props.onClose();
-        } else if (res.data.error) {
-          props.enqueueSnackbar(res.data.error, {
-            variant: "error",
-          });
-        }
-      });
+        .then((res) => {
+          if (res.data.success) {
+            props.enqueueSnackbar(res.data.success, {
+              variant: "success",
+            });
+            setDetails({
+              number: [],
+              email: [],
+              message1: "",
+            });
+            props.onClose();
+          } else if (res.data.error) {
+            props.enqueueSnackbar(res.data.error, {
+              variant: "error",
+            });
+          }
+        });
   };
 
-  
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
     return valid;
   };
   const validMobileRegex = RegExp(
+    //eslint-disable-next-line
     /^(\+92)-{0,1}\d{3}-{0,1}\d{7}$|^\d{4}-\d{7}$/i
   );
 
@@ -71,33 +71,28 @@ const SendMessage = (props) => {
       number: invalidcount === 0 ? "" : "Some numbers are invalid",
     });
   };
-  
+
   const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
   );
-  const onEmailChange=(emails)=>{
-    let invalidemailcount=0
-    let temp= emails?.map(
-      (email)=> !validEmailRegex.test(email) && invalidemailcount++
+  const onEmailChange = (emails) => {
+    let invalidemailcount = 0;
+    let temp = emails?.map(
+      (email) => !validEmailRegex.test(email) && invalidemailcount++
     );
     seterrors({
       ...errors,
-      email:invalidemailcount === 0 ? "" : "Some emails are invalid",
-    })
-  }
-  const onMessageChange=(e)=>{
-    const { name, value } = e.target
-    setDetails({ ...details, message1: e.target.value })
+      email: invalidemailcount === 0 ? "" : "Some emails are invalid",
+    });
+  };
+  const onMessageChange = (e) => {
+    const { name, value } = e.target;
+    setDetails({ ...details, message1: e.target.value });
     seterrors({
       ...errors,
       message1: value.length < 5 ? "Message body is very short!" : "",
     });
-
-
-
-  }
-
-
+  };
 
   return (
     <div class="modal-main">
@@ -140,16 +135,14 @@ const SendMessage = (props) => {
                   className={errors.email.length > 0 && "error"}
                   mode="tags"
                   style={{ width: "100%" }}
-             
                   onChange={(emails) => onEmailChange(emails)}
                   tokenSeparators={[","]}
                 ></Select>
-                 {errors.email.length > 0 && (
+                {errors.email.length > 0 && (
                   <span className="error-text">
                     <em> {errors.email}</em>
                   </span>
                 )}
-                
               </Form.Item>
             </Col>
           </Row>
@@ -163,12 +156,12 @@ const SendMessage = (props) => {
                   className={errors.message1.length > 0 && "error"}
                   placeholder="Enter Message"
                   value={details.message1}
-                  onChange={(e) =>onMessageChange(e)
-                 /*    setDetails({ ...details, message1: e.target.value }) */
-                   
+                  onChange={
+                    (e) => onMessageChange(e)
+                    /*    setDetails({ ...details, message1: e.target.value }) */
                   }
                 />
-                 {errors.message1.length > 0 && (
+                {errors.message1.length > 0 && (
                   <span className="error-text">
                     <em> {errors.message1}</em>
                   </span>

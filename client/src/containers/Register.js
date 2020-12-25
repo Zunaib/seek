@@ -28,6 +28,7 @@ class Register extends Component {
     let errors = this.state.errors;
 
     const validEmailRegex = RegExp(
+      //eslint-disable-next-line
       /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     );
 
@@ -140,7 +141,7 @@ class Register extends Component {
                     onChange={this.onChange}
                   />
                   {errors.lastname.length > 0 && (
-                    <span className="error">
+                    <span className="error-text">
                       <em>{errors.lastname}</em>
                     </span>
                   )}
@@ -157,7 +158,7 @@ class Register extends Component {
                     onChange={this.onChange}
                   />
                   {errors.email.length > 0 && (
-                    <span className="error">
+                    <span className="error-text">
                       <em>{errors.email}</em>
                     </span>
                   )}
@@ -174,7 +175,7 @@ class Register extends Component {
                     onChange={this.onChange}
                   />
                   {errors.password.length > 0 && (
-                    <span className="error">
+                    <span className="error-text">
                       <em>{errors.password}</em>
                     </span>
                   )}

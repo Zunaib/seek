@@ -3,12 +3,17 @@ import { Layout, Menu, Avatar, Dropdown } from "antd";
 import axios from "axios";
 import {
   MenuUnfoldOutlined,
+  SettingOutlined,
+  CameraOutlined,
+  MessageOutlined,
   MenuFoldOutlined,
   VideoCameraOutlined,
   UserOutlined,
   HomeOutlined,
   ContainerOutlined,
   UsergroupAddOutlined,
+  UserSwitchOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -66,17 +71,18 @@ const AdminLayout = ({ children }) => {
     setcollapsed(!collapsed);
   };
   const menu = (
-    <Menu>
-      <Menu.Item key="1" icon={<UsergroupAddOutlined />}>
-        <Link to="/settings">Settings</Link>
-      </Menu.Item>
-      <Menu.Divider />
-
+    <Menu style={{ padding: "10px", borderRadius: "2px" }}>
       <Menu.Item
-        key="2"
-        icon={<UsergroupAddOutlined style={{ fontSize: "1rem" }} />}
+        key="1"
+        icon={
+          <LogoutOutlined
+            style={{ fontSize: "1.2em", verticalAlign: "0.05em" }}
+          />
+        }
       >
-        <Link to="/logout">Logout</Link>
+        <Link to="/logout" style={{ fontSize: "1rem" }}>
+          Logout
+        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -91,7 +97,7 @@ const AdminLayout = ({ children }) => {
           {localStorage.getItem("admin") === "true" && (
             <Menu.Item
               key="1"
-              icon={<HomeOutlined />}
+              icon={<UserSwitchOutlined />}
               onClick={() => shiftprofile()}
             >
               Shift To Normal
@@ -172,7 +178,7 @@ const AdminLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item
             key="10"
-            icon={<UsergroupAddOutlined />}
+            icon={<MessageOutlined />}
             onClick={() => setselectedKey("10")}
           >
             <Link to="/allmessages" onClick={() => setselectedKey("10")}>
@@ -181,11 +187,20 @@ const AdminLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item
             key="11"
-            icon={<UsergroupAddOutlined />}
+            icon={<CameraOutlined />}
             onClick={() => setselectedKey("11")}
           >
             <Link to="/allcctvs" onClick={() => setselectedKey("11")}>
               All CCTV Cams
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="12"
+            icon={<SettingOutlined />}
+            onClick={() => setselectedKey("12")}
+          >
+            <Link to="/settings" onClick={() => setselectedKey("12")}>
+              Settings
             </Link>
           </Menu.Item>
         </Menu>

@@ -1,3 +1,7 @@
+.ant-menu-item span.anticon{
+  font-size: 1.2rem !important;
+  vertical-align: 0.05em !important;
+}
 .trigger {
   font-size: 20px ;
   line-height: 64px;
