@@ -35,3 +35,6 @@ static/
 
 server/*.jpg
 server/*.png
+
+server/controllers/__pycache__
+**/__pycache__/
