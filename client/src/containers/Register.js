@@ -34,11 +34,11 @@ class Register extends Component {
     switch (name) {
       case "firstname":
         errors.firstname =
-          value.length < 5 ? "First Name must be 5 characters long!" : "";
+          value.length < 3 ? "First Name must be 3 characters long!" : "";
         break;
       case "lastname":
         errors.lastname =
-          value.length < 5 ? "Last Name must be 5 characters long!" : "";
+          value.length < 3 ? "Last Name must be 3 characters long!" : "";
         break;
       case "email":
         errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
@@ -115,14 +115,15 @@ class Register extends Component {
                 <div className="form-group">
                   <label htmlFor="first_name">First Name</label>
                   <input
+                    className={errors.firstname.length > 0 && "error"}
                     type="text"
                     name="firstname"
-                    placeholder="Enter first Name"
+                    placeholder="Enter First Name"
                     value={this.state.firstname}
                     onChange={this.onChange}
                   />
                   {errors.firstname.length > 0 && (
-                    <span className="error">
+                    <span className="error-text">
                       <em> {errors.firstname}</em>
                     </span>
                   )}
@@ -131,6 +132,7 @@ class Register extends Component {
                 <div className="form-group">
                   <label htmlFor="last_name">Last Name</label>
                   <input
+                    className={errors.lastname.length > 0 && "error"}
                     type="text"
                     name="lastname"
                     placeholder="Enter Last Name"
@@ -147,6 +149,7 @@ class Register extends Component {
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
                   <input
+                    className={errors.email.length > 0 && "error"}
                     type="email"
                     name="email"
                     placeholder="Enter Email"
@@ -163,9 +166,10 @@ class Register extends Component {
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
                   <input
+                    className={errors.password.length > 0 && "error"}
                     type="password"
                     name="password"
-                    placeholder="Enter password"
+                    placeholder="Enter Password"
                     value={this.state.password}
                     onChange={this.onChange}
                   />
