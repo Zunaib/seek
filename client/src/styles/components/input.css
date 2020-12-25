@@ -8,6 +8,7 @@ label {
 input {
   outline: none;
   border: 1px solid #ccc;
+  border-radius: 5px;
   background-color: white;
   font: inherit;
   padding: 6px 10px;
@@ -22,5 +23,33 @@ input:focus {
 }
 
 .error{
-  color: red;
+  border: 2px rgb(255, 64, 64) solid;
+  border-radius: 5px;
+
+}
+.error:active{
+  border: 2px rgb(255, 64, 64) solid;
+}
+.error:focus{
+  border: 2px rgb(255, 64, 64) solid;
+}
+
+.error-text{
+  color: rgb(255, 64, 64);
+}
+
+.ant-select.error{
+  border-radius: 5px;
+
+  border: 2px rgb(255, 64, 64) solid;
+
+}
+.ant-select.ant-select-hover{
+  border: 2px rgb(255, 64, 64) solid;
+}
+.ant-select.ant-select-active{
+  border: 2px rgb(255, 64, 64) solid;
+}
+.ant-select.ant-select-focus{
+  border: 2px rgb(255, 64, 64) solid;
 }
