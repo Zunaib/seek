@@ -45,7 +45,6 @@ const Settings = (props) => {
     about: "",
     address: "",
     phone_number: "",
-    /*   picture: null, */
     gender: "",
     password: "",
   });
@@ -61,7 +60,8 @@ const Settings = (props) => {
         setChange({ ...change, first_name: e.target.value });
         seterrors({
           ...errors,
-          first_name: value.length < 3 ? "Name must be 3 characters long!" : "",
+          first_name:
+            value.length < 3 ? "First Name must be 3 characters long!" : "",
         });
         break;
       case "last_name":
@@ -69,7 +69,8 @@ const Settings = (props) => {
 
         seterrors({
           ...errors,
-          last_name: value.length > 3 ? "Name must be 3 characters long!" : "",
+          last_name:
+            value.length < 3 ? "Last Name must be 3 characters long!" : "",
         });
         break;
       case "about":
@@ -78,16 +79,15 @@ const Settings = (props) => {
         seterrors({
           ...errors,
           about:
-            value.length < 10
-              ? "user should enter a proper information about him"
-              : "",
+            value.length < 10 ? "About must be more than 10 characters" : "",
         });
         break;
       case "address":
         setChange({ ...change, address: e.target.value });
         seterrors({
           ...errors,
-          address: value.length < 10 ? "user should enter address" : "",
+          address:
+            value.length < 10 ? "Address must be more than 10 characters" : "",
         });
         break;
       default:
@@ -110,15 +110,6 @@ const Settings = (props) => {
   };
 
   useEffect(() => {
-    /*  if (
-      validateForm(errors) &&
-      errors.first_name !== "" &&
-      errors.last_name !== "" &&
-      errors.about !== ""&&
-      errors.address !== "" &&
-      errors.phone_number !== "" 
-
-    ) */
     axios
       .post("http://localhost:5000/users/fetchusersettngs", {
         email: localStorage.getItem("useremail"),
@@ -152,11 +143,15 @@ const Settings = (props) => {
   }, [reload]);
 
   const updateSettings = () => {
-    if (change.first_name === "" || change.last_name === "") {
-      props.enqueueSnackbar("Empty Fields", {
-        variant: "error",
-      });
-    } else {
+    if (
+      validateForm(errors) &&
+      change.first_name !== "" &&
+      change.last_name !== "" &&
+      change.about !== "" &&
+      change.address !== "" &&
+      change.phone_number !== "" &&
+      change.gender !== ""
+    ) {
       const formData = new FormData();
       formData.append("picture", fileList);
       axios
@@ -186,6 +181,10 @@ const Settings = (props) => {
           console.log(err);
           return err;
         });
+    } else {
+      props.enqueueSnackbar("InValid Form", {
+        variant: "error",
+      });
     }
   };
 
@@ -193,9 +192,6 @@ const Settings = (props) => {
   const { TextArea } = Input;
 
   const [fileList, setFileList] = useState(null);
-  const onChange = (e) => {
-    setFileList(e.target.files[0]);
-  };
 
   return (
     <div class="Main">
@@ -231,10 +227,7 @@ const Settings = (props) => {
                         className={errors.first_name.length > 0 && "error"}
                         placeholder="Enter First Name"
                         value={change.first_name}
-                        onChange={
-                          (e) => oninfoChange(e)
-                          /* setChange({ ...change, first_name: e.target.value }) */
-                        }
+                        onChange={(e) => oninfoChange(e)}
                       />
                       {errors.first_name.length > 0 && (
                         <span className="error-text">
@@ -273,10 +266,7 @@ const Settings = (props) => {
                         name="about"
                         placeholder="Enter About"
                         value={change.about}
-                        onChange={
-                          (e) => oninfoChange(e)
-                          /* setChange({ ...change, about: e.target.value }) */
-                        }
+                        onChange={(e) => oninfoChange(e)}
                       />
                       {errors.about.length > 0 && (
                         <span className="error-text">
@@ -325,7 +315,13 @@ const Settings = (props) => {
                     <Form.Item label="Gender">
                       <Select
                         value={change.gender}
-                        onChange={(e) => setChange({ ...change, gender: e })}
+                        onChange={(val) => {
+                          seterrors({
+                            ...errors,
+                            gender: val === null ? "Please select gender" : "",
+                          });
+                          setChange({ ...change, gender: val });
+                        }}
                       >
                         <Select.Option value="Male">Male</Select.Option>
                         <Select.Option value="Female">Female</Select.Option>
@@ -356,7 +352,21 @@ const Settings = (props) => {
               <Row justify="center">
                 <Col style={{ margin: "10px 0px" }}>
                   <Title level={5}>Please crop to sqaure ratio.</Title>
-                  <input name="picture" type="file" onChange={onChange} />
+                  <input
+                    name="picture"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files[0].size > 5000000) {
+                        props.enqueueSnackbar("Image Size Too Big", {
+                          variant: "error",
+                        });
+                        setFileList(null);
+                      } else {
+                        setFileList(e.target.files[0]);
+                      }
+                    }}
+                  />
                 </Col>
               </Row>
               <Row justify="center">

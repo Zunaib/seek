@@ -23,7 +23,7 @@ const SendMessage = (props) => {
       details.number.length !== 0 &&
       details.email.length !== 0 &&
       details.message1 !== ""
-    )
+    ) {
       axios
         .post("http://localhost:5000/users/message", {
           number: details.number,
@@ -49,6 +49,11 @@ const SendMessage = (props) => {
             });
           }
         });
+    } else {
+      props.enqueueSnackbar("InValid Form", {
+        variant: "error",
+      });
+    }
   };
 
   const validateForm = (errors) => {
@@ -66,13 +71,23 @@ const SendMessage = (props) => {
     let temp = numbers?.map(
       (num) => !validMobileRegex.test(num) && invalidcount++
     );
-    seterrors({
-      ...errors,
-      number: invalidcount === 0 ? "" : "Some numbers are invalid",
-    });
+    console.log(temp);
+
+    if (numbers.length > 0) {
+      seterrors({
+        ...errors,
+        number: invalidcount === 0 ? "" : "Some numbers are invalid",
+      });
+    } else {
+      seterrors({
+        ...errors,
+        number: "No number entered, atleast one required.",
+      });
+    }
   };
 
   const validEmailRegex = RegExp(
+    //eslint-disable-next-line
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
   );
   const onEmailChange = (emails) => {
@@ -80,13 +95,25 @@ const SendMessage = (props) => {
     let temp = emails?.map(
       (email) => !validEmailRegex.test(email) && invalidemailcount++
     );
+    console.log(temp);
     seterrors({
       ...errors,
       email: invalidemailcount === 0 ? "" : "Some emails are invalid",
     });
+    if (emails.length > 0) {
+      seterrors({
+        ...errors,
+        email: invalidemailcount === 0 ? "" : "Some emails are invalid",
+      });
+    } else {
+      seterrors({
+        ...errors,
+        email: "No email entered, atleast one required.",
+      });
+    }
   };
   const onMessageChange = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setDetails({ ...details, message1: e.target.value });
     seterrors({
       ...errors,

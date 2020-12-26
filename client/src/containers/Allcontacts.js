@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { PageHeader, Divider, Button, Table } from "antd";
 import axios from "axios";
-import Spinner from "../components/Spinner";
-import { PageHeader, Divider, Statistic, Card, Row, Col } from "antd";
+import { withSnackbar } from "notistack";
 
-const Allcontacts = () => {
+const Allcontacts = (props) => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reload, setReloading] = useState(true);
 
   useEffect(() => {
     axios
@@ -13,56 +14,82 @@ const Allcontacts = () => {
       .then((response) => {
         setLoading(false);
         setContacts(
-          response.data.filter(
-            (res) => res.email !== localStorage.getItem("useremail")
-          )
+          response?.data?.map((cont, index) => ({
+            key: index + 1,
+            email: cont.email,
+            message: cont.message,
+            sentAt: cont.sentAt,
+            cont: cont,
+          }))
         );
       })
       .catch((err) => {
         console.log(err);
         return err;
       });
-  }, []);
+  }, [reload]);
+
+  const columns = [
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Message",
+      dataIndex: "message",
+      key: "message",
+    },
+    {
+      title: "Sent At",
+      dataIndex: "sentAt",
+      key: "sentAt",
+    },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (record) => (
+        <Button type="primary" danger onClick={() => deleteQuery(record.cont)}>
+          Delete
+        </Button>
+      ),
+    },
+  ];
+
+  const deleteQuery = (cont) => {
+    axios
+      .post("http://localhost:5000/delcontactus", {
+        contactid: cont._id,
+      })
+      .then((res) => {
+        props.enqueueSnackbar(res.data.success, {
+          variant: "success",
+        });
+        setReloading(!reload);
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  };
 
   return (
-    <div className="Main">
+    <div>
       <PageHeader
         className="site-page-header"
         title="Contact Queries"
         subTitle="All The User Queries"
       />
       <Divider>Queries</Divider>
-      <div className="AdminList">
-        <Row gutter={16}>
-          {loading ? (
-            <Row justify="center">
-              <Col>
-                <div className="loading-spinner">
-                  <Spinner />
-                </div>
-              </Col>
-            </Row>
-          ) : contacts.length >= 1 ? (
-            contacts.map((cnt) => (
-              <Col span={6}>
-                <Card style={{ margin: "5px", border: "1px solid #001529" }}>
-                  <Statistic
-                    title={cnt.email}
-                    value={cnt.message}
-                    valueStyle={{ color: "gray" }}
-                  />
-                </Card>
-              </Col>
-            ))
-          ) : (
-            <div style={{ margin: "0 auto", textAlign: "center" }}>
-              <h3>No Contact Queries</h3>
-            </div>
-          )}
-        </Row>
-      </div>
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={contacts}
+        bordered
+      />
     </div>
   );
 };
 
-export default Allcontacts;
+export default withSnackbar(Allcontacts);

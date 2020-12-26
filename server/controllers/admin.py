@@ -15,6 +15,25 @@ CORS(adminroutes)
 
 
 # Admin API's
+@adminroutes.route("/deleterequest", methods=['POST'])
+def deleterequest():
+    admrequest = mongo.db.adminrequest
+    requestid = request.get_json()['requestid']
+    admrequest_exist = admrequest.find_one({"_id": ObjectId(requestid)})
+    result = ""
+    if admrequest_exist:
+        response = admrequest.delete_one({"_id": ObjectId(requestid)})
+        if response:
+            result = jsonify({"success": "Admin Request Deleted"})
+            return result
+        else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+    else:
+        result = jsonify({"error": "Admin Request Not Found"})
+        return result
+
+
 @adminroutes.route("/fetchrequests", methods=['GET'])
 def fetchrequests():
     admrequest = mongo.db.adminrequest
@@ -75,6 +94,44 @@ def grantadminaccess():
     else:
         result = jsonify({"data": "User Does Not Exist"})
         return result
+
+
+@adminroutes.route("/deletenotification", methods=['POST'])
+def deletenotification():
+    notifications = mongo.db.notifications
+    notificationid = request.get_json()['notificationid']
+    notf_exist = notifications.find_one({"_id": ObjectId(notificationid)})
+    result = ""
+    if notf_exist:
+        response = notifications.delete_one({"_id": ObjectId(notificationid)})
+        if response:
+            result = jsonify({"success": "Notification Deleted"})
+            return result
+        else:
+            result = jsonify({"error": "Error Occured"})
+            return result
+    else:
+        result = jsonify({"error": "Notification Not Found"})
+        return result
+
+
+@adminroutes.route("/getnotifications", methods=['GET'])
+def getnotifications():
+    notifications = mongo.db.notifications
+    documents = notifications.find(
+        {}, {"_id": 1, "email": 1, "activity": 1, "notification": 1, "sentAt": 1})
+    response = []
+    for document in documents:
+        document['_id'] = str(document['_id'])
+        response.append(document)
+    results = json.dumps(response)
+
+    if len(response) == 0:
+        result = jsonify(
+            {"Error": "No Notifications Found", "response": response})
+    else:
+        result = json.dumps(response)
+    return result
 
 
 @adminroutes.route("/dashboardstats", methods=['GET'])

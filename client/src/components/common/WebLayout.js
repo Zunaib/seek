@@ -13,6 +13,7 @@ import {
   MessageOutlined,
   CameraOutlined,
   SettingOutlined,
+  NotificationOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -128,7 +129,7 @@ const WebLayout = ({ children }) => {
             onClick={() => setselectedKey("4")}
           >
             <Link to="/videos" onClick={() => setselectedKey("4")}>
-              My Videos
+              Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -137,7 +138,7 @@ const WebLayout = ({ children }) => {
             onClick={() => setselectedKey("5")}
           >
             <Link to="/favvideos" onClick={() => setselectedKey("5")}>
-              My Fav Videos
+              Fav Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -146,7 +147,7 @@ const WebLayout = ({ children }) => {
             onClick={() => setselectedKey("6")}
           >
             <Link to="/suspiciousvideos" onClick={() => setselectedKey("6")}>
-              My Suspicious Videos
+              Suspicious Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -155,7 +156,7 @@ const WebLayout = ({ children }) => {
             onClick={() => setselectedKey("7")}
           >
             <Link to="/staticvideos" onClick={() => setselectedKey("7")}>
-              My Static Videos
+              Static Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -164,7 +165,7 @@ const WebLayout = ({ children }) => {
             onClick={() => setselectedKey("8")}
           >
             <Link to="/normalvideos" onClick={() => setselectedKey("8")}>
-              My Normal Videos
+              Normal Videos
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -173,7 +174,7 @@ const WebLayout = ({ children }) => {
             onClick={() => setselectedKey("9")}
           >
             <Link to="/usermessages" onClick={() => setselectedKey("9")}>
-              My Messages
+              Messages
             </Link>
           </Menu.Item>
           <Menu.Item
@@ -199,10 +200,19 @@ const WebLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item
             key="12"
-            icon={<SettingOutlined />}
+            icon={<NotificationOutlined />}
             onClick={() => setselectedKey("12")}
           >
-            <Link to="/settings" onClick={() => setselectedKey("12")}>
+            <Link to="/notifications" onClick={() => setselectedKey("12")}>
+              Notifications
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="13"
+            icon={<SettingOutlined />}
+            onClick={() => setselectedKey("13")}
+          >
+            <Link to="/settings" onClick={() => setselectedKey("13")}>
               Settings
             </Link>
           </Menu.Item>

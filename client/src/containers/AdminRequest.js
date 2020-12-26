@@ -67,6 +67,8 @@ const AdminRequest = (props) => {
           message: value.length < 5 ? "message is too short" : "",
         });
         break;
+      default:
+        break;
     }
   };
 

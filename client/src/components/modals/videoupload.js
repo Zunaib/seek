@@ -76,7 +76,19 @@ const Videoupload = (props) => {
               <input
                 name="videofile"
                 type="file"
-                onChange={(e) => setselectedFile(e.target.files[0])}
+                value={selectedFile?.name}
+                onChange={(e) => {
+                  if (e.target.files[0].size > 100000000) {
+                    props.enqueueSnackbar("Video Size Too Big", {
+                      variant: "error",
+                    });
+                    setselectedFile(null);
+                  } else {
+                    setselectedFile(e.target.files[0]);
+                  }
+                }}
+                accept="video/mp4"
+                max
               />
               <Button
                 type="primary"

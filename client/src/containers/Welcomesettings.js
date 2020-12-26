@@ -43,7 +43,6 @@ const Welcomesettings = (props) => {
     about: "",
     address: "",
     phone_number: "",
-    /*   picture: null, */
     gender: "",
     password: "",
   });
@@ -69,7 +68,8 @@ const Welcomesettings = (props) => {
         setChange({ ...change, first_name: e.target.value });
         seterrors({
           ...errors,
-          first_name: value.length < 3 ? "Name must be 3 characters long!" : "",
+          first_name:
+            value.length < 3 ? "First Name must be 3 characters long!" : "",
         });
         break;
       case "last_name":
@@ -77,7 +77,8 @@ const Welcomesettings = (props) => {
 
         seterrors({
           ...errors,
-          last_name: value.length < 3 ? "Name must be 3 characters long!" : "",
+          last_name:
+            value.length < 3 ? "Last Name must be 3 characters long!" : "",
         });
         break;
       case "about":
@@ -86,16 +87,15 @@ const Welcomesettings = (props) => {
         seterrors({
           ...errors,
           about:
-            value.length < 10
-              ? "user should enter a proper information about him"
-              : "",
+            value.length < 10 ? "About must be more than 10 characters" : "",
         });
         break;
       case "address":
         setChange({ ...change, address: e.target.value });
         seterrors({
           ...errors,
-          address: value.length < 10 ? "user should enter address" : "",
+          address:
+            value.length < 10 ? "Address must be more than 10 characters" : "",
         });
         break;
       default:
@@ -136,22 +136,22 @@ const Welcomesettings = (props) => {
       });
   }, [reload]);
 
+  const validateForm = (errors) => {
+    let valid = true;
+    Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+    return valid;
+  };
+
   const updateSettings = () => {
-    console.log(change);
-    console.log(fileList);
     if (
-      change.first_name === "" ||
-      change.last_name === "" ||
-      change.about === "" ||
-      change.address === "" ||
-      change.phone_number === "" ||
-      change.gender === "" ||
-      fileList === null
+      validateForm(errors) &&
+      change.first_name !== "" &&
+      change.last_name !== "" &&
+      change.about !== "" &&
+      change.address !== "" &&
+      change.phone_number !== "" &&
+      change.gender !== ""
     ) {
-      props.enqueueSnackbar("Some Empty Fields", {
-        variant: "error",
-      });
-    } else {
       const formData = new FormData();
       console.log(fileList);
       formData.append("picture", fileList);
@@ -188,15 +188,16 @@ const Welcomesettings = (props) => {
           console.log(err);
           return err;
         });
+    } else {
+      props.enqueueSnackbar("InValid Form", {
+        variant: "error",
+      });
     }
   };
 
   const { Title } = Typography;
   const { TextArea } = Input;
   const [fileList, setFileList] = useState(null);
-  const onChange = (e) => {
-    setFileList(e.target.files[0]);
-  };
 
   return (
     <section className="welcome-back ">
@@ -326,10 +327,7 @@ const Welcomesettings = (props) => {
                           className={errors.first_name.length > 0 && "error"}
                           placeholder="Enter First Name"
                           value={change.first_name}
-                          onChange={
-                            (e) => oninfoChange(e)
-                            /*   */
-                          }
+                          onChange={(e) => oninfoChange(e)}
                         />
                         {errors.first_name.length > 0 && (
                           <span className="error-text">
@@ -414,7 +412,14 @@ const Welcomesettings = (props) => {
                       <Form.Item label="Gender">
                         <Select
                           value={change.gender}
-                          onChange={(e) => setChange({ ...change, gender: e })}
+                          onChange={(val) => {
+                            seterrors({
+                              ...errors,
+                              gender:
+                                val === null ? "Please select gender" : "",
+                            });
+                            setChange({ ...change, gender: val });
+                          }}
                         >
                           <Select.Option value="Male">Male</Select.Option>
                           <Select.Option value="Female">Female</Select.Option>
@@ -441,7 +446,21 @@ const Welcomesettings = (props) => {
                 <Row justify="center">
                   <Col style={{ margin: "10px 0px" }}>
                     <Title level={5}>Please crop to sqaure ratio.</Title>
-                    <input name="picture" type="file" onChange={onChange} />
+                    <input
+                      name="picture"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files[0].size > 5000000) {
+                          props.enqueueSnackbar("Image Size Too Big", {
+                            variant: "error",
+                          });
+                          setFileList(null);
+                        } else {
+                          setFileList(e.target.files[0]);
+                        }
+                      }}
+                    />
                   </Col>
                 </Row>
                 <Row justify="center">

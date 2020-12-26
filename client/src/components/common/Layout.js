@@ -14,6 +14,7 @@ import {
   UsergroupAddOutlined,
   UserSwitchOutlined,
   LogoutOutlined,
+  NotificationOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -196,10 +197,19 @@ const AdminLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item
             key="12"
-            icon={<SettingOutlined />}
+            icon={<NotificationOutlined />}
             onClick={() => setselectedKey("12")}
           >
-            <Link to="/settings" onClick={() => setselectedKey("12")}>
+            <Link to="/allnotifications" onClick={() => setselectedKey("12")}>
+              All Notifications
+            </Link>
+          </Menu.Item>
+          <Menu.Item
+            key="13"
+            icon={<SettingOutlined />}
+            onClick={() => setselectedKey("13")}
+          >
+            <Link to="/settings" onClick={() => setselectedKey("13")}>
               Settings
             </Link>
           </Menu.Item>

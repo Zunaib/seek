@@ -34,7 +34,8 @@ import UserCCTVDetection from "./containers/UserCCTVDetection";
 import Allmessages from "./containers/Allmessages";
 import WebCamStream from "./containers/WebCamStream";
 import Allcctvs from "./containers/Allcctvs";
-import Notifications from "./containers/Notifications";
+import AllNotifications from "./containers/AllNotifications";
+import UserNotifications from "./containers/UserNotifications";
 
 const App = () => {
   let contactUsRef = React.createRef();
@@ -89,6 +90,11 @@ const App = () => {
                 <Route exact path="/allnormalvid" component={AllnormalVideos} />
                 <Route exact path="/allcontacts" component={Allcontacts} />
                 <Route exact path="/allrequests" component={Allrequests} />
+                <Route
+                  exact
+                  path="/allnotifications"
+                  component={AllNotifications}
+                />
                 <Route exact path="/settings" component={Settings} />
                 <Route exact path="/profile" component={Profile} />
                 <Route path="/allmessages" exact component={Allmessages} />
@@ -124,8 +130,6 @@ const App = () => {
                   exact
                   component={UserCCTVDetection}
                 />
-                <Route path="/notification" exact component={Notifications} />
-
                 <Route
                   exact
                   path="/videos/static/:videoname"
@@ -140,6 +144,11 @@ const App = () => {
                 />
                 <Route exact path="/normalvideos" component={NormalVideos} />
                 <Route exact path="/staticvideos" component={StaticVideos} />
+                <Route
+                  exact
+                  path="/notifications"
+                  component={UserNotifications}
+                />
                 <Route exact path="/settings" component={Settings} />
                 <Route
                   exact

@@ -120,6 +120,26 @@ def register():
         return jsonify({"result": result})
 
 
+@userroutes.route("/getusernotifications", methods=['GET'])
+def getusernotifications():
+    notifications = mongo.db.notifications
+    email = request.args['email']
+    documents = notifications.find(
+        {"email": email}, {"_id": 1, "email": 1, "activity": 1, "notification": 1, "sentAt": 1})
+    response = []
+    for document in documents:
+        document['_id'] = str(document['_id'])
+        response.append(document)
+    results = json.dumps(response)
+
+    if len(response) == 0:
+        result = jsonify(
+            {"Error": "No Notifications Found", "response": response})
+    else:
+        result = json.dumps(response)
+    return result
+
+
 @userroutes.route("/remmsg", methods=['POST'])
 def remmsg():
     message = mongo.db.message

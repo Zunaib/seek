@@ -44,7 +44,7 @@ const Admindasboard = () => {
                 style={{
                   margin: "5px",
                   border: "2px solid rgb(114, 41, 90)",
-                  borderRadius: "7px",
+                  borderRadius: "4px",
                 }}
               >
                 <Statistic

@@ -233,6 +233,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Burglary Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Burglary",
+                        "notification": "There is Burglary Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Fighting"):
                 figcount += 1
                 if(figcount % 100 == 0):
@@ -250,6 +256,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Fighting Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Fighting",
+                        "notification": "There is Fighting Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Vandalism"):
                 vandcount += 1
                 if(vandcount % 100 == 0):
@@ -266,6 +278,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Vandalism Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Vandalism",
+                        "notification": "There is Vandalism Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Explosion"):
                 expcount += 1
                 if(expcount % 100 == 0):
@@ -282,6 +300,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Explosion Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Explosion",
+                        "notification": "There is Explosion Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Stabbing"):
                 stabcount += 1
                 if(stabcount % 100 == 0):
@@ -298,6 +322,12 @@ def getSuspiciousActivity():
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Stabbing Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Stabbing",
+                        "notification": "There is Stabbing Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
 
             cv2.imshow('Video Detection Frame', frame)  # show frames
             key = cv2.waitKey(1)  # show frame for 33 milli seconds
@@ -413,6 +443,7 @@ def video_feed():
 @activitydetectionroutes.route("/getSuspiciousActivityCCTV", methods=['POST'])
 def getSuspiciousActivityCCTV(email, ip_address, camName):
     with app.app_context():
+        notifications = mongo.db.notifications
         videos = mongo.db.videos
         susp_videos = mongo.db.suspvideos
         nor_videos = mongo.db.norvideos
@@ -554,6 +585,12 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
 
                     messagebox.showwarning(
                         "Security Alert", "There is Firing Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Firing",
+                        "notification": "There is Firing Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Burglary"):
                 burgcount += 1
                 if(burgcount % 100 == 0):
@@ -571,6 +608,12 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Burglary Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Burglary",
+                        "notification": "There is Burglary Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Fighting"):
                 figcount += 1
                 if(figcount % 100 == 0):
@@ -588,6 +631,12 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Fighting Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Fighting",
+                        "notification": "There is Fighting Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Vandalism"):
                 vandcount += 1
                 if(vandcount % 100 == 0):
@@ -604,6 +653,12 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Vandalism Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Vandalism",
+                        "notification": "There is Vandalism Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Explosion"):
                 expcount += 1
                 if(expcount % 100 == 0):
@@ -620,6 +675,12 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Explosion Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Explosion",
+                        "notification": "There is Explosion Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
             elif(cats_[actual] == "Stabbing"):
                 stabcount += 1
                 if(stabcount % 100 == 0):
@@ -636,6 +697,12 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                         )
                     messagebox.showwarning(
                         "Security Alert", "There is Stabbing Detected in the Cam.")
+                    notifications.insert_one({
+                        "email": email,
+                        "activity": "Stabbing",
+                        "notification": "There is Stabbing Detected in the Cam.",
+                        "sentAt": datetime.now(),
+                    })
 
             key = cv2.waitKey(1)  # show frame for 33 milli seconds
             if key == 27 or key == 127:  # escape
