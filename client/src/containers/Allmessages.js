@@ -28,7 +28,7 @@ const Allmessages = (props) => {
             }))
           );
         } else {
-          setLoading(true);
+          setLoading(false);
           setMessages([]);
         }
       })
