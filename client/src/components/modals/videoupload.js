@@ -76,13 +76,11 @@ const Videoupload = (props) => {
               <input
                 name="videofile"
                 type="file"
-                value={selectedFile?.name}
                 onChange={(e) => {
                   if (e.target.files[0].size > 100000000) {
                     props.enqueueSnackbar("Video Size Too Big", {
                       variant: "error",
                     });
-                    setselectedFile(null);
                   } else {
                     setselectedFile(e.target.files[0]);
                   }

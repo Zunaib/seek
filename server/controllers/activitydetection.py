@@ -153,7 +153,7 @@ def getSuspiciousActivity():
                 x = np.array(x)
 
                 # Detecting Object
-                result = objmodel.predict(x)[[0.2, 0.4, 0.6]]
+                result = objmodel.predict(x)
                 if (result[0][0] > result[0][1]) and (result[0][0] > result[0][2]):
                     if(result[0][0] > 0.6):
                         object_name = "Knife"
