@@ -127,7 +127,7 @@ class SuspiciousVideo extends Component {
                             padding: index === 0 ? "10px" : "5px",
                             // margin: "5px",
                             margin: index === 0 ? "10px auto" : "5px auto",
-                            width: "50%",
+                            width: "90%",
                           }}
                           color={index === 0 ? "#f50" : "#87d068"}
                         >
@@ -151,7 +151,7 @@ class SuspiciousVideo extends Component {
                             padding: index === 0 ? "10px" : "5px",
                             // margin: "5px",
                             margin: index === 0 ? "10px auto" : "5px auto",
-                            width: "50%",
+                            width: "90%",
                           }}
                           color={index === 0 ? "#f50" : "#87d068"}
                         >
