@@ -48,8 +48,6 @@ class SuspiciousVideo extends Component {
             activities: [
               { count: response.data.firing, name: "Firing" },
               { count: response.data.fighting, name: "Fighting" },
-              { count: response.data.vandalism, name: "Vandalism" },
-              { count: response.data.stabbing, name: "Stabbing" },
               { count: response.data.explosion, name: "Explosion" },
               { count: response.data.burglary, name: "Burglary" },
             ],
@@ -149,7 +147,6 @@ class SuspiciousVideo extends Component {
                             display: "block",
                             fontSize: index === 0 ? "25px" : "15px",
                             padding: index === 0 ? "10px" : "5px",
-                            // margin: "5px",
                             margin: index === 0 ? "10px auto" : "5px auto",
                             width: "90%",
                           }}

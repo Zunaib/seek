@@ -98,7 +98,7 @@ const NormalVideos = (props) => {
                 />
               }
               actions={[
-                <Link to={"/videos/suspicious/" + vid.norName}>
+                <Link to={"/videos/normal/" + vid.norName}>
                   <Button
                     type="primary"
                     size="small"
