@@ -155,19 +155,19 @@ def dashboardstats():
     deletedvideos = videos.count_documents({"deleted": True})
 
     # susp videos
-    suspsimplevideos = susp_videos.count_documents({"blocked": False})
-    suspblockedvideos = susp_videos.count_documents({"blocked": True})
-    suspdeletedvideos = susp_videos.count_documents({"deleted": True})
+    suspsimplevideos = susp_videos.count_documents({"suspblocked": False})
+    suspblockedvideos = susp_videos.count_documents({"suspblocked": True})
+    suspdeletedvideos = susp_videos.count_documents({"suspdeleted": True})
 
     # nor videos
-    norsimplevideos = nor_videos.count_documents({"blocked": False})
-    norblockedvideos = nor_videos.count_documents({"blocked": True})
-    nordeletedvideos = nor_videos.count_documents({"deleted": True})
+    norsimplevideos = nor_videos.count_documents({"norblocked": False})
+    norblockedvideos = nor_videos.count_documents({"norblocked": True})
+    nordeletedvideos = nor_videos.count_documents({"nordeleted": True})
 
     # stt videos
-    sttsimplevideos = stt_videos.count_documents({"blocked": False})
-    sttblockedvideos = stt_videos.count_documents({"blocked": True})
-    sttdeletedvideos = stt_videos.count_documents({"deleted": True})
+    sttsimplevideos = stt_videos.count_documents({"sttblocked": False})
+    sttblockedvideos = stt_videos.count_documents({"sttblocked": True})
+    sttdeletedvideos = stt_videos.count_documents({"sttdeleted": True})
 
     # conatact
     allcontacts = contacts.count_documents({})
