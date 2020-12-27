@@ -479,7 +479,7 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                 list(model.predict([img.reshape(-1, 224, 224, 3)])))
 
             # Wite def frame
-            cctv_out.write(frame)
+            # cctv_out.write(frame)
 
             # Write the frame into the file 'output.mp4'
             if(cats_[actual] == "Burglary" or cats_[actual] == "Fighting" or cats_[actual] == "Firing" or cats_[actual] == "Explosion"):
@@ -521,15 +521,15 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                 else:
                     object_name = "No Object"
                 susFile = True
-                cctv_out_susp.write(frame)
+                # cctv_out_susp.write(frame)
             elif(cats_[actual] == "Normal"):
                 object_name = "No Object"
                 norFile = True
-                cctv_out_normal.write(frame)
+                # cctv_out_normal.write(frame)
             elif(cats_[actual] == "Static"):
                 object_name = "No Object"
                 sttFile = True
-                cctv_out_static.write(frame)
+                # cctv_out_static.write(frame)
 
             # resize by 600x400 to show on screen
             frame = cv2.resize(frame, (600, 400))
