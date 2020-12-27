@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, jsonify, request, json
 from flask_pymongo import PyMongo, pymongo
 from flask_cors import CORS
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = "theseek"
