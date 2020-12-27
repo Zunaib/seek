@@ -57,14 +57,14 @@ const AdminRequest = (props) => {
         setAdminReq({ ...adminReq, reason: e.target.value });
         seterrors({
           ...errors,
-          reason: value.length < 5 ? "reason is too short" : "",
+          reason: value.length < 5 ? "Reason is too short" : "",
         });
         break;
       case "message":
         setAdminReq({ ...adminReq, message: e.target.value });
         seterrors({
           ...errors,
-          message: value.length < 5 ? "message is too short" : "",
+          message: value.length < 5 ? "Message is too short" : "",
         });
         break;
       default:
