@@ -469,7 +469,7 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                 x = []
                 ret, frame = cap.read()  # extract frame
                 if frame is None:
-                    continue
+                    break
                 img = frame.copy()  # copy frame
                 # convert frame from BGR to RGB
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -634,7 +634,7 @@ def getSuspiciousActivityCCTV(email, ip_address, camName):
                     break
                 t1 = time.time()  # current time
                 num_seconds = t1 - t0  # diff
-                if num_seconds > 30:  # e.g. break after 30 seconds
+                if num_seconds > 100:  # e.g. break after 30 seconds
                     break
                 cv2.imwrite('t.jpg', frame)
                 yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
