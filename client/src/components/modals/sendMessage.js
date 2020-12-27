@@ -20,10 +20,16 @@ const SendMessage = (props) => {
   const onFinish = () => {
     if (
       validateForm(errors) &&
-      details.number.length !== 0 &&
-      details.email.length !== 0 &&
+      details.number !== [] &&
+      details.email !== [] &&
       details.message1 !== ""
     ) {
+      console.log({
+        number: details.number,
+        recieveremail: details.email,
+        message1: details.message1,
+        email: localStorage.getItem("useremail"),
+      });
       axios
         .post("http://localhost:5000/users/message", {
           number: details.number,
@@ -71,7 +77,6 @@ const SendMessage = (props) => {
     let temp = numbers?.map(
       (num) => !validMobileRegex.test(num) && invalidcount++
     );
-    console.log(temp);
 
     if (numbers.length > 0) {
       seterrors({
@@ -84,6 +89,8 @@ const SendMessage = (props) => {
         number: "No number entered, atleast one required.",
       });
     }
+
+    setDetails({ ...details, number: numbers });
   };
 
   const validEmailRegex = RegExp(
@@ -96,10 +103,7 @@ const SendMessage = (props) => {
       (email) => !validEmailRegex.test(email) && invalidemailcount++
     );
     console.log(temp);
-    seterrors({
-      ...errors,
-      email: invalidemailcount === 0 ? "" : "Some emails are invalid",
-    });
+
     if (emails.length > 0) {
       seterrors({
         ...errors,
@@ -111,6 +115,7 @@ const SendMessage = (props) => {
         email: "No email entered, atleast one required.",
       });
     }
+    setDetails({ ...details, email: emails });
   };
   const onMessageChange = (e) => {
     const { value } = e.target;
