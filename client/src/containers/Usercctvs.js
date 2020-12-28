@@ -21,14 +21,16 @@ const Usercctvs = (props) => {
       )
       .then((response) => {
         setLoading(false);
-        setcctvs(
-          response.data?.map((cam) => ({
-            name: cam.name,
-            ip_address: cam.ip_address,
-            cam_type: cam.cam_type,
-            cam: cam,
-          }))
-        );
+        if (response.data.length > 0) {
+          setcctvs(
+            response.data?.map((cam) => ({
+              name: cam.name,
+              ip_address: cam.ip_address,
+              cam_type: cam.cam_type,
+              cam: cam,
+            }))
+          );
+        }
       })
       .catch((err) => {
         console.log(err);

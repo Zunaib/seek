@@ -19,7 +19,12 @@ const AdminRequest = (props) => {
   });
 
   const onFinish = () => {
-    if (validateForm(errors) && errors.reason !== "" && errors.message !== "")
+    console.log(validateForm(errors));
+    if (
+      validateForm(errors) &&
+      adminReq.reason !== "" &&
+      adminReq.message !== ""
+    )
       axios
         .post("http://localhost:5000/requestadmin", {
           email: localStorage.getItem("useremail"),
