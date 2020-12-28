@@ -152,7 +152,7 @@ class SuspiciousVideo extends Component {
                           }}
                           color={index === 0 ? "#f50" : "#87d068"}
                         >
-                          {obj.name}
+                          {obj.count > 0 ? obj.name : "NO Object"}
                         </Tag>
                       ))}
                     </Card>
