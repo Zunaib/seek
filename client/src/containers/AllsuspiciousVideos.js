@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { withSnackbar } from "notistack";
+
 import { Divider, PageHeader, Button, Table } from "antd";
 import ReactPlayer from "react-player";
 
@@ -130,7 +132,7 @@ const AllsuspiciousVideos = (props) => {
             actionBtn(
               record.vid.suspblocked ? "unblock" : "block",
               record.vid.email,
-              record.vid.videoName
+              record.vid.suspName
             )
           }
         >
@@ -154,4 +156,4 @@ const AllsuspiciousVideos = (props) => {
   );
 };
 
-export default AllsuspiciousVideos;
+export default withSnackbar(AllsuspiciousVideos);

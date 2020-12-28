@@ -93,7 +93,7 @@ const AllnormalVideos = (props) => {
             actionBtn(
               record.vid.norblocked ? "unblock" : "block",
               record.vid.email,
-              record.vid.videoName
+              record.vid.norName
             )
           }
         >
@@ -103,11 +103,11 @@ const AllnormalVideos = (props) => {
     },
   ];
 
-  const actionBtn = (type, email, vidName) => {
+  const actionBtn = (type, email, norvideoname) => {
     if (type === "block") {
       axios
         .post("http://localhost:5000/blocknorvideo", {
-          suspvideoname: vidName,
+          norvideoname: norvideoname,
           email: email,
         })
         .then((res) => {
@@ -124,7 +124,7 @@ const AllnormalVideos = (props) => {
     } else if (type === "unblock") {
       axios
         .post("http://localhost:5000/unblocknorvideo", {
-          suspvideoname: vidName,
+          norvideoname: norvideoname,
           email: email,
         })
         .then((res) => {

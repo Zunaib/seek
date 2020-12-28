@@ -121,7 +121,7 @@ const NormalVideos = (props) => {
                 title={
                   <Title level={4}>
                     {vid.norblocked
-                      ? vid.suspName.split(".")[0] + "" + vid.norblocked &&
+                      ? vid.norName.split(".")[0] + "" + vid.norblocked &&
                         "(Blocked By Admin)"
                       : vid.norName.split(".")[0]}
                   </Title>
