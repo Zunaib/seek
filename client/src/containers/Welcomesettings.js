@@ -143,6 +143,8 @@ const Welcomesettings = (props) => {
   };
 
   const updateSettings = () => {
+    console.log(validateForm(errors));
+    console.log(change);
     if (
       validateForm(errors) &&
       change.first_name !== "" &&
@@ -427,6 +429,11 @@ const Welcomesettings = (props) => {
                       </Form.Item>
                     </Col>
                   </Row>
+                  <Row justify="center">
+                    <Button type="primary" htmlType="submit">
+                      Proceed
+                    </Button>
+                  </Row>
                 </Form>
               </Col>
               <Col span={6} style={{ textAlign: "center" }}>
@@ -475,11 +482,6 @@ const Welcomesettings = (props) => {
                   </Title>
                 </Row>
               </Col>
-            </Row>
-            <Row justify="center">
-              <Button type="primary" htmlType="submit">
-                Proceed
-              </Button>
             </Row>
           </Col>
         </Row>
